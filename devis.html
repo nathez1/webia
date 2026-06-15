@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demander un devis — Webia | Réponse gratuite sous 24h</title>
+  <meta name="description" content="Décrivez votre projet en 2 minutes et recevez un devis gratuit et personnalisé sous 24h. Sans engagement.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%237C3AED'/%3E%3Ctext x='16' y='23' font-family='Arial Black' font-size='18' font-weight='900' fill='%23FFD60A' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KF6HJ4WF');</script>
+  <!-- End Google Tag Manager -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KF6HJ4WF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Header (épuré : pas de bandeau, focus conversion) -->
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="logo" aria-label="Webia — accueil"><span class="logo-star">✦</span>Web<span class="logo-accent">ia</span></a>
+      <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="index.html">Accueil</a>
+        <a href="tarifs.html">Tarifs</a>
+        <a href="realisations.html">Réalisations</a>
+        <a href="affiliation.html">Affiliation</a>
+        <a href="faq.html">FAQ</a>
+        <a href="devis.html" class="btn btn-yellow nav-cta" aria-current="page">Profiter de l'offre</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero compact -->
+  <section class="hero hero-compact">
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-inner" style="padding-bottom: 48px;">
+        <span class="badge-pill">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          2 minutes chrono · Réponse sous 24h
+        </span>
+        <h1 class="display">Recevez votre<br><span class="accent">devis gratuit</span></h1>
+        <p class="lead">Décrivez votre projet en quelques clics. On revient vers vous sous 24h avec une proposition claire et un prix fixe. Sans engagement.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulaire -->
+  <section class="section section-light" style="padding-top: 56px;">
+    <div class="container">
+      <div class="devis-layout">
+
+        <div class="form-card">
+          <!-- Message de confirmation -->
+          <div class="form-success" id="form-success" role="status">
+            <div class="check">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            </div>
+            <h3>Demande bien reçue !</h3>
+            <p>Merci pour votre confiance. Nous revenons vers vous <strong>sous 24h ouvrées</strong> avec une proposition personnalisée.<br><br>En attendant, jetez un œil à nos <a href="realisations.html">réalisations</a>.</p>
+          </div>
+
+          <form id="devis-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nom">Votre nom <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="nom" name="nom" autocomplete="name" placeholder="Jean Dupont" required>
+              </div>
+              <div class="form-group">
+                <label for="activite">Votre activité <span class="req" aria-hidden="true">*</span></label>
+                <input type="text" id="activite" name="activite" placeholder="Ex : restaurant, plombier, coach…" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="jean@exemple.fr" required>
+              </div>
+              <div class="form-group">
+                <label for="tel">Téléphone</label>
+                <input type="tel" id="tel" name="tel" autocomplete="tel" placeholder="06 12 34 56 78">
+              </div>
+            </div>
+
+            <fieldset class="form-group" style="border: none;">
+              <legend style="font-weight: 700; font-size: 0.92rem; margin-bottom: 8px; padding: 0;">Quelle formule vous intéresse ? <span class="req" aria-hidden="true">*</span></legend>
+              <div class="radio-cards">
+                <label class="radio-card">
+                  <input type="radio" name="formule" value="starter" required>
+                  <span>Starter<small>290€ · onepage</small></span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="formule" value="pro" checked required>
+                  <span><b class="rc-star">★</b> Pro<small>590€ <s>740€</s> · 5 pages</small></span>
+                </label>
+                <label class="radio-card">
+                  <input type="radio" name="formule" value="business" required>
+                  <span>Business<small>990€ · tout inclus</small></span>
+                </label>
+              </div>
+              <p class="field-hint">Pas sûr ? Choisissez au hasard, on vous conseillera la formule la plus adaptée.</p>
+            </fieldset>
+
+            <div class="form-group">
+              <label for="projet">Parlez-nous de votre projet <span class="req" aria-hidden="true">*</span></label>
+              <textarea id="projet" name="projet" placeholder="Ex : Je suis plombier à Nantes, je veux un site pour que mes clients me trouvent sur Google et demandent des devis facilement…" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="delai">Quand souhaitez-vous être en ligne ?</label>
+              <select id="delai" name="delai">
+                <option value="asap">Le plus vite possible</option>
+                <option value="1mois">Dans le mois</option>
+                <option value="3mois">Dans les 3 mois</option>
+                <option value="reflexion">Je me renseigne pour l'instant</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-yellow btn-lg btn-block">
+              Recevoir mon devis gratuit
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+            <p class="form-note">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Vos données restent confidentielles. Aucune relance abusive, promis.
+            </p>
+          </form>
+        </div>
+
+        <aside class="devis-aside">
+          <div class="aside-card aside-dark">
+            <h3>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Offre de lancement
+            </h3>
+            <p><strong>-20% sur la formule Pro</strong> (590€ au lieu de 740€) jusqu'au 30 juin — <strong>plus que 3 places</strong>. Mentionnez-la dans votre message pour la réserver.</p>
+          </div>
+
+          <div class="aside-card">
+            <h3>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+              Vous préférez parler de vive voix ?
+            </h3>
+            <p style="margin-bottom: 16px;">Écrivez-moi directement ou réservez un créneau, c'est moi, Ethan, qui vous réponds.</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <a href="https://wa.me/33782934069?text=Bonjour%20Ethan%2C%20je%20souhaite%20un%20site%20web%20avec%20Webia" target="_blank" rel="noopener" data-track="whatsapp" class="btn btn-wa btn-block">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.519 5.256l-.999 3.648 3.755-.985zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.017-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                WhatsApp — 07 82 93 40 69
+              </a>
+              <a href="https://calendly.com/nathepnathep/new-meeting" target="_blank" rel="noopener" data-track="calendly" class="btn btn-dark btn-block">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+                Réserver un appel (30 min)
+              </a>
+            </div>
+          </div>
+
+          <div class="aside-card">
+            <h3>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+              Ce qui se passe ensuite
+            </h3>
+            <ul>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Sous 24h :</strong> vous recevez notre réponse avec un prix fixe</span></li>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Sous 48h :</strong> un appel de 30 min pour cadrer le projet (si ça vous convient)</span></li>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span><strong>Sous 7 à 15 jours :</strong> votre site est en ligne</span></li>
+            </ul>
+          </div>
+
+          <div class="aside-card">
+            <h3>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>
+              Pourquoi nous faire confiance
+            </h3>
+            <ul>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>40+ sites livrés à des TPE et indépendants</span></li>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Prix fixe annoncé avant tout engagement</span></li>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Vous êtes 100% propriétaire de votre site</span></li>
+              <li><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Paiement en 2 ou 3 fois sans frais</span></li>
+            </ul>
+          </div>
+
+          <div class="aside-card testimonial">
+            <div class="stars" aria-label="5 étoiles sur 5">★★★★★</div>
+            <blockquote style="font-size: 0.92rem;">« Devis reçu le lendemain, site en ligne 10 jours après. Simple et efficace. »</blockquote>
+            <div class="who">
+              <div class="avatar" aria-hidden="true">JP</div>
+              <div>
+                <div class="who-name">Julien Perrin</div>
+                <div class="who-role">Menuiserie Perrin</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer minimal (page conversion : pas de distraction) -->
+  <footer class="site-footer" style="padding: 32px 0;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <span>© 2026 Webia — Tous droits réservés</span>
+        <span><a href="faq.html" style="color: var(--text-on-dark-muted); text-decoration: underline; text-underline-offset: 3px;">Une question ? Consultez la FAQ</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flottant -->
+  <a href="https://wa.me/33782934069?text=Bonjour%20Ethan%2C%20je%20souhaite%20un%20site%20web%20avec%20Webia" class="wa-float" target="_blank" rel="noopener" data-track="whatsapp" aria-label="Nous écrire sur WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 0 0 1.519 5.256l-.999 3.648 3.755-.985zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.017-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
