@@ -10,6 +10,43 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-16 — [Performance & accessibilité] Image du fondateur optimisée (LCP + CLS)
+
+**Axe : Performance & accessibilité.** `img/ethan.png` (701 Ko, 680×1020) est la seule
+image raster du site et la plus lourde de loin. Elle était chargée sans dimensions ni
+différé : elle se disputait la bande passante du rendu initial (impact LCP) et provoquait
+un décalage de mise en page (CLS) car aucun espace n'était réservé. C'est l'item perf
+le plus impactant, signalé en TODO aux deux passages précédents.
+
+Réalisé (`index.html`, balise `<img class="photo-cutout">`) :
+- **`width="680" height="1020"`** : le navigateur réserve le bon ratio (2:3) avant le
+  téléchargement → plus de décalage de mise en page (CLS éliminé sur cette section).
+- **`loading="lazy"`** : l'image (en bas de page, section « Qui sommes-nous ») n'est plus
+  téléchargée au chargement initial mais seulement à l'approche du viewport → 701 Ko
+  retirés du chemin critique, rendu initial (LCP) allégé.
+- **`decoding="async"`** : décodage hors du thread principal, pas de blocage du rendu.
+
+Vérifié (serveur de prévisualisation local, DOM + computed styles) : attributs bien
+présents (`width=680`, `height=1020`, `loading=lazy`, `decoding=async`) ; boîte rendue
+287×430 px = ratio **0,667 = 680/1020** exact → aucune déformation, layout strictement
+préservé (CSS `width:auto; max-height:clamp()` toujours maître de la taille affichée) ;
+fichier servi en 200 (701 214 octets, `image/png`) ; l'image décode bien en **680×1020**
+(correspond aux attributs). Une seule `<img>` dans tout le site, aucune autre à traiter.
+Aucun élément existant cassé (GTM, WhatsApp flottant, Calendly, bandeau d'offre,
+formulaires intacts).
+
+**Idées pour les prochains passages :**
+- **Perf (suite)** : produire une version **WebP** d'`ethan.png` + `<picture>` avec
+  fallback PNG (aucun outil image — magick/cwebp/Pillow — disponible localement ce
+  passage ; nécessite un environnement avec encodeur image).
+- **Design** : micro-animations sobres au scroll (système `.reveal` existant, déjà
+  compatible `prefers-reduced-motion`) sur les pages internes pour la cohérence.
+- **SEO** : visuel Open Graph dédié 1200×630 (charte bleu/vert) ; page d'atterrissage
+  locale (Melun / Paris) ; JSON-LD `BreadcrumbList` ; `Service` détaillé sur tarifs.html.
+- Créer les pages « Mentions légales » / « Politique de confidentialité ».
+
+---
+
 ## 2026-06-16 — [Conversion] Récapitulatif des garanties avant l'envoi du devis
 
 **Axe : Conversion.** Au point de friction maximal — juste avant le clic « Recevoir
