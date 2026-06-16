@@ -10,6 +10,41 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-16 — [Conversion] Récapitulatif des garanties avant l'envoi du devis
+
+**Axe : Conversion.** Au point de friction maximal — juste avant le clic « Recevoir
+mon devis gratuit » — l'utilisateur n'avait aucun rappel des garanties. Ajout d'une
+bande de réassurance (`.form-guarantees`) insérée entre le dernier champ et le bouton
+d'envoi du formulaire (`devis.html`), pour lever les dernières hésitations et
+augmenter le taux de soumission.
+
+Réalisé :
+- **3 garanties compactes avec icônes** juste au-dessus du bouton d'envoi :
+  « Gratuit & sans engagement » (check), « Réponse sous 24h » (horloge),
+  « Vous restez 100% propriétaire » (bouclier).
+- **Style cohérent charte** : fond mint `--bg-alt`, bordure `--border`, icônes vert
+  électrique `--violet-deep`, texte `--text` ; coins arrondis `--radius-sm`.
+- **Responsive** : empilement vertical en colonne sous 480px ; `flex-wrap` au-dessus.
+- **Accessibilité** : `<ul aria-label="Nos garanties">`, icônes `aria-hidden`.
+
+Vérifié (serveur de prévisualisation PowerShell local + DOM/computed styles) :
+strip rendue en flex, fond `rgb(239,250,243)`, icônes `rgb(6,118,71)`, 3 items aux
+bons libellés, positionnée 18px au-dessus du bouton d'envoi, wrap correct en étroit,
+0 erreur console. Aucun élément existant cassé (GTM, WhatsApp flottant, Calendly,
+bandeau d'offre, succès de formulaire intacts).
+
+**Idées pour les prochains passages :**
+- **Design** : micro-animations sobres au scroll (réutiliser le système `.reveal`
+  existant, déjà compatible `prefers-reduced-motion`) sur les pages internes.
+- **Perf/Access** : `img/ethan.png` pèse **701 Ko** (680×1020, seule image raster) —
+  ajouter `loading="lazy"` + `decoding="async"` + `width`/`height` (CLS), et idéalement
+  produire une version WebP/optimisée (aucun outil image dispo localement ce passage).
+- **SEO** : visuel Open Graph dédié 1200×630 ; page d'atterrissage locale (Melun/Paris) ;
+  JSON-LD `BreadcrumbList` ; `Service` détaillé sur tarifs.html.
+- Créer les pages « Mentions légales » / « Politique de confidentialité ».
+
+---
+
 ## 2026-06-16 — [SEO local] Fondations SEO + cohérence de marque
 
 **Axe : SEO local.** Première passe : le site n'avait aucune fondation SEO technique.

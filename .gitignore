@@ -6,6 +6,7 @@ desktop.ini
 # Éditeurs / IDE
 .vscode/
 .idea/
+.claude/
 
 # Logs & temporaires
 *.log

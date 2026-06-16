@@ -1031,6 +1031,35 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 
 .field-hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; }
 
+/* Récapitulatif des garanties juste avant l'envoi (réassurance conversion) */
+.form-guarantees {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
+  margin: 6px 0 18px;
+  padding: 14px 18px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.form-guarantees li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.form-guarantees .icon {
+  width: 17px; height: 17px;
+  color: var(--violet-deep);
+  flex-shrink: 0;
+}
+@media (max-width: 480px) {
+  .form-guarantees { flex-direction: column; align-items: flex-start; gap: 11px; }
+}
+
 .radio-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .radio-card { position: relative; cursor: pointer; }
 .radio-card input {
