@@ -10,6 +10,50 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-16 — [Design] Underline animé au survol des liens de navigation (6 pages)
+
+**Axe : Design.** Le site possédait déjà toutes les micro-interactions « SaaS »
+(reveal au scroll, lift au survol des cartes/prix/mockups, glows du hero), sauf une :
+la navigation. Les liens ne réagissaient au survol que par un simple changement de
+couleur ; seul le lien actif portait un soulignement statique. Ajout d'un **underline
+vert électrique qui croît de gauche à droite au survol** — détail récurrent des sites
+startup modernes — appliqué uniformément à l'en-tête présent sur **les 6 pages**
+(forte cohérence inter-pages), sans JavaScript.
+
+Réalisé (`css/style.css`, bloc `.nav-links`) :
+- **Pseudo-élément `::after` partagé** sur tous les liens de nav (hors boutons) :
+  barre 2px `--yellow` (#2BF56F), `transform: scaleX(0)`, `transform-origin: left`,
+  `transition: transform 0.28s ease`.
+- **Au survol** : `scaleX(1)` → l'underline se déploie de la gauche vers la droite.
+- **Lien actif** : `scaleX(1)` persistant (remplace l'ancien soulignement statique,
+  rendu visuel identique mais désormais unifié avec l'animation de survol).
+- **Mobile (≤768px)** : la règle masque désormais **tous** les underlines
+  (`::after { display:none }`) et non plus seulement l'actif → le menu empilé reste
+  épuré, l'état actif restant signalé par la couleur jaune (comportement déjà en place).
+- **Accessibilité / reduced-motion** : la règle globale `prefers-reduced-motion`
+  ramène la durée de transition à ~0 → l'underline apparaît instantanément, aucun
+  état cassé. `:focus-visible` des boutons inchangé.
+
+Vérifié (serveur de prévisualisation local + CSSOM) : règles servies exactement comme
+voulu — base `scaleX(0)`, `:hover` `scaleX(1)`, `.active` `scaleX(1)`, et en
+`@media(max-width:768px)` `display:none` ; `transition-duration` mesurée à **0.28s**
+sur les 5 liens (preuve que la règle est bien chargée et appliquée) ; couleur du trait
+`rgb(43,245,111)` = `--yellow` (charte respectée, aucun violet/jaune hors charte).
+Changement **100% CSS**, limité aux liens de navigation : GTM, bouton WhatsApp flottant,
+Calendly, bandeau d'offre et formulaires intacts ; aucune régression sur les 6 pages.
+
+**Idées pour les prochains passages :**
+- **Perf** : produire une version **WebP** d'`ethan.png` + `<picture>` fallback PNG
+  (nécessite un encodeur image — magick/cwebp/Pillow — non dispo localement).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte bleu/vert) ; page d'atterrissage
+  locale de qualité (Melun / Paris) ; JSON-LD `BreadcrumbList` ; `Service` détaillé
+  sur tarifs.html.
+- **Conversion** : ajouter le système `.reveal` à `devis.html` (seule page sans
+  animations d'apparition) pour la cohérence ; tester une variante du CTA principal.
+- Créer les pages « Mentions légales » / « Politique de confidentialité ».
+
+---
+
 ## 2026-06-16 — [Performance & accessibilité] Image du fondateur optimisée (LCP + CLS)
 
 **Axe : Performance & accessibilité.** `img/ethan.png` (701 Ko, 680×1020) est la seule

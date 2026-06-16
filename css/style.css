@@ -232,16 +232,21 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
   position: relative;
   transition: color 0.2s;
 }
-.nav-links > a:not(.btn):hover { color: #fff; }
-.nav-links > a.active { color: #fff; }
-.nav-links > a.active::after {
+.nav-links > a:not(.btn)::after {
   content: "";
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 2px;
   background: var(--yellow);
   border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s ease;
 }
+.nav-links > a:not(.btn):hover { color: #fff; }
+.nav-links > a:not(.btn):hover::after { transform: scaleX(1); }
+.nav-links > a.active { color: #fff; }
+.nav-links > a.active::after { transform: scaleX(1); }
 .nav-cta { padding: 11px 22px; min-height: 42px; font-size: 0.88rem; }
 
 .burger {
@@ -1295,7 +1300,7 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
   }
   .nav-links.open { display: flex; }
   .nav-links > a:not(.btn) { padding: 13px 4px; font-size: 1rem; }
-  .nav-links > a.active::after { display: none; }
+  .nav-links > a:not(.btn)::after { display: none; }
   .nav-links > a.active { color: var(--yellow); }
   .nav-cta { margin-top: 12px; justify-content: center; }
 
