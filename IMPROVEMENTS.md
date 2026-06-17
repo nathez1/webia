@@ -10,6 +10,54 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-17 — [Conversion / SEO] Pages légales obligatoires (mentions légales + confidentialité)
+
+**Axe : Conversion (réassurance/confiance) + SEO.** Le footer des 6 pages affichait
+« Mentions légales · Politique de confidentialité » en **texte mort** (aucun lien, aucune
+page cible) — item signalé en TODO aux 4 passages précédents. C'est à la fois un **manque
+de confiance** (un visiteur TPE/PME qui vérifie le sérieux d'un prestataire s'attend à
+trouver ces pages) et une **obligation légale française** (LCEN art. 6-III/19 pour les
+mentions légales, RGPD pour la confidentialité). Leur absence pouvait coûter des devis et
+exposer l'éditeur. Création des deux pages + activation des liens partout.
+
+Réalisé :
+- **`mentions-legales.html`** créée : éditeur (Webia, représentée par **Ethan Pierre**),
+  directeur de publication, hébergeur, propriété intellectuelle, responsabilité, liens
+  hypertextes, renvoi vers la confidentialité, droit applicable. Données réelles connues
+  remplies ; champs légalement requis mais inconnus (forme juridique, SIRET, adresse,
+  hébergeur) laissés en placeholders `.legal-todo` clairement marqués « à compléter »
+  — **rien d'inventé** (cf. consigne : ne jamais fabriquer de fausses informations).
+- **`confidentialite.html`** créée : politique RGPD complète et **sans placeholder**
+  (responsable, données collectées, finalités + bases légales, cookies/GTM, durées de
+  conservation, sous-traitants, droits RGPD + lien CNIL, sécurité, modifications).
+- **Liens footer activés sur les 6 pages** : les 5 pages standard (index, tarifs,
+  réalisations, affiliation, faq) pointent désormais vers les 2 pages ; `devis.html`
+  (footer slim) reçoit aussi les 2 liens à côté du lien FAQ existant.
+- **Style dédié** (`css/style.css`, bloc « Pages légales ») : `.legal-prose` (titres
+  Anton uppercase, corps Inter lisible, cartes `.legal-card` blanches), `.legal-todo`
+  (placeholder en pointillés mint), survol des liens du footer-bottom. 100% charte
+  (bleu/vert, aucun violet/jaune).
+- **SEO** : `<head>` complet sur les 2 pages (title/description/canonical/robots/OG/
+  Twitter, geo) + ajout au **`sitemap.xml`** (priorité 0.3, changefreq yearly).
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM + arbre d'accessibilité) :
+mentions-legales = H1 « MENTIONS LÉGALES » + 8 sections H2, 6 placeholders marqués ;
+confidentialite = H1 + 9 sections H2, **0 placeholder** ; liens footer corrects sur
+index (mentions+confidentialite) et devis (mentions+confidentialite+faq) ; titres rendus
+en Anton, corps en gris `rgb(78,90,102)` ; **0 erreur console** ; GTM (`dataLayer` présent),
+bouton WhatsApp flottant, bandeau d'offre et nav intacts. Aucune régression.
+
+**À compléter par le patron (placeholders dans mentions-legales.html)** : forme juridique,
+SIRET, adresse du siège, et identité/adresse/contact de l'hébergeur.
+
+**Idées pour les prochains passages :**
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (nécessite un encodeur image).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) ; page d'atterrissage locale de
+  qualité (Melun / Paris) ; JSON-LD `BreadcrumbList` ; `Service` détaillé sur tarifs.html.
+- **Design** : système `.reveal` sur `devis.html` (seule page sans animation d'apparition).
+
+---
+
 ## 2026-06-16 — [Design] Underline animé au survol des liens de navigation (6 pages)
 
 **Axe : Design.** Le site possédait déjà toutes les micro-interactions « SaaS »
