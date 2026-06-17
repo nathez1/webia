@@ -10,6 +10,56 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-17 — [SEO local] Page d'atterrissage locale « Création de site internet à Melun (77) »
+
+**Axe : SEO local.** Idée signalée en TODO aux **5 passages précédents** et plus gros
+levier business pour générer des devis : une vraie page d'atterrissage locale qui cible
+les requêtes géolocalisées (« création site internet Melun », « site web Seine-et-Marne »)
+au lieu de ne ranker que sur des termes génériques nationaux. Création d'une page de
+qualité (contenu **unique**, jamais dupliqué de l'accueil), reliée et indexable.
+
+Réalisé :
+- **`creation-site-internet-melun.html`** créée, calquée exactement sur le gabarit des
+  pages internes (bandeau d'offre, header/nav, footer, bouton WhatsApp flottant, GTM,
+  `js/main.js`) — **100% des classes CSS réutilisées**, aucune CSS ajoutée, aucun risque
+  de régression de style.
+- **Contenu localisé et unique** : hero « Création de site internet à Melun & en
+  Seine-et-Marne » ; section « vos clients du 77 vous cherchent sur Google » (SEO local,
+  Google Business Profile) ; section « pour qui » (commerçants/restaurateurs,
+  artisans/bâtiment, indépendants/PME) ; section **zones desservies** listant 16 villes
+  réelles du 77 + Paris (Melun, Dammarie-les-Lys, Le Mée-sur-Seine, Vaux-le-Pénil,
+  Savigny-le-Temple, Fontainebleau, Meaux, Chelles, Pontault-Combault, Brie-Comte-Robert,
+  Combs-la-Ville, Provins, Nemours, Coulommiers, Lagny-sur-Marne, Paris) ; CTA finaux
+  vers `devis.html`. **Rien d'inventé** (aucun faux avis/stat/client) — les chiffres sont
+  ceux déjà affichés ailleurs (290€, 7-15 j).
+- **SEO technique** : `<head>` complet (title/description/canonical/robots/OG/Twitter,
+  geo.region FR-77 + `geo.position`/ICBM Melun) + **2 blocs JSON-LD** : `Service`
+  (serviceType, provider→`#business`, fondateur Ethan Pierre, areaServed Melun/77/IdF,
+  offer 290€) et `BreadcrumbList` (Accueil › Melun).
+- **Maillage interne** : lien ajouté dans le footer « Navigation » de `index.html`
+  (« Création de site à Melun (77) ») → page découvrable par les visiteurs et les
+  crawlers. Ajout au **`sitemap.xml`** (priorité 0.8, changefreq monthly).
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM) : page servie en **200**,
+H1 rendu en **Anton uppercase**, **2 JSON-LD valides** (`Service` + `BreadcrumbList`,
+`JSON.parse` OK), 12 `.reveal`, 16 `.tag`, 6 cartes, bouton WhatsApp présent,
+`dataLayer` GTM présent, **0 erreur console** ; `.tag` en vert `rgb(6,118,71)` sur fond
+mint `rgb(229,252,238)` (charte respectée, **aucun violet/jaune**) ; **tous les liens
+internes** pointent vers des fichiers existants (devis, index, tarifs, realisations,
+affiliation, faq, mentions-legales, confidentialite) ; lien footer présent sur l'accueil
+et entrée sitemap confirmés. Aucune régression sur les pages existantes.
+
+**Idées pour les prochains passages :**
+- **SEO** : décliner une 2ᵉ page locale (« création site internet à Paris ») sur le même
+  gabarit, et une « à Meaux/Fontainebleau » si pertinent — toujours contenu unique.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (nécessite un encodeur image).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) ; JSON-LD `Service` détaillé sur
+  `tarifs.html`.
+- **Design/Conversion** : système `.reveal` sur `devis.html` (seule page sans animation
+  d'apparition) ; tester une variante du CTA principal.
+
+---
+
 ## 2026-06-17 — [Conversion / SEO] Pages légales obligatoires (mentions légales + confidentialité)
 
 **Axe : Conversion (réassurance/confiance) + SEO.** Le footer des 6 pages affichait
