@@ -10,6 +10,48 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-17 — [Design / Conversion] Animations d'apparition au scroll sur la page Devis
+
+**Axe : Design (cohérence inter-pages).** `devis.html` était la **seule des pages
+internes sans le système `.reveal`** (apparition douce au scroll) — item signalé en TODO
+à **tous les passages précédents**. Les autres pages (accueil, réalisations, tarifs, page
+Melun…) bénéficiaient de cette micro-interaction « SaaS » ; la page de conversion paraissait
+plus statique en comparaison. Ajout du `.reveal` sur la colonne latérale pour aligner la
+page sur le reste du site, sans rien changer au formulaire.
+
+Réalisé (`devis.html` uniquement, **HTML seul** — aucune CSS/JS ajoutée, mécanisme déjà
+existant et déjà compatible `prefers-reduced-motion`) :
+- **`.reveal` ajouté aux 5 cartes de l'aside** (offre de lancement, contact direct,
+  « ce qui se passe ensuite », « pourquoi nous faire confiance », témoignage), avec un
+  léger décalage `reveal-d1` sur la 2ᵉ carte pour un rythme d'apparition naturel.
+- **Choix délibéré de sécurité conversion** : le **`form-card` (le formulaire) ne reçoit
+  PAS `.reveal`**. La classe `.reveal` pose `opacity:0` tant que le JS ne l'a pas révélée ;
+  appliquée au formulaire, elle l'aurait rendu invisible en cas d'échec de chargement du
+  JS. Le formulaire — élément critique de conversion — reste donc **toujours visible**
+  (`opacity:1`), seule la réassurance latérale s'anime.
+- **Accessibilité** : `main.js` ajoute déjà `.in` immédiatement si `prefers-reduced-motion`
+  est actif ou si `IntersectionObserver` est absent → aucun contenu jamais bloqué invisible.
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM) : `devis.html` servie en **200** ;
+**5 `.reveal`** bien placés sur les 5 cartes de l'aside, `form-card` **sans** `.reveal`
+(formulaire `opacity:1`, `display:block`) ; règles `.reveal` et `.reveal.in {opacity:1}`
+présentes dans la feuille de styles ; **0 erreur console** ; GTM (`dataLayer`), bouton
+WhatsApp flottant, Calendly, soumission du formulaire intacts. *Note environnement : le
+rendu headless du serveur de prévisualisation ne déclenche ni `IntersectionObserver` ni les
+transitions CSS (pas de boucle de compositing) — comportement identique sur les pages déjà
+en ligne, donc artefact d'environnement et non régression ; le mécanisme est celui, éprouvé,
+des autres pages.* Aucune régression.
+
+**Idées pour les prochains passages :**
+- **SEO** : 2ᵉ page locale (« création site internet à Paris » ou « à Meaux/Fontainebleau »)
+  sur le gabarit Melun, contenu unique ; JSON-LD `Service` détaillé sur `tarifs.html`.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (nécessite un encodeur image —
+  toujours indisponible localement : ni cwebp, ni magick, ni Pillow).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte).
+- **Conversion** : tester une variante du libellé du CTA principal (A/B).
+
+---
+
 ## 2026-06-17 — [SEO local] Page d'atterrissage locale « Création de site internet à Melun (77) »
 
 **Axe : SEO local.** Idée signalée en TODO aux **5 passages précédents** et plus gros
