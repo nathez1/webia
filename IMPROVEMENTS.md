@@ -10,6 +10,55 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-19 — [SEO local] 2ᵉ page d'atterrissage locale « Création de site internet à Paris »
+
+**Axe : SEO local.** Plus gros levier business restant et idée signalée en TODO à
+**presque tous les passages** : après la page Melun (77), couvrir le **marché parisien**
+— de loin le plus gros volume de recherche de la zone desservie. Création d'une seconde
+page locale de qualité, au **contenu 100% unique** (jamais dupliqué de l'accueil ni de la
+page Melun), reliée et indexable.
+
+Réalisé :
+- **`creation-site-internet-paris.html`** créée sur le gabarit exact des pages internes
+  (bandeau d'offre, header/nav, footer, bouton WhatsApp flottant, GTM, `js/main.js`,
+  système `.reveal`) — **100% des classes CSS réutilisées, aucune CSS/JS ajoutée**, donc
+  aucun risque de régression de style. Charte respectée (bleu/vert, pas de violet/jaune).
+- **Contenu localisé et distinct de la page Melun** : angle « marché saturé / se démarquer »
+  propre à Paris ; hero « Création de site internet à Paris & en Île-de-France » ; constat
+  Paris (concurrence par quartier, recherches type « ostéopathe Paris 11 ») ; cartes
+  « sortir du lot arrondissement par arrondissement », « tarif d'un freelance vs agence
+  parisienne 3 000–10 000€ », « interlocuteur joignable » ; section « pour qui » adaptée
+  (commerçants/restaurateurs, **professions libérales & santé**, indépendants/freelances/
+  startups) ; **17 secteurs réels** (arrondissements 1–20 ciblés + petite couronne :
+  Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Montreuil, Issy-les-Moulineaux) ;
+  CTA finaux vers `devis.html`. **Rien d'inventé** (aucun faux avis/stat/client) — prix et
+  délais identiques au reste du site (290€, 7–15 j).
+- **SEO technique** : `<head>` complet (title/description/canonical/robots/OG/Twitter,
+  `geo.region` FR-75 + `geo.position`/ICBM Paris) + **2 blocs JSON-LD** : `Service`
+  (serviceType, provider→`#business`, fondateur Ethan Pierre, areaServed Paris/IdF, offer
+  290€) et `BreadcrumbList` (Accueil › Paris).
+- **Maillage interne** : lien ajouté dans le footer de l'accueil (`index.html`, à côté du
+  lien Melun) → page non orpheline. **`sitemap.xml`** mis à jour (priority 0.8, lastmod
+  2026-06-19) → 10 URL au total.
+
+Vérifié : **2 blocs JSON-LD valides** (ConvertFrom-Json OK) ; **sitemap.xml = XML valide,
+10 URL** ; balises équilibrées (5 `section`, 1 `header`/`footer`/`html`/`body`/`head`) ;
+**8 liens internes `.html` pointant tous vers des fichiers existants** (0 lien cassé) ;
+invariants intacts (GTM, `wa-float`, `js/main.js` présents). Aucune régression sur les
+autres pages (seul `index.html` touché : +1 ligne de lien). *Note : page = clone structurel
+de la page Melun déjà en ligne, seules les copies/SEO changent.*
+
+**Idées pour les prochains passages :**
+- **SEO** : JSON-LD `Service` détaillé sur `tarifs.html` (le seul gros TODO SEO restant) ;
+  éventuelle 3ᵉ page locale (Meaux ou Fontainebleau) si les 2 premières performent.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image dispo localement — ni cwebp, ni magick, ni Pillow/Python).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png`.
+- **Conversion** : tester une variante du libellé du CTA principal (A/B).
+- **Access** : audit contrastes + focus clavier visible sur l'ensemble des pages.
+
+---
+
 ## 2026-06-17 — [Design / Conversion] Animations d'apparition au scroll sur la page Devis
 
 **Axe : Design (cohérence inter-pages).** `devis.html` était la **seule des pages
