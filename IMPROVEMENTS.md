@@ -10,6 +10,48 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-20 — [SEO local] Données structurées `Service` détaillées sur la page Tarifs
+
+**Axe : SEO local** (rotation après un passage Perf/Accessibilité). Item **« JSON-LD
+`Service` détaillé sur `tarifs.html` »** signalé comme « le seul gros TODO SEO restant »
+à **presque tous les passages**. Constat : `tarifs.html` — la page commerciale la plus
+décisive — était la **seule page clé sans aucune donnée structurée**, alors qu'elle décrit
+les 3 formules et leurs prix. Sans balisage, Google ne reliait pas explicitement ces offres
+à l'entité Webia ni à la zone desservie. Ajout d'un balisage complet pour améliorer la
+compréhension des offres par les moteurs et l'éligibilité aux rich results.
+
+Réalisé (`tarifs.html` uniquement — **HTML `<head>` seul, aucune CSS/JS, aucun `<body>`
+touché**, donc aucun risque de régression visuelle) :
+- **Bloc JSON-LD `@graph`** inséré après GTM (même emplacement/format que l'accueil) avec
+  **4 nœuds** :
+  - **`BreadcrumbList`** (Accueil › Tarifs) → fil d'Ariane pour le SERP.
+  - **3 `Service`** (Starter / Pro / Business), chacun avec `serviceType`, `description`
+    fidèle aux features réellement listées sur la page, `provider` → `@id`
+    `https://webia.fr/#business` (réutilise l'entité `ProfessionalService` de l'accueil,
+    pas de duplication d'entité), `areaServed` (Seine-et-Marne 77, Paris, Île-de-France)
+    et un `Offer` (`price` 290/590/990, `priceCurrency` EUR, `availability` InStock,
+    `url` → tarifs.html).
+- **Aucune donnée inventée** : prix, délais et contenus repris à l'identique de la grille
+  tarifaire affichée (290€/7 j, 590€/10 j, 990€/15 j). Provider relié par référence `@id`
+  pour rester cohérent avec le `ProfessionalService` existant.
+
+Vérifié (PowerShell + `ConvertFrom-Json`) : **JSON-LD valide**, **4 nœuds `@graph`** bien
+parsés (BreadcrumbList + 3 Service aux prix exacts 290/590/990) ; invariants intacts
+(GTM `GTM-KF6HJ4WF`, bouton WhatsApp `wa.me/33782934069`, `js/main.js`, feuille de styles
+présents) ; **aucun hex hors charte** (`#7C3AED`/`#FFD60A` absents). Le `<body>` n'a pas
+été modifié → aucune régression visuelle possible sur les autres pages.
+
+**Idées pour les prochains passages :**
+- **Access** : lien d'évitement « Aller au contenu » (skip-link) en début de `<body>`
+  + `id` sur le `<main>` de chaque page (retouche HTML des 9 pages).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png` ;
+  éventuelle 3ᵉ page locale (Meaux ou Fontainebleau) si les 2 premières performent.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image localement — ni cwebp, ni ImageMagick, ni Pillow).
+- **Conversion** : tester une variante du libellé du CTA principal (A/B).
+
+---
+
 ## 2026-06-20 — [Performance & accessibilité] Indicateur de focus clavier visible sur tout le site (WCAG 2.4.7)
 
 **Axe : Performance & accessibilité** (rotation après un passage SEO). Item « audit

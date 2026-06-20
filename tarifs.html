@@ -33,6 +33,81 @@
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-KF6HJ4WF');</script>
   <!-- End Google Tag Manager -->
+  <!-- Données structurées : formules de création de site (Service + Offer) + fil d'Ariane -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://webia.fr/" },
+          { "@type": "ListItem", "position": 2, "name": "Tarifs", "item": "https://webia.fr/tarifs.html" }
+        ]
+      },
+      {
+        "@type": "Service",
+        "name": "Formule Starter — Site internet onepage",
+        "serviceType": "Création de site internet",
+        "description": "Site une page (onepage) professionnel, adapté mobile, avec formulaire de contact et référencement Google de base. Livré en 7 jours. Paiement unique, sans abonnement obligatoire.",
+        "provider": { "@id": "https://webia.fr/#business" },
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Seine-et-Marne (77)" },
+          { "@type": "City", "name": "Paris" },
+          { "@type": "AdministrativeArea", "name": "Île-de-France" }
+        ],
+        "offers": {
+          "@type": "Offer",
+          "name": "Formule Starter",
+          "price": "290",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://webia.fr/tarifs.html"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Formule Pro — Site internet jusqu'à 5 pages",
+        "serviceType": "Création de site internet",
+        "description": "Site jusqu'à 5 pages au design sur mesure adapté mobile, formulaire de devis optimisé conversion, référencement Google avancé, Google Maps et avis clients intégrés, statistiques de visites et 1 mois de maintenance offert. Livré en 10 jours. Offre de lancement -20%.",
+        "provider": { "@id": "https://webia.fr/#business" },
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Seine-et-Marne (77)" },
+          { "@type": "City", "name": "Paris" },
+          { "@type": "AdministrativeArea", "name": "Île-de-France" }
+        ],
+        "offers": {
+          "@type": "Offer",
+          "name": "Formule Pro",
+          "price": "590",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://webia.fr/tarifs.html"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Formule Business — Site internet complet",
+        "serviceType": "Création de site internet",
+        "description": "Site à pages illimitées reprenant tout de la formule Pro, avec réservation et prise de rendez-vous en ligne, paiement en ligne ou boutique simple, blog ou actualités, rédaction des textes incluse et 3 mois de maintenance offerts. Livré en 15 jours.",
+        "provider": { "@id": "https://webia.fr/#business" },
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Seine-et-Marne (77)" },
+          { "@type": "City", "name": "Paris" },
+          { "@type": "AdministrativeArea", "name": "Île-de-France" }
+        ],
+        "offers": {
+          "@type": "Offer",
+          "name": "Formule Business",
+          "price": "990",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "url": "https://webia.fr/tarifs.html"
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
