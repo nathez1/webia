@@ -57,6 +57,29 @@ document.querySelectorAll("[data-track]").forEach((el) => {
   });
 });
 
+// ===== Suivi des clics sur les CTA « devis » (tunnel de conversion) =====
+// Mesure quels CTA et quelles pages génèrent le plus de clics vers la demande
+// de devis. Couplé à l'événement "generate_lead" du formulaire, cela permet de
+// calculer le taux clic CTA → devis envoyé et d'optimiser le tunnel. Délégation
+// sur le document : couvre automatiquement tous les liens vers devis.html, sur
+// toutes les pages, sans avoir à baliser chaque bouton.
+document.addEventListener("click", (e) => {
+  const link = e.target.closest("a[href]");
+  if (!link) return;
+  const href = link.getAttribute("href") || "";
+  // Cible uniquement les liens internes pointant vers la page de devis,
+  // mais pas un clic depuis la page de devis elle-même (évite le bruit).
+  if (!/devis\.html(?:[?#].*)?$/i.test(href)) return;
+  if (/\/devis\.html$/i.test(window.location.pathname)) return;
+  const label = (link.textContent || "").replace(/\s+/g, " ").trim().slice(0, 80);
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "cta_devis_click",
+    cta_text: label || "devis",
+    source_page: window.location.pathname
+  });
+});
+
 // ===== Apparition au scroll =====
 const reveals = document.querySelectorAll(".reveal");
 if (reveals.length) {

@@ -10,6 +10,54 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-20 — [Conversion] Suivi des clics sur les CTA « devis » (tunnel de conversion mesurable)
+
+**Axe : Conversion** (rotation après deux passages SEO local et un passage Perf/Accessibilité).
+Constat : le site mesurait déjà **`contact_click`** (WhatsApp/Calendly via `[data-track]`) et
+**`generate_lead`** (envoi du formulaire de devis), mais **les clics sur les boutons CTA qui
+mènent à la page de devis n'étaient pas suivis du tout**. Le tunnel entre « CTA cliqué » et
+« formulaire envoyé » était une **boîte noire** : impossible de savoir quel CTA (hero, bandeau
+d'urgence, statement, CTA final…) ni quelle page génère le plus d'intentions de devis, donc
+impossible d'optimiser ce qui produit réellement des demandes. Ajout d'un suivi automatique
+pour rendre le tunnel mesurable et exploitable dans GTM/GA4.
+
+Réalisé (`js/main.js` **uniquement** — aucune retouche HTML/CSS, donc aucun risque de
+régression visuelle sur les 9 pages, aucun changement visible pour le visiteur) :
+- **Écouteur délégué sur `document`** (un seul listener) qui détecte tout clic sur un lien
+  `a[href]` pointant vers `devis.html` (regex `devis\.html(?:[?#].*)?$`, insensible à la casse,
+  tolère ancres/paramètres) et pousse un événement **`cta_devis_click`** dans `dataLayer` avec
+  **`cta_text`** (libellé du bouton, normalisé et tronqué à 80 car.) et **`source_page`**
+  (`location.pathname`). La délégation couvre **automatiquement tous les CTA devis de toutes
+  les pages** (hero, bandeau d'urgence, cartes, statement, CTA final, footer…) sans avoir à
+  baliser chaque bouton un par un.
+- **Garde anti-bruit** : les clics **depuis** `devis.html` (lien interne renvoyant à la même
+  page) sont ignorés → seules les vraies entrées dans le tunnel sont comptées.
+- **Couplage analytique** : `cta_devis_click` (entrée du tunnel) + `generate_lead` (sortie)
+  permettent désormais de calculer un **taux clic CTA → devis envoyé** et de comparer les CTA
+  par libellé et par page d'origine. **Aucune donnée inventée** : on ne mesure que des clics réels.
+
+Vérifié (serveur de prévisualisation local + `dataLayer`) : clic sur le CTA hero
+« Profiter de l'offre -20% » → **1 événement `cta_devis_click`** avec `cta_text` exact et
+`source_page` `/` ; clic sur le lien « j'en profite » du **bandeau d'urgence** → bien suivi
+(`cta_text` = « j'en profite ») ; clic sur un lien **non-devis** (`tarifs.html`) → **aucun
+événement** (filtre OK) ; clic sur un lien devis **depuis `devis.html`** → **supprimé** (garde
+anti-bruit OK) ; **0 erreur / 0 avertissement console**. Invariants intacts : GTM
+(`dataLayer`), `generate_lead` du formulaire, `contact_click` WhatsApp/Calendly, bouton WhatsApp
+flottant, bandeau d'offre — tous inchangés. JS valide (exécuté sans erreur dans le navigateur).
+
+**Idées pour les prochains passages :**
+- **Access** : lien d'évitement « Aller au contenu » (skip-link) en début de `<body>` + `id`
+  sur le `<main>` de chaque page (retouche HTML des 9 pages) — TODO le plus ancien restant.
+- **Conversion (suite)** : le bandeau d'urgence affiche une date fixe « jusqu'au 30 juin » —
+  prévoir un rafraîchissement (ou une formulation pérenne) avant cette échéance pour ne pas
+  afficher une offre expirée.
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png` ;
+  éventuelle 3ᵉ page locale (Meaux ou Fontainebleau).
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image localement — ni cwebp, ni ImageMagick, ni Pillow).
+
+---
+
 ## 2026-06-20 — [SEO local] Données structurées `Service` détaillées sur la page Tarifs
 
 **Axe : SEO local** (rotation après un passage Perf/Accessibilité). Item **« JSON-LD
