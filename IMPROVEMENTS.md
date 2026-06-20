@@ -10,6 +10,62 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-20 — [Performance & accessibilité] Indicateur de focus clavier visible sur tout le site (WCAG 2.4.7)
+
+**Axe : Performance & accessibilité** (rotation après un passage SEO). Item « audit
+focus clavier visible » signalé en TODO aux derniers passages. Diagnostic : les liens de
+**navigation**, les liens de **footer** et le **bouton WhatsApp flottant** n'avaient
+**aucun indicateur de focus clavier** (seulement des styles `:hover`), et les rares règles
+`:focus-visible` existantes (`.btn`, `.faq-q`, `.radio-card`) utilisaient un vert clair
+(`--violet-light` #7DFFB0) **quasi invisible sur les sections blanches** → échec du
+critère **WCAG 2.4.7 (Focus Visible)** sur l'ensemble du site. Un visiteur au clavier (ou
+lecteur d'écran avec navigation visuelle) ne savait pas où il se trouvait : friction
+d'accessibilité et de conversion. Correction **100% CSS, mutualisée** (donc valable sur
+les **9 pages** d'un coup via `css/style.css`).
+
+Réalisé (`css/style.css` uniquement — **2 ajouts, aucune suppression**) :
+- **Système d'anneau de focus à double couleur** (nouveau bloc « Accessibilité : focus
+  clavier visible ») sur `a`, `.btn`, `.burger`, `.wa-float` :
+  `outline: 3px solid var(--yellow)` (#2BF56F vert électrique) + `outline-offset: 2px`
+  + `box-shadow: 0 0 0 6px var(--ink)` (#1C2BEF anneau bleu extérieur). **Garantie
+  dual-fond** : sur **fond sombre** (header/footer bleus) l'anneau **vert** ressort ; sur
+  **fond clair** (formulaires, sections mint/blanches) l'anneau **bleu** ressort → au moins
+  un des deux anneaux conserve toujours un contraste ≥ 3:1. Le `box-shadow` épouse le
+  `border-radius` propre à chaque élément → **aucune déformation** des boutons arrondis.
+- **Révélation de l'underline de nav au focus** : ajout de
+  `.nav-links > a:not(.btn):focus-visible` (couleur `#fff`) et `…:focus-visible::after`
+  (`scaleX(1)`) → au clavier, le lien de nav se comporte exactement comme au survol
+  (underline vert qui se déploie), en plus de l'anneau de focus.
+- **`:focus-visible` (et non `:focus`)** : l'indicateur n'apparaît **qu'au clavier**,
+  jamais au clic souris ni au tactile → zéro changement visuel pour la majorité des
+  visiteurs. Règles spécifiques préexistantes (`.faq-q`, `.radio-card`, focus des champs
+  de formulaire) **laissées intactes** (sélecteurs distincts, aucun conflit).
+
+Vérifié (serveur de prévisualisation local + CSSOM) : les **2 règles sont servies et
+parsées** avec les déclarations exactes attendues (`outline: 3px solid var(--yellow);
+outline-offset: 2px; box-shadow: 0 0 0 6px var(--ink)` et `…::after { transform:
+scaleX(1) }`) ; variables résolues correctement (`--yellow` = **#2BF56F**, `--ink` =
+**#1C2BEF**, charte respectée, aucun violet/jaune) ; **374 règles CSS parsées sans perte**
+(aucune erreur de syntaxe) ; **0 avertissement/erreur console**. Invariants intacts :
+GTM (`dataLayer`), bouton WhatsApp (`wa.me/33782934069`), Calendly, bandeau d'offre,
+5 liens de nav. *Note environnement : le rendu headless du serveur de prévisualisation ne
+bascule pas l'état `:focus-visible` sur un `.focus()` scripté (il n'évalue pas les
+pseudo-classes de focus en computed style — même artéfact que `IntersectionObserver`/
+transitions noté aux passages précédents) ; la preuve repose donc sur le CSSOM (règles
+valides + variables résolues), `:focus-visible` étant un sélecteur standard largement
+supporté.* Aucune CSS supprimée, aucun HTML touché → aucune régression possible.
+
+**Idées pour les prochains passages :**
+- **Access (suite)** : lien d'évitement « Aller au contenu » (skip-link) en début de
+  `<body>` + `id` sur le `<main>` de chaque page (nécessite une retouche HTML des 9 pages).
+- **SEO** : JSON-LD `Service` détaillé sur `tarifs.html` (seul gros TODO SEO restant) ;
+  visuel Open Graph dédié 1200×630 (charte).
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun
+  encodeur image localement — ni cwebp, ni ImageMagick, ni Pillow).
+- **Conversion** : tester une variante du libellé du CTA principal (A/B).
+
+---
+
 ## 2026-06-19 — [SEO local] 2ᵉ page d'atterrissage locale « Création de site internet à Paris »
 
 **Axe : SEO local.** Plus gros levier business restant et idée signalée en TODO à
