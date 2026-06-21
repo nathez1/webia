@@ -10,6 +10,59 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-21 — [Design] Indicateur de progression de lecture (barre de scroll, 9 pages)
+
+**Axe : Design** (rotation : c'était l'axe le plus ancien — dernier passage Design le
+2026-06-17, alors que Conversion / SEO local / Perf-Access avaient tous eu leur tour le
+2026-06-20). Les grosses briques design étaient déjà en place (reveal au scroll, underline
+de nav animé, lift des cartes/prix, glows du hero) ; manquait un détail « SaaS moderne »
+fédérateur. Ajout d'une **fine barre de progression de lecture** (3px) en haut de page,
+dégradé **charte** vert électrique → cyan (`--violet` #16E06F → `--cyan` #2DD9FE), qui se
+remplit selon la position de défilement → repère visuel discret, surtout utile sur les pages
+longues (FAQ, tarifs, pages locales). Renforce la perception de qualité sans toucher au
+contenu ni à la conversion.
+
+Réalisé (**`js/main.js` + `css/style.css` uniquement — aucune retouche des 9 fichiers
+HTML**, donc aucun risque de régression structurelle) :
+- **Élément créé en JS et injecté** (`document.body.appendChild`) avec
+  `class="scroll-progress"` + `aria-hidden="true"` → apparaît **automatiquement sur les
+  9 pages** sans baliser aucun HTML.
+- **Mise à jour throttlée via `requestAnimationFrame`** : ratio =
+  `scrollY / (scrollHeight − clientHeight)` borné [0,1], appliqué en
+  `transform: scaleX(ratio)` (transform-origin gauche) → animation GPU, pas de reflow.
+  Écouteurs `scroll`/`resize` **passifs** (perf scroll préservée).
+- **CSS** : `position: fixed; top:0; left:0; width:100%; height:3px; z-index:90;
+  pointer-events:none` (n'intercepte aucun clic, passe au-dessus du header sticky sans
+  gêner le bouton WhatsApp z-index 80 ni le bandeau d'offre).
+- **`prefers-reduced-motion` doublement respecté** : la règle CSS met la barre en
+  `display:none` **et** le JS sort en amont (aucun élément créé, aucun écouteur posé).
+
+Vérifié (serveur de prévisualisation local + CSSOM/DOM) : élément bien présent et
+**dernier enfant du `<body>`** sur l'accueil **et** sur `faq.html` (preuve de l'injection
+multi-pages via `main.js`) ; styles calculés **exacts** (`position:fixed`, `height:3px`,
+`z-index:90`, `pointer-events:none`, `transform-origin` à gauche, `background` =
+`linear-gradient(90deg, rgb(22,224,111), rgb(45,217,254))` = charte) ; au repos
+`transform = matrix(0,0,0,1,0,0)` (scaleX 0) ; **0 erreur/avertissement console** ;
+invariants intacts (GTM `dataLayer`, bouton WhatsApp `wa-float`, bandeau d'urgence,
+27 `.reveal` sur l'accueil, accordéon FAQ 14 items). *Note environnement : le rendu
+headless ne déclenche pas `requestAnimationFrame` et renvoie un viewport de dimensions
+nulles → le remplissage live au scroll n'est pas mesurable ici (même artéfact que
+`IntersectionObserver`/transitions noté aux passages précédents) ; le calcul est standard
+et le rendu de `scaleX` est confirmé via le transform calculé.* Charte respectée : aucun
+violet/jaune hors charte introduit (dégradé vert→cyan uniquement).
+
+**Idées pour les prochains passages :**
+- **Access** : lien d'évitement « Aller au contenu » (skip-link) en début de `<body>` +
+  `id` sur le `<main>` de chaque page — **TODO le plus ancien restant** (retouche HTML 9 pages).
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png` ;
+  éventuelle 3ᵉ page locale (Meaux ou Fontainebleau).
+- **Conversion** : le bandeau d'urgence affiche « jusqu'au 30 juin » — prévoir une
+  formulation pérenne ou un rafraîchissement avant l'échéance.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image localement — ni cwebp, ni ImageMagick, ni Pillow).
+
+---
+
 ## 2026-06-20 — [Conversion] Suivi des clics sur les CTA « devis » (tunnel de conversion mesurable)
 
 **Axe : Conversion** (rotation après deux passages SEO local et un passage Perf/Accessibilité).

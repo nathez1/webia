@@ -101,3 +101,34 @@ if (reveals.length) {
     reveals.forEach((el) => io.observe(el));
   }
 }
+
+// ===== Indicateur de progression de lecture =====
+// Fine barre en haut de page qui se remplit selon la position de défilement.
+// L'élément est créé ici (aucune retouche HTML) → présent automatiquement sur
+// toutes les pages. Mise à jour throttlée via requestAnimationFrame (perf).
+// Respecte prefers-reduced-motion (la barre est alors masquée en CSS).
+(function () {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const bar = document.createElement("div");
+  bar.className = "scroll-progress";
+  bar.setAttribute("aria-hidden", "true");
+  document.body.appendChild(bar);
+
+  let ticking = false;
+  const update = () => {
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - doc.clientHeight;
+    const ratio = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+    bar.style.transform = "scaleX(" + ratio + ")";
+    ticking = false;
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  update();
+})();
