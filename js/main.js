@@ -80,6 +80,26 @@ document.addEventListener("click", (e) => {
   });
 });
 
+// ===== Échéance d'offre dynamique (offre de lancement mensuelle glissante) =====
+// Le bandeau d'urgence et la page de devis affichent « jusqu'au <date> ». Pour
+// ne jamais montrer une échéance passée (ex. « 30 juin » après le 30 juin), on
+// remplace le libellé par le dernier jour du mois EN COURS : l'offre de lancement
+// se renouvelle chaque mois et reste donc toujours valide. Sans JS, le HTML
+// conserve une date fixe correcte (fallback "30 juin") → aucun affichage cassé.
+(function () {
+  const targets = document.querySelectorAll(".offer-deadline");
+  if (!targets.length) return;
+  const now = new Date();
+  // jour 0 du mois suivant = dernier jour du mois courant
+  const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const months = [
+    "janvier", "février", "mars", "avril", "mai", "juin",
+    "juillet", "août", "septembre", "octobre", "novembre", "décembre"
+  ];
+  const label = lastDay.getDate() + " " + months[lastDay.getMonth()];
+  targets.forEach((el) => { el.textContent = label; });
+})();
+
 // ===== Apparition au scroll =====
 const reveals = document.querySelectorAll(".reveal");
 if (reveals.length) {

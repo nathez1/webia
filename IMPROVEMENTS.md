@@ -10,6 +10,57 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-21 — [Conversion] Échéance d'offre dynamique (fin du mois glissante, jamais expirée)
+
+**Axe : Conversion** (rotation : Design et Perf/Access ont été traités le 2026-06-21,
+Conversion et SEO local le 2026-06-20 → Conversion repris ici). Item signalé en TODO à
+**presque tous les passages** comme **échéance imminente** : le bandeau d'urgence affichait
+une date **fixe codée en dur** « jusqu'au 30 juin » sur **les 10 pages** (+ le paragraphe
+d'offre de `devis.html`). Or nous sommes le **21 juin** : dès le 1er juillet, tout le site
+aurait affiché une **offre visiblement expirée** — destructeur pour la crédibilité et la
+conversion, sur un levier (urgence -20%) présent sur chaque page. Correction : rendre
+l'échéance **dynamique** = dernier jour du **mois en cours**, soit une **offre de lancement
+mensuelle glissante** qui reste toujours valide et crédible, jamais périmée.
+
+Réalisé (**ajout purement additif** ; aucune suppression de contenu, aucun changement de mise
+en page) :
+- **HTML (10 fichiers)** : la date « 30 juin » a été enveloppée dans
+  `<span class="offer-deadline">30 juin</span>` — dans le bandeau `.urgency` des 9 pages
+  standard (index, tarifs, réalisations, affiliation, faq, mentions-legales, confidentialite,
+  + pages locales Melun & Paris) **et** dans le paragraphe d'offre de `devis.html` (ligne du
+  bloc « Offre de lancement »). **Le texte « 30 juin » reste écrit en dur dans le HTML** →
+  **fallback correct si JavaScript est désactivé** (aucun affichage cassé, jamais de date vide).
+- **JS (`js/main.js`, nouvelle section)** : IIFE autonome qui sélectionne tous les
+  `.offer-deadline`, calcule le **dernier jour du mois courant** (`new Date(annee, mois+1, 0)`
+  → astuce « jour 0 du mois suivant »), formate en français (`30 juin`, `31 juillet`,
+  `28/29 février`…) et remplace le `textContent`. Sort immédiatement si aucun élément cible
+  (pages sans offre). Aucune dépendance, aucun écouteur, aucune retouche des autres comportements.
+
+Vérifié (serveur de prévisualisation local + DOM) : sur **index.html** et **devis.html**,
+**1 `.offer-deadline`** par page, rendu = **« 30 juin »** (= dernier jour de juin, cohérent
+avec la date du jour 2026-06-21, preuve que le calcul est juste tout en restant identique au
+fallback ce mois-ci) ; **logique glissante prouvée** en simulant d'autres mois : juillet →
+**« 31 juillet »**, décembre → **« 31 décembre »**, **février 2027 → « 28 février »**,
+**février 2028 (bissextile) → « 29 février »** (le moteur `Date` gère nativement les fins de
+mois et années bissextiles). **0 erreur / 0 avertissement console.** Invariants intacts : GTM
+(`dataLayer` présent), bouton WhatsApp flottant (`wa-float`), bandeau d'urgence, header/nav,
+formulaire de devis — tous inchangés. Pas de BOM introduit (réécriture UTF-8 sans BOM).
+**Aucune fausse info** : l'offre -20% existe déjà, on ne change que la date affichée pour
+qu'elle reste véridique mois après mois.
+
+**Idées pour les prochains passages :**
+- **SEO** (axe le plus ancien désormais) : visuel Open Graph dédié 1200×630 (charte) au lieu
+  de réutiliser `ethan.png` ; éventuelle 3ᵉ page locale (Meaux ou Fontainebleau).
+- **Conversion (suite)** : si l'offre doit un jour réellement se terminer, ajouter un attribut
+  `data-offer-end="AAAA-MM-JJ"` lu par le JS pour figer une date précise (le mécanisme
+  `.offer-deadline` est déjà en place pour l'accueillir sans retoucher le HTML).
+- **Access** : vérifier l'ordre de tabulation du bouton WhatsApp flottant ; `aria-label` sur
+  les `<nav>` secondaires.
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image localement — ni cwebp, ni ImageMagick, ni Pillow ; Node absent du PATH ce passage).
+
+---
+
 ## 2026-06-21 — [Accessibilité] Lien d'évitement « Aller au contenu » + landmark `<main>` (10 pages)
 
 **Axe : Performance & accessibilité** (rotation après le passage Design du 2026-06-21).
