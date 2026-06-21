@@ -1601,6 +1601,39 @@ a:focus-visible,
   box-shadow: 0 0 0 6px var(--ink);
 }
 
+/* ---------- Accessibilité : lien d'évitement (WCAG 2.4.1 Bypass Blocks) ---------- */
+/* Premier élément focalisable du <body> : permet à un visiteur au clavier ou
+   lecteur d'écran de sauter la navigation répétée et d'atteindre directement le
+   <main id="contenu">. Masqué hors écran par défaut (aucun impact visuel pour la
+   souris/le tactile), il glisse en haut à gauche dès qu'il reçoit le focus. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  margin: 12px;
+  padding: 12px 20px;
+  background: var(--ink);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--yellow);
+  box-shadow: 0 8px 24px rgba(16, 26, 158, .35);
+  transform: translateY(-130%);
+  transition: transform .2s ease;
+}
+.skip-link:focus {
+  transform: translateY(0);
+  outline: none;
+}
+/* Cible du saut : ne pas afficher de contour permanent sur le <main> focalisé
+   programmatiquement (tabindex="-1") — il ne reçoit le focus qu'au clic du lien. */
+#contenu:focus { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .skip-link { transition: none; }
+}
+
 /* ---------- Indicateur de progression de lecture ---------- */
 /* Fine barre dégradée (charte : vert électrique → cyan) en haut de page,
    qui se remplit selon la position de défilement. Élément injecté par

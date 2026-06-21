@@ -10,6 +10,63 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-21 — [Accessibilité] Lien d'évitement « Aller au contenu » + landmark `<main>` (10 pages)
+
+**Axe : Performance & accessibilité** (rotation après le passage Design du 2026-06-21).
+Item **« skip-link “Aller au contenu” + `id` sur le `<main>` »** signalé comme **le TODO
+le plus ancien restant** à *tous* les passages depuis le 2026-06-19. Double constat
+d'accessibilité : (1) **aucun lien d'évitement** — un visiteur au clavier ou lecteur
+d'écran devait tabuler à travers le bandeau d'urgence + le logo + les 6 liens de nav
+**sur chaque page** avant d'atteindre le contenu (échec **WCAG 2.4.1 Bypass Blocks**) ;
+(2) **aucun landmark `<main>` n'existait nulle part** sur le site → navigation par régions
+(lecteurs d'écran) impossible. Correction des deux d'un coup, en HTML (un skip-link réel,
+présent même sans JS — contrairement à un lien injecté en JS qui trahirait sa raison d'être).
+
+Réalisé (les **10 fichiers HTML** + `css/style.css`, ajouts **purement additifs**, aucune
+suppression, aucun contenu déplacé) :
+- **Skip-link réel** `<a class="skip-link" href="#contenu">Aller au contenu</a>` inséré
+  comme **tout premier enfant du `<body>`** (avant le bandeau d'urgence, qui contient lui
+  un lien focalisable) → c'est bien le **premier élément focalisable** de chaque page.
+- **Landmark `<main id="contenu" tabindex="-1">`** ouvert juste après `</header>` et fermé
+  juste avant `<footer>` → enveloppe tout le contenu de page (header et footer **hors**
+  du `main`, comme il se doit). `tabindex="-1"` rend la cible focalisable au clic du lien
+  (le focus saute réellement au contenu, pas seulement le scroll).
+- **CSS** (bloc « Accessibilité : lien d'évitement (WCAG 2.4.1) ») : `.skip-link` en
+  `position:fixed; z-index:100`, masqué hors écran par défaut (`transform: translateY(-130%)`)
+  → **aucun changement visuel** pour la souris/le tactile ; il glisse en haut à gauche
+  **au focus** (`.skip-link:focus { transform: translateY(0) }`). Pastille **charte** :
+  fond bleu électrique `--ink` #1C2BEF, texte blanc, bordure verte `--yellow` #2BF56F.
+  Transition désactivée en `prefers-reduced-motion`. `#contenu:focus { outline:none }`
+  pour ne pas afficher de contour permanent sur le `<main>` focalisé programmatiquement.
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM, sur les 10 pages) : `.skip-link`
+présent **1×/page**, **premier élément focalisable** (`sl === premier a/button/input`),
+texte « Aller au contenu », `href="#contenu"` ; `<main id="contenu" tabindex="-1">` présent
+**1×/page**, **contient le hero**, **précédé du `<header>` et suivi du `<footer>`** (header
+et footer hors du main → structure de landmark correcte) ; ordre source vérifié page par page
+(skip → `</header>` → `id="contenu"` → `</main>` → footer), y compris sur `devis.html` (footer
+slim, sans bandeau d'urgence). Règles CSS bien parsées : base `translateY(-130%)`, focus
+`translateY(0px)` ; pastille `background rgb(28,43,239)` (#1C2BEF) / texte blanc (charte,
+aucun violet/jaune). **0 erreur / 0 avertissement console.** Invariants intacts : GTM
+(`dataLayer`), bouton WhatsApp flottant (`wa-float`), bandeau d'urgence, header/nav, footer.
+*Note environnement : le rendu headless ne reflète pas l'état `:focus` sur un `.focus()`
+scripté en computed style (même artéfact que `:focus-visible`/`IntersectionObserver` des
+passages précédents) → la translation live au focus n'est pas mesurable ici, mais la règle
+`.skip-link:focus` est bien servie et parsée (preuve via CSSOM). `:focus` est un sélecteur
+standard universellement supporté.*
+
+**Idées pour les prochains passages :**
+- **SEO** : visuel Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png` ;
+  éventuelle 3ᵉ page locale (Meaux ou Fontainebleau).
+- **Conversion** : le bandeau d'urgence affiche « jusqu'au 30 juin » — formulation pérenne
+  ou rafraîchissement **avant l'échéance** (échéance imminente).
+- **Perf** : version **WebP** d'`ethan.png` + `<picture>` (toujours bloqué : aucun encodeur
+  image localement — ni cwebp, ni ImageMagick, ni Pillow).
+- **Access (suite)** : ajouter `role`/`aria-label` sur les `<nav>` secondaires si pertinent ;
+  vérifier l'ordre de tabulation du bouton WhatsApp flottant.
+
+---
+
 ## 2026-06-21 — [Design] Indicateur de progression de lecture (barre de scroll, 9 pages)
 
 **Axe : Design** (rotation : c'était l'axe le plus ancien — dernier passage Design le
