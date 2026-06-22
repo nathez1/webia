@@ -1657,3 +1657,50 @@ a:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .scroll-progress { display: none; }
 }
+
+/* ---------- Barre CTA « devis » collante sur mobile (conversion) ----------
+   Sur smartphone, le CTA du hero défile hors de vue : cette barre fixe garde
+   l'appel à l'action « devis » toujours accessible (levier de conversion
+   classique des sites lead-gen). Injectée par main.js (aucune retouche HTML)
+   → présente sur toutes les pages sauf devis.html. Visible mobile uniquement.
+   Le bouton WhatsApp flottant est remonté au-dessus pour éviter tout
+   chevauchement ; le <body> reçoit un padding-bas pour ne jamais masquer le
+   pied de page. 100 % charte : surface bleu électrique, bouton vert. */
+.mobile-cta-bar { display: none; }
+@media (max-width: 768px) {
+  :root { --mcta-h: 64px; }
+  .mobile-cta-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 75;
+    padding: 10px 14px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(180deg, #101A9E 0%, #0B1270 100%);
+    border-top: 1px solid rgba(43, 245, 111, 0.4);
+    box-shadow: 0 -8px 24px rgba(11, 18, 51, 0.38);
+    animation: mcta-slide-up 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  }
+  .mcta-info { display: flex; flex-direction: column; line-height: 1.15; min-width: 0; }
+  .mcta-info strong { color: #fff; font-size: 0.95rem; font-weight: 800; }
+  .mcta-info span { color: rgba(255, 255, 255, 0.72); font-size: 0.72rem; }
+  .mcta-btn {
+    margin-left: auto;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 11px 18px;
+    box-shadow: 0 6px 18px rgba(43, 245, 111, 0.35);
+  }
+  .mcta-btn .icon { width: 17px; height: 17px; }
+  body.has-mcta { padding-bottom: var(--mcta-h); }
+  body.has-mcta .wa-float { bottom: calc(var(--mcta-h) + 14px); }
+}
+@keyframes mcta-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mobile-cta-bar { animation: none; }
+}

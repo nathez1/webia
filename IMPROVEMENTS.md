@@ -10,6 +10,67 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-22 — [Conversion] Barre CTA « devis » collante en bas d'écran sur mobile
+
+**Axe : Conversion** (rotation : Perf et SEO local ont été traités le 2026-06-22 ;
+Design, Conversion et Accessibilité dataient du 2026-06-21 → **Conversion**, le levier le
+plus directement aligné sur l'objectif business « plus de demandes de devis », a été repris).
+Constat : sur **smartphone** — où navigue la majorité des prospects TPE/PME — le CTA principal
+du hero **disparaît dès que l'on défile**, et le seul rappel permanent était le bouton WhatsApp
+flottant (contact, pas devis). Le visiteur mobile motivé en milieu/bas de page devait remonter
+ou chercher un lien « devis ». Ajout d'une **barre fixe en bas d'écran** gardant le bouton
+« Mon devis » **toujours à portée de pouce** — levier de conversion éprouvé des sites lead-gen.
+
+Réalisé (**`js/main.js` + `css/style.css` uniquement — aucune retouche des 10 HTML**, donc
+aucun risque de régression structurelle ; même pattern d'injection que la barre de progression) :
+- **Barre injectée en JS** (`document.body.appendChild`, classe `mobile-cta-bar`,
+  `role="region"` + `aria-label="Demander un devis gratuit"`) → présente **automatiquement sur
+  toutes les pages**, sans baliser aucun HTML. Contenu : accroche « Devis gratuit en 24h /
+  Sans engagement · dès 290€ » + bouton **`<a href="devis.html" class="btn btn-yellow">Mon
+  devis →</a>`**. **Rien d'inventé** (mêmes prix/délais/promesses que le reste du site).
+- **Exclue de `devis.html`** (garde `/\/devis\.html$/i` sur `location.pathname`) : inutile d'y
+  proposer un raccourci vers le devis, le formulaire y est déjà.
+- **Tracking gratuit** : le lien pointant vers `devis.html`, le clic est **automatiquement
+  compté par le traçage `cta_devis_click`** déjà en place (délégation sur `document`) →
+  `cta_text="Mon devis"`, `source_page` renseignée. Mesure du nouveau levier sans code en plus.
+- **CSS, visible mobile uniquement** (`@media (max-width:768px)`) : `position:fixed; left/right:0;
+  bottom:0; z-index:75`. Surface **100 % charte** (dégradé bleu électrique `#101A9E → #0B1270`,
+  liseré vert `rgba(43,245,111,.4)`, bouton vert), `env(safe-area-inset-bottom)` pour l'encoche
+  iOS. **Hors mobile, `display:none`** → desktop totalement inchangé.
+- **Anti-collision WhatsApp** : le `<body>` reçoit la classe `has-mcta` → `padding-bottom` égal
+  à la hauteur de barre (le pied de page n'est **jamais masqué**) **et** le bouton WhatsApp
+  flottant est **remonté au-dessus de la barre** (`bottom: calc(--mcta-h + 14px)`) → **aucun
+  chevauchement**, le FAB reste pleinement cliquable.
+- **`prefers-reduced-motion`** : l'animation d'apparition `slide-up` (0,45 s) est **désactivée**
+  (la barre apparaît alors instantanément, aucun état cassé).
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM, mobile **et** desktop) : **mobile 375 px**
+— barre présente (dernier enfant du `<body>`), `position:fixed`, `bottom:0`, pleine largeur
+(0→375), `z-index:75`, fond `linear-gradient(rgb(16,26,158)…)`, liseré `rgba(43,245,111,.4)` ;
+accroche/sous-titre exacts, lien `href="devis.html"` libellé « Mon devis » ; `role="region"`
++ `aria-label` corrects ; `body.has-mcta` actif, `padding-bottom:64px` ; **FAB WhatsApp remonté
+à 78 px**, **test d'overlap barre↔FAB = `false`** (aucun chevauchement) ; **animation
+d'apparition atterrissant à `translateY(0)`** (rect final top 741 / bottom 812 = **entièrement
+dans le viewport** après `Animation.finish()`, l'état de départ figé sous le pli étant l'artefact
+headless habituel — la timeline d'animation n'avance pas en rendu sans tête). **Clic simulé →
+1 événement `cta_devis_click`** (`cta_text:"Mon devis"`, `source_page:"/"`). **Desktop 1280 px**
+— barre `display:none`, body `padding-bottom:0`, **FAB revenu à 22 px** → **zéro impact desktop**.
+**`devis.html`** — barre **non injectée**, `has-mcta` absent, FAB (16 px) et formulaire intacts.
+Couverture multi-pages prouvée (index + tarifs injectent la barre ; devis l'exclut). **0 erreur /
+0 avertissement console** ; GTM `dataLayer` présent. Charte respectée (bleu/vert, **aucun
+violet/jaune**). Aucune CSS supprimée, aucun HTML touché → aucune régression possible.
+
+**Idées pour les prochains passages :**
+- **Design** (axe le plus ancien désormais, 2026-06-21) : **logo SVG dédié** réutilisable
+  (favicon + header) maintenant que sharp est disponible ; raffiner le rendu des cartes/sections.
+- **SEO** : éventuelle **3ᵉ page locale** (Meaux ou Fontainebleau) sur le gabarit Melun/Paris,
+  contenu 100 % unique.
+- **Conversion (suite)** : tester une **variante du libellé** de la barre mobile (A/B), en
+  exploitant `cta_devis_click` (désormais segmentable par `cta_text`) + `generate_lead`.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-22 — [Performance] Version WebP de la photo du fondateur + `<picture>` (LCP/poids : −89 %)
 
 **Axe : Performance & accessibilité** (rotation : SEO local a été traité plus tôt ce

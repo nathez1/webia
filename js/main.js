@@ -152,3 +152,29 @@ if (reveals.length) {
   window.addEventListener("resize", onScroll, { passive: true });
   update();
 })();
+
+// ===== Barre CTA « devis » collante sur mobile (conversion) =====
+// Sur smartphone, le CTA principal du hero disparaît dès que l'on défile.
+// Cette barre fixe en bas d'écran garde le bouton « Mon devis » toujours à
+// portée de pouce — levier de conversion classique des sites lead-gen.
+// Injectée ici (aucune retouche HTML) → présente sur toutes les pages, SAUF
+// devis.html (le formulaire y est déjà). Le clic est automatiquement compté
+// par le traçage cta_devis_click ci-dessus (lien vers devis.html). La
+// visibilité (mobile uniquement) et la remontée du bouton WhatsApp sont
+// gérées en CSS ; rien ne s'affiche sur desktop.
+(function () {
+  if (/\/devis\.html$/i.test(window.location.pathname)) return;
+  if (document.querySelector(".mobile-cta-bar")) return;
+  const bar = document.createElement("div");
+  bar.className = "mobile-cta-bar";
+  bar.setAttribute("role", "region");
+  bar.setAttribute("aria-label", "Demander un devis gratuit");
+  bar.innerHTML =
+    '<div class="mcta-info"><strong>Devis gratuit en 24h</strong>' +
+    '<span>Sans engagement · dès 290€</span></div>' +
+    '<a href="devis.html" class="btn btn-yellow mcta-btn">Mon devis' +
+    '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' +
+    "</a>";
+  document.body.appendChild(bar);
+  document.body.classList.add("has-mcta");
+})();
