@@ -10,6 +10,62 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-22 — [Performance] Version WebP de la photo du fondateur + `<picture>` (LCP/poids : −89 %)
+
+**Axe : Performance & accessibilité** (rotation : SEO local a été traité plus tôt ce
+2026-06-22 ; Design, Conversion et Accessibilité l'ont été le 2026-06-21 → l'axe **Perf**
+était le plus ancien). Item **« version WebP d'`ethan.png` + `<picture>` fallback PNG »** :
+c'est le **TODO le plus répété du site**, présent à *quasiment tous les passages depuis le
+2026-06-16*, resté **bloqué faute d'encodeur image** (ni cwebp, ni ImageMagick, ni Pillow ;
+Node hors PATH). Le blocage est **levé** : Node v26 + **sharp** (vips 8.18.3) sont
+disponibles. `img/ethan.png` (**701 Ko**, 680×1020) était la **seule image raster du site et
+de loin la plus lourde** — déjà `loading="lazy"`/`decoding="async"`/dimensions explicites
+(passage du 2026-06-16), mais son **poids brut** restait un frein (data mobile, LCP quand la
+section « Qui sommes-nous » entre dans le viewport).
+
+Réalisé :
+- **Nouveau `img/ethan.webp`** (680×1020, **80 Ko** vs 701 Ko PNG → **−88,6 %**) généré via
+  **Node + sharp** (`webp` qualité 80, effort 6). **Transparence (canal alpha) préservée** —
+  le découpage du portrait reste net sur le fond clair, **aucun artefact de compression
+  visible** (vérifié par inspection visuelle du fichier). Mêmes dimensions exactes → aucun
+  risque de décalage de mise en page.
+- **`index.html`** : l'unique `<img class="photo-cutout">` du `<body>` est désormais enveloppé
+  dans un `<picture>` : `<source srcset="img/ethan.webp" type="image/webp">` **+** le `<img>`
+  PNG **conservé tel quel** en fallback (mêmes `alt`, `class`, `width=680`, `height=1020`,
+  `loading="lazy"`, `decoding="async"`). Les navigateurs modernes chargent le WebP (621 Ko
+  économisés sur cette image) ; les navigateurs sans support WebP retombent automatiquement
+  sur le PNG → **aucune régression de compatibilité**.
+- **`ethan.png` conservé** (fallback `<picture>` **+** `og:image`/JSON-LD inchangés, qui
+  pointent volontairement vers le PNG `og-webia.png`/portrait pour la compatibilité maximale
+  des crawlers sociaux et des consommateurs de données structurées).
+
+Vérifié (serveur de prévisualisation local + DOM/HTTP) : structure `<picture>` correcte
+(**1 `<picture>`** enveloppant **1 `<img.photo-cutout>`** fallback, `<source>` srcset
+`img/ethan.webp` type `image/webp`, attributs du `<img>` tous préservés) ; **les deux fichiers
+servis en 200** (`ethan.webp` **80 006 octets**, `ethan.png` 701 214 octets) ; **WebP valide
+et décodable dans le navigateur** (`createImageBitmap` → **680×1020**, dimensions exactes) ;
+**0 erreur console**. Invariants intacts : GTM (`dataLayer` présent), bouton WhatsApp flottant
+(`wa-float`), bandeau d'urgence (`urgency`), `og:image` toujours = `og-webia.png`. *(Note
+environnement : le rendu headless ne déclenche pas le lazy-load au scroll — même artéfact que
+les passages précédents ; la preuve repose donc sur la livraison HTTP 200 + le décodage WebP
+réussi. Le choix WebP-vs-PNG par le navigateur dépend de l'attribut `type` du `<source>`, pas
+du content-type du serveur de dev — il fonctionnera donc correctement en production.) Outils
+hors dépôt : sharp installé dans un dossier temporaire `C:\Users\nathe\Documents\.webptmp` —
+**jamais** dans le dépôt public, supprimé après génération ; seul le WebP final entre dans le
+repo.*
+
+**Idées pour les prochains passages :**
+- **Conversion** : tester une variante du libellé du CTA principal (A/B), exploiter les
+  événements `cta_devis_click` + `generate_lead` déjà en place.
+- **SEO** : éventuelle **3ᵉ page locale** (Meaux ou Fontainebleau) sur le gabarit Melun/Paris,
+  contenu 100 % unique ; envisager un **logo SVG dédié** (favicon + header) maintenant que
+  l'encodeur image est disponible.
+- **Perf (suite)** : même traitement WebP pour `og-webia.png` si un jour une 2ᵉ image raster
+  est ajoutée ; auditer le poids des polices / le `font-display`.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-22 — [SEO local] Visuel Open Graph dédié 1200×630 (charte) pour les partages sociaux
 
 **Axe : SEO local** (rotation : Design, Accessibilité et Conversion ont tous été traités le
