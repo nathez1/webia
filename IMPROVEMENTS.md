@@ -10,6 +10,62 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-22 — [SEO local] Visuel Open Graph dédié 1200×630 (charte) pour les partages sociaux
+
+**Axe : SEO local** (rotation : Design, Accessibilité et Conversion ont tous été traités le
+2026-06-21 ; SEO local datait du 2026-06-20 → axe le plus ancien, repris ici). Item **« visuel
+Open Graph dédié 1200×630 (charte) au lieu de réutiliser `ethan.png` »** : c'est le **TODO SEO
+le plus souvent répété** (présent à quasiment tous les passages depuis le 2026-06-16), resté
+**bloqué faute d'encodeur image localement** (ni cwebp, ni ImageMagick, ni Pillow, et Node
+absent du PATH aux passages précédents). Constat : les **10 pages** déclaraient
+`twitter:card = summary_large_image` (grande vignette **paysage 1200×630**) mais pointaient
+`og:image`/`twitter:image` vers **`ethan.png`**, une **photo portrait 680×1020** → sur un
+partage Facebook/LinkedIn/X/WhatsApp, l'image était **recadrée de travers** (portrait dans un
+cadre paysage), sans message, sans marque — mauvaise première impression et notoriété perdue
+à chaque partage. **Node v26 étant enfin disponible ce passage**, le blocage est levé.
+
+Réalisé :
+- **Nouveau visuel `img/og-webia.png`** (1200×630, **113 Ko**) généré via **Node + sharp**
+  (rasterisation d'un SVG vectoriel → contrôle total de la charte, contrairement à une image IA).
+  Design « SaaS moderne » 100% charte : **fond bleu électrique dégradé** (#1C2BEF → #101A9E →
+  #160B33) + **glow vert** discret, **liseré vert** en haut, **badge logo « W »** (carré arrondi
+  vert, W bleu — identique au favicon), **wordmark WEBIA** + surtitre « CRÉATION DE SITES
+  INTERNET », **titre** « VOTRE SITE WEB PRO, LIVRÉ EN **7 JOURS** » (« 7 JOURS » en vert),
+  **pastille verte** « À partir de 290€ · devis 24h », zone desservie « Seine-et-Marne (77) ·
+  Paris · Île-de-France », et **WEBIA.FR**. Police d'affichage condensée façon Anton (Impact),
+  corps Segoe UI/Inter. **Aucune couleur hors charte** (pas de violet/jaune), **rien d'inventé**
+  (mêmes prix/délais/zone que le reste du site).
+- **`<head>` des 10 pages** : `og:image`/`twitter:image` repointés de `ethan.png` vers
+  `og-webia.png`, **+ ajout** de `og:image:width=1200`, `og:image:height=630`, `og:image:alt`
+  et `twitter:image:alt` (texte alternatif décrivant l'offre + la zone) → vignette correcte,
+  dimensions connues des crawlers (rendu immédiat), accessibilité du partage. **Modifs limitées
+  au `<head>`**, aucun `<body>`/CSS/JS touché → **aucune régression visuelle possible**.
+- **`ethan.png` conservé** là où il a du sens : portrait du fondateur dans le `<body>` de
+  l'accueil et `image` du JSON-LD `ProfessionalService` (entité entreprise) — inchangés.
+
+Vérifié : PNG **1200×630** valide (rendu **inspecté visuellement** → texte net, charte exacte,
+badge/pastille/URL lisibles) ; **10/10 pages** repointées (2 balises chacune, `matched 2/2`),
+**20 références `og-webia.png`**, **0 référence `ethan.png` en contexte OG** restante (les 2
+occurrences restantes = portrait `<body>` + JSON-LD, voulues) ; `og:image:width/height/alt` et
+`twitter:image:alt` bien insérés (contrôle index/devis/mentions-legales) ; accents UTF-8
+préservés (« création », « Île-de-France », « 290€ » corrects), aucun BOM introduit ; balises
+`<head>` équilibrées. Invariants intacts : GTM, bouton WhatsApp flottant, Calendly, bandeau
+d'offre, formulaires, `js/main.js`, `css/style.css` — non touchés. *(Outils hors dépôt : sharp
+installé dans un dossier temporaire `C:\Users\nathe\Documents\.ogtmp` — **jamais** dans le
+dépôt public, supprimé après génération ; seul le PNG final entre dans le repo.)*
+
+**Idées pour les prochains passages :**
+- **SEO (suite)** : éventuelle **3ᵉ page locale** (Meaux ou Fontainebleau) sur le gabarit
+  Melun/Paris, contenu 100% unique ; envisager un **logo SVG dédié** réutilisable (favicon +
+  header) puisque l'encodeur image est désormais disponible.
+- **Perf** : maintenant que **Node + sharp** fonctionne, produire une **version WebP**
+  d'`ethan.png` + `<picture>` fallback PNG (le portrait pèse encore 701 Ko — gros gain LCP/poids).
+- **Conversion** : tester une variante du libellé du CTA principal (A/B), exploiter les
+  événements `cta_devis_click` + `generate_lead` déjà en place.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-21 — [Conversion] Échéance d'offre dynamique (fin du mois glissante, jamais expirée)
 
 **Axe : Conversion** (rotation : Design et Perf/Access ont été traités le 2026-06-21,
