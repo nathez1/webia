@@ -10,6 +10,52 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-23 — [Performance] Chargement asynchrone des polices Google (suppression du render-blocking, FCP/LCP)
+
+**Axe : Performance** (rotation : les deux passages précédents du 2026-06-23 portaient sur le
+SEO local puis le Design ; côté Performance le dernier datait du 2026-06-22 — WebP du fondateur).
+Item **« auditer `font-display`/pré-chargement des polices Google (Anton/Inter) »** : c'est le
+**TODO Performance le plus récurrent** des derniers passages. Constat : sur les **11 pages**, la
+feuille de style Google Fonts était chargée via un `<link rel="stylesheet">` **classique, donc
+bloquant le rendu** (render-blocking). Le navigateur devait attendre la réponse de
+`fonts.googleapis.com` avant de peindre la page → retard direct sur le **First Contentful Paint**
+et le **LCP**, surtout en 4G/mobile. Les `preconnect` étaient déjà présents mais ne suffisent pas :
+la requête CSS restait sur le chemin critique.
+
+Réalisé (sur **les 11 pages HTML**, ligne identique remplacée à l'identique) :
+- **Schéma de chargement asynchrone standard** remplaçant l'unique `<link rel="stylesheet">` :
+  1. `<link rel="preload" as="style" …>` → la requête CSS démarre **tôt et en parallèle**, hors
+     chemin critique.
+  2. `<link rel="stylesheet" … media="print" onload="this.media='all'">` → la feuille n'est pas
+     bloquante au rendu (média `print`), puis bascule sur `all` une fois chargée.
+  3. `<noscript><link rel="stylesheet" …></noscript>` → **repli sans JS** (les polices restent
+     appliquées si JavaScript est désactivé).
+- **`display=swap` conservé** dans l'URL → le texte s'affiche immédiatement avec la police de
+  repli (Inter→system, Anton→fallback), aucun **FOIT** (texte invisible). Aucune police, poids
+  ou variante modifié : **Anton (titres) + Inter 400-800 (corps)** strictement inchangés.
+- **`preconnect`** vers `fonts.googleapis.com` et `fonts.gstatic.com` (crossorigin) **conservés**
+  en amont → handshake DNS/TLS anticipé, complémentaire du `preload`.
+
+Vérifié (validation statique ; serveur de prévisualisation headless toujours 404/500 sur cet
+environnement) : **les 11 pages** comportent désormais exactement **1 `preload as=style`**,
+**1 stylesheet `media=print` avec `onload`** et **1 `<noscript>` de repli** ; **aucune occurrence
+de l'ancien `<link rel="stylesheet">` bloquant** ne subsiste (scan = 0) ; **aucune CSP** présente
+(donc l'attribut `onload` inline n'est pas bloqué) ; URL des polices **strictement identique**
+(même familles/poids, `display=swap`) ; **GTM**, **bouton WhatsApp** flottant, **bandeau d'offre**
+et **formulaires** intacts (head modifié uniquement). Charte respectée (aucune couleur touchée).
+
+**Idées pour les prochains passages :**
+- **Conversion** : enrichir chaque page locale (Melun/Meaux/Paris) d'une **FAQ locale** (2-3 Q/R)
+  avec JSON-LD `FAQPage` → snippet enrichi + réassurance.
+- **SEO** : envisager une **4ᵉ page locale** (Fontainebleau ou Chelles) si les 3 actuelles
+  performent.
+- **Perf** : auto-héberger les polices Anton/Inter (woff2) pour supprimer la dépendance réseau
+  tierce et `preload` direct le woff2 du hero ; lazy-loading des images sous la ligne de flottaison.
+- **Design** : décliner `logo.svg` en **wordmark horizontal** SVG (signatures e-mail, réseaux).
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-23 — [SEO local] 3ᵉ page d'atterrissage locale : « Création de site internet à Meaux (77) »
 
 **Axe : SEO local** (rotation : le passage précédent du 2026-06-23 portait sur le Design ;
