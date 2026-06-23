@@ -10,6 +10,56 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-23 — [SEO local] 3ᵉ page d'atterrissage locale : « Création de site internet à Meaux (77) »
+
+**Axe : SEO local** (rotation : le passage précédent du 2026-06-23 portait sur le Design ;
+le **TODO SEO le plus récurrent** depuis l'arrivée des pages locales était une **3ᵉ page
+locale** sur le gabarit Melun/Paris). Constat : la couverture locale s'arrêtait à **Melun**
+(sud du 77) et **Paris**, laissant **tout le nord de la Seine-et-Marne** sans page dédiée alors
+que **Meaux** est la **commune la plus peuplée du département (~56 000 hab.)**, sous-préfecture
+et pôle commercial/artisanal du Pays de Meaux. Création d'une page d'atterrissage **100 % contenu
+unique** (aucune duplication), ciblant la requête « création de site internet à Meaux » et le
+bassin nord du 77 → gain direct sur l'objectif business « plus de demandes de devis » + notoriété.
+
+Réalisé :
+- **Nouvelle page `creation-site-internet-meaux.html`** calquée sur le gabarit éprouvé Melun/Paris
+  (structure, charte, header/footer, GTM, WhatsApp, bandeau d'offre, barre CTA mobile **tous
+  intacts**) mais **copie intégralement réécrite et spécifique à Meaux** : H1, lead, sections
+  « constat », « pour qui », « zones » avec références locales réelles (centre-ville, marché,
+  vallée de la Marne, ZA de Mareuil-lès-Meaux, communes du Pays de Meaux). **Aucun texte recopié
+  mot pour mot** depuis Melun/Paris → pas de contenu pauvre/dupliqué.
+- **SEO on-page complet** : `title` (65 car.) + `meta description`, **canonical** propre,
+  balises **geo** (FR-77, coordonnées 48.9606;2.8783), **Open Graph + Twitter** (réutilise
+  `og-webia.png` 1200×630), **2 blocs JSON-LD** validés — `Service` (areaServed : Meaux /
+  Seine-et-Marne 77 / Île-de-France, fondateur **Ethan Pierre**, prix 290€) + `BreadcrumbList`.
+- **Liste de villes du nord 77** distincte (Villenoy, Nanteuil/Mareuil/Crégy-lès-Meaux, Trilport,
+  Claye-Souilly, Mitry-Mory, Villeparisis, Lagny-sur-Marne, Coulommiers, Crécy-la-Chapelle,
+  Lizy-sur-Ourcq, Dammartin-en-Goële…) — **complémentaire**, pas redondante avec la liste de Melun.
+- **Maillage interne (cluster local)** : ajout du lien dans le **footer Navigation d'`index.html`** ;
+  **liens réciproques** Meaux⇄Melun⇄Paris insérés dans la section « Zones desservies » des trois
+  pages locales → cluster sémantique cohérent (chaque page locale pointe vers les deux autres).
+- **`sitemap.xml`** : ajout de l'URL Meaux (`lastmod 2026-06-23`, priority 0.8) → 11 URL au total,
+  XML bien formé.
+
+Vérifié (validation statique rigoureuse, le serveur de prévisualisation headless renvoyant 404/500
+sur l'environnement — même limite que les passages précédents) : **balises HTML équilibrées**
+(section 5/5, main/header/footer/html/head/body 1/1) ; **les 10 liens internes `.html` pointent
+tous vers un fichier existant** ; **2 blocs JSON-LD parsés sans erreur** (Service + BreadcrumbList) ;
+**aucune couleur hors charte introduite** (scan hex violet/jaune = 0) ; **GTM** (head + noscript),
+**bouton WhatsApp** (footer + flottant) et **échéance d'offre dynamique** présents ; `sitemap.xml`
+bien formé (11 `<url>`/`<loc>`) ; **meaux référencé 1×** dans sitemap, index, melun et paris (maillage
+confirmé). Charte respectée (bleu #1C2BEF + vert #16E06F, aucun violet/jaune).
+
+**Idées pour les prochains passages :**
+- **SEO** : envisager une **4ᵉ page** (Fontainebleau ou Chelles) si Meaux/Melun/Paris performent ;
+  enrichir chaque page locale d'une **FAQ locale** (2-3 Q/R) avec JSON-LD `FAQPage`.
+- **Conversion** : tester une **variante de libellé** (A/B) du CTA principal via `cta_devis_click`.
+- **Perf** : auditer `font-display`/pré-chargement des polices Google (Anton/Inter) sur le hero.
+- **Design** : décliner `logo.svg` en **wordmark horizontal** SVG réutilisable (signatures, réseaux).
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-23 — [Design] Marque de la maison : badge « W » SVG dédié (header + favicon + cohérence OG)
 
 **Axe : Design** (rotation : SEO local, Performance et Conversion ont tous été traités le
