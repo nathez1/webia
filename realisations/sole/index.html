@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOLE — Le drop des sneakers entre passionnés</title>
+  <meta name="description" content="SOLE — la marketplace SaaS pour acheter, vendre et drop tes sneakers entre particuliers. Authentifié, sécurisé, sans prise de tête." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👟</text></svg>" />
+</head>
+<body>
+  <!-- ===== TOP MARQUEE ===== -->
+  <div class="marquee marquee--top">
+    <div class="marquee__track" id="marqueeTop"></div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="nav" id="nav">
+    <a href="#" class="nav__logo" data-route="home" aria-label="Accueil SOLE">
+      <span class="logo-chrome">◆</span>
+      <span class="logo-word">SOLE</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#" data-route="shop">Marketplace</a>
+      <a href="#" data-route="how">Comment ça marche</a>
+      <a href="#" data-route="pricing">Tarifs</a>
+      <a href="#" data-scroll="story">Le mouvement</a>
+    </nav>
+    <div class="nav__actions">
+      <button class="icon-btn" id="favBtn" title="Mes favoris" aria-label="Favoris">
+        ♥ <span class="badge" id="favBadge">0</span>
+      </button>
+      <button class="btn btn--ghost" id="authBtn">Se connecter</button>
+      <button class="btn btn--lime" data-route="sell">Vendre une paire</button>
+    </div>
+    <button class="nav__burger" id="burger" aria-label="Menu">☰</button>
+  </header>
+
+  <main id="app">
+
+    <!-- ============ HOME / HERO ============ -->
+    <section class="route" data-page="home">
+      <div class="hero">
+        <img src="img/heart-chrome.svg" alt="" aria-hidden="true" class="deco3d deco3d--heart">
+        <div class="hero__left">
+          <span class="hero__tag">★ SS26 — DROP ENTRE PARTICULIERS</span>
+          <h1 class="hero__title">CRÉE.<br/>DROP.<br/><span class="lime-text">REVENDS.</span></h1>
+          <p class="hero__sub">La marketplace où la commu' achète et revend ses sneakers.
+            Authentification incluse, paiement protégé, zéro embrouille.</p>
+          <div class="hero__cta">
+            <button class="btn btn--lime btn--lg" data-route="shop">Explorer les drops</button>
+            <button class="btn btn--dark btn--lg" data-route="sell">Vendre en 2 min</button>
+          </div>
+          <div class="hero__stats">
+            <div><strong data-count="48200">0</strong><span>paires en ligne</span></div>
+            <div><strong data-count="129000">0</strong><span>membres</span></div>
+            <div><strong data-count="99">0</strong><span>% authentifiées</span></div>
+          </div>
+        </div>
+        <div class="hero__right">
+          <div class="hero__card" id="heroCard"></div>
+          <div class="hero__pill">UNIQUE STYLE.</div>
+        </div>
+      </div>
+
+      <!-- scrolling brands band -->
+      <div class="marquee marquee--lime">
+        <div class="marquee__track" id="marqueeBrands"></div>
+      </div>
+
+      <!-- READY TO WEAR -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">PRÊT À DROP <span class="count" id="rtwCount"></span></h2>
+          <button class="link-arrow" data-route="shop">Tout voir →</button>
+        </div>
+        <div class="grid" id="featuredGrid"></div>
+      </section>
+
+      <!-- STORY -->
+      <section class="story" id="story">
+        <div class="story__deco">UK</div>
+        <h2 class="story__title">SOIS JEUNE,<br/>SOIS <span class="lime-text">INARRÊTABLE.</span></h2>
+        <div class="story__cols">
+          <div>
+            <h3>01 — Communauté</h3>
+            <p>Des milliers de passionnés qui drop, échangent et chassent la perle rare. Ici, chaque paire a une histoire.</p>
+          </div>
+          <div>
+            <h3>02 — Authentification</h3>
+            <p>Chaque transaction +150€ passe par nos experts. Légit ou remboursé. Le fake n'a pas sa place.</p>
+          </div>
+          <div>
+            <h3>03 — Zéro friction</h3>
+            <p>Liste une paire en 2 minutes, encaisse en sécurité. On gère le paiement, l'expédition et le SAV.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW STRIP -->
+      <section class="section">
+        <div class="section__head">
+          <h2 class="section__title">LE MOUVEMENT EN 3 ÉTAPES</h2>
+        </div>
+        <div class="steps">
+          <div class="step"><span class="step__n">1</span><h3>Tu listes</h3><p>Photo, taille, état, prix. Notre IA estime la cote du marché instantanément.</p></div>
+          <div class="step"><span class="step__n">2</span><h3>On authentifie</h3><p>Tu expédies, nos experts vérifient la paire avant qu'elle parte chez l'acheteur.</p></div>
+          <div class="step"><span class="step__n">3</span><h3>Tu encaisses</h3><p>Paiement libéré dès validation. Virement sous 48h, commission claire.</p></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- ============ SHOP / MARKETPLACE ============ -->
+    <section class="route" data-page="shop" hidden>
+      <div class="shop">
+        <aside class="filters" id="filters">
+          <h2 class="filters__title">CATALOGUE</h2>
+          <div class="filter-group">
+            <label>Recherche</label>
+            <input type="search" id="searchInput" placeholder="Jordan 4, Yeezy..." />
+          </div>
+          <div class="filter-group">
+            <label>Marque</label>
+            <div class="chips" id="brandChips"></div>
+          </div>
+          <div class="filter-group">
+            <label>Taille (EU)</label>
+            <div class="chips chips--sm" id="sizeChips"></div>
+          </div>
+          <div class="filter-group">
+            <label>État</label>
+            <div class="chips" id="condChips"></div>
+          </div>
+          <div class="filter-group">
+            <label>Prix max : <strong id="priceVal">600 €</strong></label>
+            <input type="range" id="priceRange" min="40" max="600" step="10" value="600" />
+          </div>
+          <button class="btn btn--dark btn--block" id="resetFilters">Réinitialiser</button>
+        </aside>
+        <div class="shop__main">
+          <div class="shop__bar">
+            <h2 class="section__title">DROPS DISPO <span class="count" id="shopCount"></span></h2>
+            <select id="sortSelect" class="select">
+              <option value="recent">Plus récents</option>
+              <option value="price-asc">Prix croissant</option>
+              <option value="price-desc">Prix décroissant</option>
+              <option value="hype">Plus hype 🔥</option>
+            </select>
+          </div>
+          <div class="grid" id="shopGrid"></div>
+          <div class="empty" id="shopEmpty" hidden>Aucune paire ne matche tes filtres. 👟💨</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="route" data-page="how" hidden>
+      <div class="page">
+        <h1 class="page__title">COMMENT ÇA <span class="lime-text">MARCHE</span></h1>
+        <div class="how-grid">
+          <div class="how-side">
+            <h2>Pour vendre</h2>
+            <ol>
+              <li><strong>Liste ta paire.</strong> Photos, modèle, taille, état. Notre IA te propose un prix juste basé sur la cote actuelle.</li>
+              <li><strong>Vends.</strong> Un acheteur valide → tu reçois l'étiquette d'envoi prépayée.</li>
+              <li><strong>Authentification.</strong> La paire transite par notre centre. Experts + photos + scan.</li>
+              <li><strong>Encaisse.</strong> Validé = payé. Virement sous 48h.</li>
+            </ol>
+          </div>
+          <div class="how-side how-side--lime">
+            <h2>Pour acheter</h2>
+            <ol>
+              <li><strong>Chasse.</strong> Filtre par marque, taille, état, budget.</li>
+              <li><strong>Achat ou offre.</strong> Prix fixe ou propose ton tarif au vendeur.</li>
+              <li><strong>Protégé.</strong> Ton paiement est bloqué tant que la paire n'est pas vérifiée.</li>
+              <li><strong>Réception.</strong> Paire légit, livrée chez toi. Sinon : remboursé.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="trust">
+          <div><strong>🔒</strong><p>Paiement séquestré jusqu'à livraison</p></div>
+          <div><strong>✅</strong><p>Authentification physique des experts</p></div>
+          <div><strong>↩️</strong><p>Remboursé si la paire n'est pas conforme</p></div>
+          <div><strong>🚚</strong><p>Expédition suivie et assurée</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRICING ============ -->
+    <section class="route" data-page="pricing" hidden>
+      <div class="page">
+        <h1 class="page__title">DES <span class="lime-text">TARIFS</span> SANS PIÈGE</h1>
+        <p class="page__lead">Vendre est gratuit. On se rémunère sur une commission claire, ou via un abonnement Pro pour les revendeurs sérieux.</p>
+        <div class="pricing">
+          <div class="plan">
+            <h3>Membre</h3>
+            <div class="plan__price">0€<span>/mois</span></div>
+            <p class="plan__tag">Pour acheter & vendre à l'occasion</p>
+            <ul>
+              <li>✔ Listings illimités</li>
+              <li>✔ Authentification incluse</li>
+              <li>✔ Paiement protégé</li>
+              <li>✔ Commission 8% à la vente</li>
+            </ul>
+            <button class="btn btn--dark btn--block" id="authBtn2">Commencer gratuit</button>
+          </div>
+          <div class="plan plan--featured">
+            <span class="plan__ribbon">POPULAIRE</span>
+            <h3>Reseller Pro</h3>
+            <div class="plan__price">19€<span>/mois</span></div>
+            <p class="plan__tag">Pour les revendeurs qui scalent</p>
+            <ul>
+              <li>✔ Commission réduite à 4%</li>
+              <li>✔ Boost de visibilité x3</li>
+              <li>✔ Stats & cote du marché en live</li>
+              <li>✔ Badge Vendeur Vérifié</li>
+              <li>✔ Paiement express 24h</li>
+            </ul>
+            <button class="btn btn--lime btn--block" data-route="sell">Passer Pro</button>
+          </div>
+          <div class="plan">
+            <h3>Business</h3>
+            <div class="plan__price">Sur devis</div>
+            <p class="plan__tag">Boutiques & marques</p>
+            <ul>
+              <li>✔ API & import catalogue</li>
+              <li>✔ Vitrine de marque dédiée</li>
+              <li>✔ Account manager</li>
+              <li>✔ Commission négociée</li>
+            </ul>
+            <button class="btn btn--dark btn--block" id="contactBtn">Nous contacter</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SELL ============ -->
+    <section class="route" data-page="sell" hidden>
+      <div class="page">
+        <h1 class="page__title">DROP TA <span class="lime-text">PAIRE</span></h1>
+        <p class="page__lead">Remplis les infos, préviualise la carte en live, et balance ton drop à la commu'.</p>
+        <div class="sell">
+          <form class="sell__form" id="sellForm">
+            <div class="row">
+              <div class="field"><label>Marque</label>
+                <select id="f-brand" required></select></div>
+              <div class="field"><label>Modèle</label>
+                <input id="f-model" placeholder="Air Jordan 4 Retro" required /></div>
+            </div>
+            <div class="field"><label>Colorway</label>
+              <input id="f-colorname" placeholder="Bred / Panda / Volt..." /></div>
+            <div class="row">
+              <div class="field"><label>Couleur principale</label>
+                <input type="color" id="f-body" value="#101114" /></div>
+              <div class="field"><label>Couleur accent</label>
+                <input type="color" id="f-accent" value="#c8ff00" /></div>
+              <div class="field"><label>Semelle</label>
+                <input type="color" id="f-sole" value="#ffffff" /></div>
+            </div>
+            <div class="row">
+              <div class="field"><label>Taille EU</label>
+                <select id="f-size" required></select></div>
+              <div class="field"><label>État</label>
+                <select id="f-cond" required></select></div>
+              <div class="field"><label>Prix (€)</label>
+                <input type="number" id="f-price" min="10" placeholder="180" required /></div>
+            </div>
+            <div class="row">
+              <div class="field"><label>Ta ville</label>
+                <input id="f-city" placeholder="Paris" required /></div>
+              <div class="field"><label>Ton pseudo</label>
+                <input id="f-seller" placeholder="@sneakerhead" required /></div>
+            </div>
+            <div class="ai-estimate" id="aiEstimate">💡 Renseigne marque + état pour une estimation de cote.</div>
+            <button type="submit" class="btn btn--lime btn--lg btn--block">Publier le drop</button>
+          </form>
+          <div class="sell__preview">
+            <span class="sell__previewlabel">Aperçu live</span>
+            <div id="sellPreview"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="logo-chrome">◆</span><span class="logo-word">SOLE</span>
+        <p>La marketplace des sneakers entre passionnés. Drop, chasse, revends — en toute sécurité.</p>
+      </div>
+      <div class="footer__cols">
+        <div><h4>Plateforme</h4><a href="#" data-route="shop">Marketplace</a><a href="#" data-route="sell">Vendre</a><a href="#" data-route="pricing">Tarifs</a></div>
+        <div><h4>Aide</h4><a href="#" data-route="how">Comment ça marche</a><a href="#" data-scroll="story">Authentification</a><a href="#">Livraison</a></div>
+        <div><h4>Communauté</h4><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Discord</a></div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 SOLE — Selected. Summer. Drop.</span>
+      <span>Made with 👟 + acid green</span>
+    </div>
+  </footer>
+
+  <!-- ===== PRODUCT MODAL ===== -->
+  <div class="modal" id="productModal" hidden>
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__panel modal__panel--product" id="productPanel"></div>
+  </div>
+
+  <!-- ===== AUTH MODAL ===== -->
+  <div class="modal" id="authModal" hidden>
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__panel">
+      <button class="modal__x" data-close>✕</button>
+      <h2 class="modal__title" id="authTitle">REJOINS LE <span class="lime-text">DROP</span></h2>
+      <form id="authForm">
+        <div class="field" id="nameField"><label>Pseudo</label><input id="a-name" placeholder="@sneakerhead" /></div>
+        <div class="field"><label>Email</label><input type="email" id="a-email" placeholder="toi@mail.com" required /></div>
+        <div class="field"><label>Mot de passe</label><input type="password" id="a-pass" placeholder="••••••••" required /></div>
+        <button type="submit" class="btn btn--lime btn--block btn--lg" id="authSubmit">Créer mon compte</button>
+      </form>
+      <p class="modal__switch">Déjà membre ? <a href="#" id="authSwitch">Se connecter</a></p>
+    </div>
+  </div>
+
+  <!-- ===== FAVORITES DRAWER ===== -->
+  <div class="drawer" id="favDrawer" hidden>
+    <div class="modal__overlay" data-close-drawer></div>
+    <aside class="drawer__panel">
+      <div class="drawer__head"><h2>MES FAVORIS ♥</h2><button class="modal__x" data-close-drawer>✕</button></div>
+      <div class="drawer__body" id="favBody"></div>
+    </aside>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast" hidden></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

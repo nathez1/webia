@@ -712,6 +712,48 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 .screen-webia .m-btn { background: var(--yellow); color: var(--on-yellow); }
 .screen-webia::after { background: var(--violet); opacity: 0.9; }
 
+/* Aperçu live d'un vrai site (iframe miniature) */
+.mockup-live {
+  position: relative;
+  aspect-ratio: 16 / 10.5;
+  overflow: hidden;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.mockup-live iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 1200px;
+  height: 787.5px;
+  border: 0;
+  transform-origin: top left;
+  transform: scale(0.3);
+  pointer-events: none;
+}
+.mockup-live .live-badge {
+  position: absolute;
+  bottom: 10px; left: 10px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(12, 6, 32, 0.82);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.mockup-live .live-badge::before {
+  content: "";
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--violet);
+  box-shadow: 0 0 0 3px rgba(22, 224, 111, 0.3);
+}
+
 .mockup-info { padding: 22px 24px 26px; }
 .mockup-info h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; }
 .mockup-info p { color: var(--text-muted); font-size: 0.89rem; }

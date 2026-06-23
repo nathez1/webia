@@ -49,6 +49,18 @@ if (devisForm) {
   });
 }
 
+// ===== Aperçus live (iframe d'un vrai site, mis à l'échelle) =====
+function webiaScaleLivePreviews() {
+  document.querySelectorAll(".mockup-live iframe").forEach((iframe) => {
+    const box = iframe.parentElement;
+    if (box && box.clientWidth) {
+      iframe.style.transform = "scale(" + box.clientWidth / 1200 + ")";
+    }
+  });
+}
+window.addEventListener("load", webiaScaleLivePreviews);
+window.addEventListener("resize", webiaScaleLivePreviews);
+
 // ===== Suivi des clics de contact (WhatsApp / Calendly / téléphone) =====
 document.querySelectorAll("[data-track]").forEach((el) => {
   el.addEventListener("click", () => {
