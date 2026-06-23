@@ -218,10 +218,24 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
   letter-spacing: 0.03em;
   color: #fff;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
 }
-.logo .logo-star { color: var(--yellow); margin-right: 7px; font-size: 1.1rem; transform: translateY(-2px); }
+/* Marque de la maison : badge "W" SVG dédié (cohérent favicon + Open Graph) */
+.logo .logo-star {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  margin-right: 11px;
+  font-size: 0; /* masque le glyphe ✦ de repli, on affiche le badge SVG */
+  background: url(../img/logo.svg) center / contain no-repeat;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.logo:hover .logo-star { transform: scale(1.08) rotate(-3deg); }
 .logo .logo-accent { color: var(--violet-light); }
+@media (prefers-reduced-motion: reduce) {
+  .logo .logo-star { transition: none; }
+  .logo:hover .logo-star { transform: none; }
+}
 
 .nav-links { display: flex; align-items: center; gap: 32px; }
 .nav-links > a:not(.btn) {

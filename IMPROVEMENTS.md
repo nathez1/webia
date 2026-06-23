@@ -10,6 +10,65 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-23 — [Design] Marque de la maison : badge « W » SVG dédié (header + favicon + cohérence OG)
+
+**Axe : Design** (rotation : SEO local, Performance et Conversion ont tous été traités le
+2026-06-22 ; Design datait du 2026-06-21 → axe le plus ancien, repris ici). Item **« logo SVG
+dédié réutilisable (favicon + header) »** : c'est le **TODO Design le plus répété** depuis que
+l'encodeur image est disponible (signalé à chaque passage depuis le 2026-06-22). Constat
+d'identité de marque : (1) le **logo du header** affichait un **glyphe générique `✦`** (étoile
+Unicode, sans aucun lien avec la marque) accolé au mot « Webia » ; (2) le **favicon** était un
+data-URI inline dont le « W » reposait sur la police **`Arial Black`** — police **non garantie**
+sur Linux/Android, donc rendu de l'onglet **incohérent d'un appareil à l'autre**. Pendant ce
+temps, le **visuel Open Graph** (créé le 2026-06-22) arborait déjà un **badge « W » vectoriel**.
+Trois représentations de marque divergentes → notoriété diluée. Unification autour d'**un seul
+fichier SVG vectoriel réutilisable**, gain direct sur l'objectif « gagner en notoriété ».
+
+Réalisé :
+- **Nouveau `img/logo.svg`** (vectoriel, 489 octets) : **badge carré arrondi vert électrique**
+  (#16E06F, `rx=8`) + **« W » tracé en chemin** (pas en texte) **bleu électrique** (#1C2BEF,
+  stroke 3,2, jointures/extrémités arrondies). 100 % charte (vert + bleu, **aucun violet/jaune**).
+  **Tracé vectoriel et non police** → rendu **strictement identique partout** (favicon, header,
+  tout zoom), contrairement à l'ancien favicon dépendant d'`Arial Black`.
+- **Header — CSS uniquement (`css/style.css`), aucune retouche des 10 HTML** : `.logo .logo-star`
+  transformé de glyphe texte en **badge image** (`width/height:30px`,
+  `background:url(../img/logo.svg) center/contain`, `font-size:0` masquant le `✦` de repli).
+  S'applique **automatiquement aux 19 instances de logo** (header + footer) sur les 10 pages,
+  **zéro édition de balisage → zéro risque de régression structurelle**. `.logo` passé en
+  `align-items:center` (badge + mot alignés proprement). **Micro-interaction sobre** : léger
+  `scale(1.08) rotate(-3deg)` au survol, **désactivé sous `prefers-reduced-motion`**.
+- **Favicon — 10 pages** : l'ancien data-URI inline (à base d'`Arial Black`) remplacé par
+  `<link rel="icon" type="image/svg+xml" href="img/logo.svg">` → **même fichier réutilisé**,
+  onglet cohérent sur tous les navigateurs/OS. Remplacement littéral identique sur les 10 fichiers.
+- **Repli sans CSS** : le `✦` reste écrit dans le HTML (masqué par `font-size:0`) → si la
+  feuille de styles ne charge pas, un caractère s'affiche tout de même (jamais de logo vide).
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM/HTTP) : `img/logo.svg` **servi en 200**
+(`image/svg+xml`), **décodable comme image** (`new Image()` → chargé, viewBox 32 mis à l'échelle) ;
+badge du header **rendu 30×30 px**, **centré verticalement** dans le header (top 64 = centré sous
+le bandeau d'offre), `font-size:0` (✦ invisible), `background-image` = `img/logo.svg`, `.logo`
+en `align-items:center` ; **favicon = `img/logo.svg`** (`type=image/svg+xml`, fetch **200**) ;
+contrôle multi-pages : **index/tarifs/faq** ont **2** `.logo-star` (header + footer), **devis** en
+a **1** (footer slim) — tous repointés, **ancien data-URI absent des 10 pages** (`%3Csvg` inline
+= 0). **0 erreur / 0 avertissement console.** Invariants intacts : GTM (`dataLayer`), bouton
+WhatsApp flottant, bandeau d'offre, barre CTA mobile, formulaires — non touchés. *(Note
+environnement : `preview_screenshot` expire en rendu headless — même artefact que les passages
+précédents ; la preuve repose sur la géométrie DOM, le CSSOM et la livraison HTTP 200 + décodage
+image réussi.)* Charte respectée (vert #16E06F + bleu #1C2BEF, **aucun violet/jaune**).
+
+**Idées pour les prochains passages :**
+- **SEO** : éventuelle **3ᵉ page locale** (Meaux ou Fontainebleau) sur le gabarit Melun/Paris,
+  contenu 100 % unique.
+- **Conversion** : tester une **variante de libellé** (A/B) du CTA principal ou de la barre
+  mobile, en exploitant `cta_devis_click` (segmentable par `cta_text`) + `generate_lead`.
+- **Perf** : auditer le poids/`font-display` des polices Google (Anton/Inter) ; envisager un
+  pré-chargement de la police d'affichage du hero.
+- **Design (suite)** : décliner le badge `logo.svg` en **version « wordmark » horizontale** SVG
+  (badge + « WEBIA ») réutilisable pour des supports externes (signatures, réseaux).
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-22 — [Conversion] Barre CTA « devis » collante en bas d'écran sur mobile
 
 **Axe : Conversion** (rotation : Perf et SEO local ont été traités le 2026-06-22 ;
