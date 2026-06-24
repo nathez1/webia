@@ -518,6 +518,8 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 
 /* ---------- Cartes services ---------- */
 .card {
+  position: relative;
+  overflow: hidden;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -526,6 +528,25 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lift); }
+
+/* Liseré d'accent supérieur qui se déploie au survol (détail "SaaS moderne",
+   color-codé pour matcher l'icône de chaque carte) */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--violet), #0BB257);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card:hover::before, .card:focus-within::before { transform: scaleX(1); }
+.grid-3 > .card:nth-child(2)::before { background: linear-gradient(90deg, var(--ink), var(--ink-2)); }
+.grid-3 > .card:nth-child(3)::before { background: linear-gradient(90deg, var(--cyan), #0EA5E9); }
+/* Micro-mouvement de l'icône en écho au survol de la carte */
+.card-icon { transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease; }
+.card:hover .card-icon { transform: translateY(-3px); }
 
 .card-icon {
   width: 52px; height: 52px;
@@ -571,12 +592,30 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 }
 .step {
   position: relative;
+  overflow: hidden;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 30px 24px;
   box-shadow: var(--shadow-card);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+.step:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+/* Liseré d'accent supérieur cohérent avec les cartes, color-codé par étape */
+.step::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: #0BB257;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.step:hover::before, .step:focus-within::before { transform: scaleX(1); }
+.steps > .step:nth-child(2)::before { background: var(--ink); }
+.steps > .step:nth-child(3)::before { background: #0EA5E9; }
+.steps > .step:nth-child(4)::before { background: #0BB257; }
 .step-num {
   font-family: var(--font-display);
   font-size: 2.6rem;

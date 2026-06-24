@@ -10,6 +10,58 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-24 — [Design] Liseré d'accent supérieur animé au survol sur les cartes `.card` et étapes `.step` (color-codé, charte)
+
+**Axe : Design** (rotation : le passage précédent du 2026-06-24 portait sur la Conversion ; côté
+Design le dernier datait du 2026-06-23 — badge « W » SVG → **Design** était l'axe le plus ancien).
+Item **« raffiner cartes/sections (micro-ombres, hover) »** : c'est le **TODO Design le plus récurrent**
+des derniers passages. Constat : les cartes de services (`.card`, sur l'accueil + affiliation + les
+3 pages locales) et les étapes du « process » (`.step`) avaient un survol fonctionnel mais **plat**
+(seulement un léger lift + ombre), sans le détail signature des landing pages « SaaS modernes » qui
+renforce la perception de qualité. Ajout d'un **liseré d'accent supérieur de 3 px qui se déploie de
+gauche à droite au survol** (`scaleX(0)→1`), **color-codé pour matcher l'identité de chaque carte**.
+
+Réalisé (**`css/style.css` uniquement — aucune retouche HTML/JS**, donc aucun risque de régression
+structurelle ; le changement s'applique automatiquement à toutes les pages utilisant ces composants) :
+- **`.card::before`** : liseré de 3 px en haut de carte, `transform: scaleX(0)` au repos →
+  `scaleX(1)` au survol (`:hover`) **et au focus clavier** (`:focus-within`, accessibilité),
+  transition douce `cubic-bezier(.22,1,.36,1)`. **Couleurs alignées sur l'icône de chaque carte** :
+  carte 1 **vert** (#16E06F→#0BB257), carte 2 **bleu** (--ink→--ink-2), carte 3 **cyan**
+  (#2DD9FE→#0EA5E9) via les règles `.grid-3 > .card:nth-child(n)` existantes. `.card` passé en
+  `position: relative; overflow: hidden` (coins du liseré arrondis proprement, le `box-shadow` du
+  lift n'est **pas** clippé par `overflow`).
+- **Micro-mouvement de l'icône** : `.card:hover .card-icon { translateY(-3px) }` → l'icône
+  « répond » au survol, en écho au liseré (détail sobre, transition GPU sur `transform`).
+- **`.step::before`** : même liseré sur les cartes d'étapes, **color-codé sur les numéros existants**
+  (étape 1/4 vert #0BB257, étape 2 bleu --ink, étape 3 #0EA5E9). Les `.step` reçoivent en plus un
+  **lift au survol cohérent** avec les cartes (`translateY(-4px)` + `--shadow-lift`) qu'elles
+  n'avaient pas auparavant. `overflow: hidden` ajouté (`.step` était déjà `position: relative`).
+- **`prefers-reduced-motion`** : pris en charge **sans règle supplémentaire** par le bloc global
+  existant (`*, *::before { transition-duration: 0.01ms !important }`, ligne ~1363) → l'accent
+  apparaît **instantanément** au survol pour ces utilisateurs, **aucun mouvement continu**.
+
+Vérifié (serveur de prévisualisation local + DOM/CSSOM) : `.card` rendu `position:relative` /
+`overflow:hidden` ; `.card::before` **height 3px**, `transform: matrix(0,0,0,1,0,0)` (= scaleX 0)
+au repos ; **dégradés des 3 cartes corrects** (vert / bleu #1C2BEF / cyan #2DD9FE — **100 % charte**) ;
+`.step::before` 3px / scaleX 0 ; **règles de survol présentes dans le CSSOM** : `.card:hover::before`
+et `.step:hover::before` → `scaleX(1)`, `.card:focus-within::before`, `.card:hover .card-icon`
+→ `translateY(-3px)`. **Invariants intacts** : GTM (`dataLayer`), bouton WhatsApp flottant, bandeau
+d'offre — présents. **Accolades CSS équilibrées (460/460)** ; **aucune couleur hors charte introduite**
+(les 2 seules occurrences `#7C3AED`/`#FFD60A` restent dans le **commentaire d'en-tête historique**,
+ligne 4, hors de toute règle). *(Note environnement : `preview_screenshot` expire toujours en rendu
+headless — même artefact qu'aux passages précédents ; la preuve repose sur la géométrie DOM + le CSSOM.)*
+
+**Idées pour les prochains passages :**
+- **SEO** (axe désormais le plus ancien, 2026-06-23) : **4ᵉ page locale** (Fontainebleau ou Chelles)
+  sur le gabarit Melun/Meaux/Paris ; maillage des FAQ locales vers `faq.html`.
+- **Perf** : auto-héberger les polices Anton/Inter (woff2) ; lazy-loading des images sous la ligne de flottaison.
+- **Conversion** : variante A/B du libellé du CTA principal via `cta_devis_click`.
+- **Design (suite)** : décliner `logo.svg` en **wordmark horizontal** SVG (signatures, réseaux) ;
+  appliquer un traitement d'accent cohérent aux `.price-card` de `tarifs.html`.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-24 — [Conversion] FAQ locale de réassurance + JSON-LD `FAQPage` sur les 3 pages locales (Melun, Meaux, Paris)
 
 **Axe : Conversion** (rotation : les 3 passages du 2026-06-23 portaient sur Performance, SEO local
