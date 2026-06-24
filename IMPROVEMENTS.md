@@ -10,6 +10,68 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-24 — [SEO local] 4ᵉ page d'atterrissage locale : « Création de site internet à Fontainebleau (77) »
+
+**Axe : SEO local** (rotation : les passages les plus récents étaient Design (2026-06-24, liseré
+cartes), Conversion (2026-06-24, FAQ locales) et Performance (2026-06-23, polices async) ; côté
+**SEO local** le dernier datait du **2026-06-23** (page Meaux) → axe le plus ancien). Item **« 4ᵉ
+page locale (Fontainebleau ou Chelles) sur le gabarit Melun/Meaux/Paris »** : c'est le **TODO SEO
+le plus récurrent** des derniers passages. Constat : la couverture locale tenait Melun (sud 77),
+Meaux (nord 77) et Paris, mais **le bassin touristique du sud Seine-et-Marne** restait sans page
+dédiée. **Fontainebleau** (château, forêt, INSEAD, Pays de Fontainebleau / bords de Seine) est une
+**ville d'art et de tourisme à fort potentiel** (hôtellerie, restauration, commerces, indépendants
+haut de gamme, artisans), avec une **intention de recherche distincte** (réservation/tourisme) →
+gain direct sur l'objectif business « plus de demandes de devis » + notoriété.
+
+Réalisé :
+- **Nouvelle page `creation-site-internet-fontainebleau.html`** calquée sur le gabarit éprouvé
+  Melun/Meaux/Paris (structure, charte, header/footer, GTM, WhatsApp flottant, bandeau d'offre,
+  skip-link/`<main>`, polices async, barre CTA mobile **tous intacts**) mais **copie intégralement
+  réécrite et spécifique à Fontainebleau** : H1, lead, sections « constat / pour qui / zones / FAQ »
+  avec un **angle propre** (tourisme & hôtellerie autour du château, clientèle internationale INSEAD,
+  bords de Seine, lisière de forêt). **Aucun texte recopié mot pour mot** depuis les autres pages →
+  pas de contenu pauvre/dupliqué.
+- **SEO on-page complet** : `title` (Fontainebleau 77, 290€) + `meta description`, **canonical**
+  propre, balises **geo** (FR-77, coordonnées 48.4047;2.7016), **Open Graph + Twitter** (réutilise
+  `og-webia.png` 1200×630, dimensions + alt), **3 blocs JSON-LD** validés — `Service` (areaServed :
+  Fontainebleau / Seine-et-Marne 77 / Île-de-France, fondateur **Ethan Pierre**, prix 290€) +
+  `BreadcrumbList` + **`FAQPage`** (4 Q/R alignées au contenu visible, dont une dédiée tourisme/hôtellerie).
+- **Liste de villes du sud 77** distincte et complémentaire (Avon, Bois-le-Roi, Samois-sur-Seine,
+  Vulaines-sur-Seine, Thomery, Veneux-les-Sablons, Moret-Loing-et-Orvanne, Champagne-sur-Seine,
+  Barbizon, Chailly-en-Bière, Bourron-Marlotte, Nemours, Montereau-Fault-Yonne…) — non redondante
+  avec les listes Melun/Meaux/Paris.
+- **FAQ locale** (4 questions/réponses) réutilisant le markup `faq.html` (`.faq-q`/`.faq-a`) →
+  accordéon fonctionnel automatiquement via `js/main.js`, **sans une ligne de CSS/JS ajoutée**.
+  Une question dédiée **tourisme/hôtellerie** (galerie photo, multilingue, réservation) propre au lieu.
+- **Maillage interne (cluster local)** : ajout du lien dans le **footer Navigation d'`index.html`** ;
+  **liens réciproques** ajoutés dans le paragraphe « Zones desservies » des **3 pages locales
+  existantes** (Melun, Meaux, Paris pointent désormais aussi vers Fontainebleau) → cluster sémantique
+  cohérent à 4 pages.
+- **`sitemap.xml`** : ajout de l'URL Fontainebleau (`lastmod 2026-06-24`, priority 0.8) → **12 URL**
+  au total, XML bien formé.
+
+Vérifié (validation statique rigoureuse + serveur de prévisualisation local, cette fois rendu
+**confirmé**) : **snapshot DOM** de la page servie OK (title, hero H1 Anton « À FONTAINEBLEAU »,
+sections, cartes, accents UTF-8 corrects — château/forêt/hôtelier), **0 erreur console** ; **3 blocs
+JSON-LD parsent sans erreur** (`ConvertFrom-Json` → Service / BreadcrumbList / FAQPage) ; **4 `.faq-q`
++ 4 `.faq-item`** ; **balises équilibrées** (`<section>` 6/6, `<main>` 1/1) ; **liens internes
+relatifs `.html` tous valides** (le seul « manquant » signalé = l'URL **absolue** canonical/OG, normal) ;
+**aucune couleur hors charte** (`#7C3AED`/`#FFD60A` = 0) ; **GTM** (head + noscript), **bouton WhatsApp**
+(footer + flottant), **bandeau d'offre + échéance dynamique** présents ; `sitemap.xml` bien formé
+(**12 `<url>`**, Fontainebleau présent) ; **fontainebleau référencé 1×** dans index, melun, meaux et
+paris (maillage confirmé). Charte respectée (bleu #1C2BEF + vert #16E06F, aucun violet/jaune).
+
+**Idées pour les prochains passages :**
+- **Design** (axe désormais le plus ancien, 2026-06-24) : décliner `logo.svg` en **wordmark
+  horizontal** SVG ; appliquer un traitement d'accent cohérent aux `.price-card` de `tarifs.html`.
+- **Perf** : auto-héberger les polices Anton/Inter (woff2) ; lazy-loading des images sous la ligne de flottaison.
+- **Conversion** : variante A/B du libellé du CTA principal via `cta_devis_click`.
+- **SEO (suite)** : maillage des FAQ locales vers `faq.html` ; envisager une page locale supplémentaire
+  (Chelles ou Sénart) si les 4 actuelles performent.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-24 — [Design] Liseré d'accent supérieur animé au survol sur les cartes `.card` et étapes `.step` (color-codé, charte)
 
 **Axe : Design** (rotation : le passage précédent du 2026-06-24 portait sur la Conversion ; côté
