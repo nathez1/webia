@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BRUT — Burger House · Paris 11ᵉ</title>
+<meta name="description" content="BRUT — Smash burgers américains à Paris 11ᵉ. Bœuf français maturé, pain brioché toasté, cheddar fondu. Écrasé minute, dévoré sur place." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bagel+Fat+One&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍔</text></svg>" />
+</head>
+<body>
+
+<!-- ===================== LOADER ===================== -->
+<div class="loader" id="loader">
+  <div class="loader__inner">
+    <div class="loader__burger" aria-hidden="true">
+      <span class="lb lb--top"></span>
+      <span class="lb lb--lettuce"></span>
+      <span class="lb lb--cheese"></span>
+      <span class="lb lb--patty"></span>
+      <span class="lb lb--bottom"></span>
+    </div>
+    <div class="loader__word">BRUT</div>
+    <div class="loader__bar"><span></span></div>
+    <div class="loader__count" id="loaderCount">00</div>
+  </div>
+</div>
+
+<!-- ===================== CURSOR ===================== -->
+<div class="cursor" id="cursor"></div>
+
+<!-- ===================== FRAME ===================== -->
+<div class="frame">
+
+  <!-- ---------- NAV ---------- -->
+  <header class="nav" id="nav">
+    <a href="#accueil" class="nav__logo" data-cursor>BRUT<span>®</span></a>
+    <nav class="nav__links">
+      <a href="#accueil" data-cursor>Accueil</a>
+      <a href="#burgers" data-cursor>Les burgers</a>
+      <a href="#carte" data-cursor>La carte</a>
+      <a href="#contact" data-cursor>Nous trouver</a>
+    </nav>
+    <button class="nav__cart" id="cartBtn" data-cursor aria-label="Voir le panier">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/>
+        <path d="M2 3h3l2.4 12.3a1.5 1.5 0 0 0 1.5 1.2h8.1a1.5 1.5 0 0 0 1.5-1.2L23 7H6"/>
+      </svg>
+      <span>Panier</span>
+      <span class="nav__cart-count" id="cartCount" hidden>0</span>
+    </button>
+    <button class="nav__burger" id="navBurger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <!-- ---------- HERO ---------- -->
+  <section class="hero" id="accueil">
+    <div class="hero__topline">
+      <span>Smash burgers américains</span>
+      <span>★ Paris 11ᵉ · Est. 2021</span>
+      <span>100% bœuf français</span>
+    </div>
+
+    <div class="hero__stage">
+      <h1 class="hero__title">
+        <span class="line"><em>Le</em> vrai</span>
+        <span class="line big">SMASH</span>
+      </h1>
+
+      <!-- floating ingredient cut-outs -->
+      <img class="float f1" data-speed="1.4" src="assets/ing-lettuce.png" alt="" />
+      <img class="float f2" data-speed="0.7" src="assets/ing-tomato.png" alt="" />
+      <img class="float f3" data-speed="1.1" src="assets/ing-cheese.png" alt="" />
+      <img class="float f4" data-speed="0.5" src="assets/ing-pickle.png" alt="" />
+
+      <!-- hero burger -->
+      <div class="hero__burger" id="heroBurger">
+        <img src="assets/hero.png" alt="Smash burger BRUT" />
+        <div class="badge badge--1">Écrasé<br>minute</div>
+        <div class="badge badge--2">100%<br>bœuf</div>
+      </div>
+    </div>
+
+    <div class="hero__bottom">
+      <p class="hero__desc">Bœuf français maturé, pain brioché toasté, cheddar fondu.<br>Écrasé minute sur la plancha, dévoré sur place.</p>
+      <a href="#burgers" class="btn" data-cursor>Voir la carte <span>↓</span></a>
+    </div>
+  </section>
+
+  <!-- ---------- MARQUEE ---------- -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>Smashed Fresh ●</span><span>100% Bœuf Français ●</span><span>Pain Brioché ●</span><span>Cheddar Fondu ●</span><span>Est. 2021 ●</span><span>Paris XI ●</span>
+      <span>Smashed Fresh ●</span><span>100% Bœuf Français ●</span><span>Pain Brioché ●</span><span>Cheddar Fondu ●</span><span>Est. 2021 ●</span><span>Paris XI ●</span>
+    </div>
+  </div>
+
+  <!-- ---------- ABOUT ---------- -->
+  <section class="about" id="about">
+    <div class="about__col about__col--text">
+      <span class="eyebrow">/ L'histoire</span>
+      <h2 class="about__title">Né dans une <span>cuisine</span> du 11ᵉ.</h2>
+      <p>BRUT, c'est l'Amérique sans le filtre. Une plancha brûlante, une boule de bœuf écrasée sans pitié, des bords caramélisés et croustillants. Pas de chichi, pas de sauce qui se la raconte — juste le goût, brut.</p>
+      <p>On travaille avec des éleveurs français, on toaste le pain au beurre, on monte chaque burger à la commande. Le reste, c'est de la patience et un peu de feu.</p>
+      <div class="about__stats">
+        <div><strong>+50k</strong><span>burgers servis</span></div>
+        <div><strong>4.8</strong><span>★ sur Google</span></div>
+        <div><strong>11ᵉ</strong><span>cœur de Paris</span></div>
+      </div>
+    </div>
+    <div class="about__col about__col--media">
+      <div class="about__card">
+        <div class="about__cardlabel">EST. 2021</div>
+        <img src="assets/plancha.webp" alt="Steak haché écrasé sur la plancha brûlante" />
+        <p>« Le meilleur smash de la rive droite. »</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- BURGERS ---------- -->
+  <section class="burgers" id="burgers">
+    <div class="section-head">
+      <span class="eyebrow">/ Les burgers</span>
+      <h2>NOS <span>BESTSELLERS</span></h2>
+      <p>Six recettes, zéro compromis. Servis avec frites maison.</p>
+    </div>
+
+    <div class="cards">
+      <!-- cards injected by JS for cleanliness, but keep markup for no-JS -->
+    </div>
+  </section>
+
+  <!-- ---------- CARTE / PRICES ---------- -->
+  <section class="carte" id="carte">
+    <div class="section-head light">
+      <span class="eyebrow">/ La carte</span>
+      <h2>À CÔTÉ <span>&amp; À BOIRE</span></h2>
+    </div>
+    <div class="carte__grid">
+      <div class="carte__col">
+        <h3>Les à-côtés</h3>
+        <ul class="price-list">
+          <li><span>Frites maison</span><i></i><b>4€</b></li>
+          <li><span>Frites cheddar-bacon</span><i></i><b>6€</b></li>
+          <li><span>Onion rings (8)</span><i></i><b>5€</b></li>
+          <li><span>Tenders croustillants (4)</span><i></i><b>7€</b></li>
+          <li><span>Coleslaw maison</span><i></i><b>4€</b></li>
+        </ul>
+      </div>
+      <div class="carte__col">
+        <h3>Les boissons</h3>
+        <ul class="price-list">
+          <li><span>Milkshake vanille / Oreo</span><i></i><b>6€</b></li>
+          <li><span>Bière artisanale (33cl)</span><i></i><b>6€</b></li>
+          <li><span>Limonade maison</span><i></i><b>4€</b></li>
+          <li><span>Sodas américains</span><i></i><b>3€</b></li>
+          <li><span>Café / expresso</span><i></i><b>2€</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="carte__menu">
+      <div class="carte__menu-text">
+        <h3>Le menu BRUT</h3>
+        <p>Un burger + frites maison + boisson au choix.</p>
+      </div>
+      <div class="carte__menu-price"><span>dès</span>17€</div>
+    </div>
+  </section>
+
+  <!-- ---------- CONTACT ---------- -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+      <div class="contact__left">
+        <span class="eyebrow">/ Nous trouver</span>
+        <h2>ON VOUS<br>ATTEND.</h2>
+        <p class="contact__addr">22 rue Oberkampf<br>75011 Paris</p>
+        <ul class="contact__info">
+          <li><span>Horaires</span> Mar – Dim · 12h – 23h</li>
+          <li><span>Téléphone</span> 01 23 45 67 89</li>
+          <li><span>Insta</span> @brut.burger</li>
+        </ul>
+        <button type="button" class="btn btn--dark" id="resaOpen" data-cursor>Réserver une table <span>↗</span></button>
+      </div>
+      <div class="contact__map" data-cursor>
+        <div class="contact__pin">📍</div>
+        <div class="contact__maplabel">PARIS · 11ᵉ</div>
+        <svg class="map-lines" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 120 H400 M0 250 H400 M120 0 V400 M280 0 V400" />
+          <path d="M0 60 L400 340 M0 340 L400 60" class="thin" />
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- FOOTER ---------- -->
+  <footer class="footer" id="footer">
+    <div class="footer__top">
+      <div class="footer__cols">
+        <div>
+          <h4>Menu</h4>
+          <a href="#accueil" data-cursor>Accueil</a>
+          <a href="#burgers" data-cursor>Les burgers</a>
+          <a href="#carte" data-cursor>La carte</a>
+          <a href="#contact" data-cursor>Nous trouver</a>
+        </div>
+        <div>
+          <h4>Suivez-nous</h4>
+          <a href="#" data-cursor>Instagram</a>
+          <a href="#" data-cursor>TikTok</a>
+          <a href="#" data-cursor>Uber Eats</a>
+          <a href="#" data-cursor>Deliveroo</a>
+        </div>
+        <div>
+          <h4>Infos</h4>
+          <a href="#" data-cursor>Mentions légales</a>
+          <a href="#" data-cursor>Allergènes</a>
+          <a href="#" data-cursor>Recrutement</a>
+        </div>
+      </div>
+      <div class="footer__newsletter">
+        <p>Une promo, un nouveau burger ? On vous tient au jus.</p>
+        <form class="footer__form" onsubmit="return false">
+          <input type="email" placeholder="votre@email.com" aria-label="Email" />
+          <button data-cursor>S'inscrire</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer__word" id="footerWord">
+      <img class="float ff1" src="assets/ing-lettuce.png" alt="" />
+      <img class="float ff2" src="assets/ing-cheese.png" alt="" />
+      <img class="float ff3" src="assets/ing-tomato.png" alt="" />
+      BRUT
+    </div>
+    <div class="footer__base">
+      <span>© 2026 BRUT Burger House — Paris</span>
+      <span>Fait avec du feu et du beurre 🔥</span>
+    </div>
+  </footer>
+
+  <!-- ===================== CART DRAWER ===================== -->
+  <div class="drawer" id="cartDrawer" aria-hidden="true">
+    <div class="drawer__overlay" data-close></div>
+    <aside class="drawer__panel" role="dialog" aria-label="Votre panier" aria-modal="true">
+      <header class="drawer__head">
+        <h3>Ton panier</h3>
+        <button class="iconbtn" data-close data-cursor aria-label="Fermer le panier">✕</button>
+      </header>
+
+      <div class="drawer__scroll">
+        <div class="drawer__empty" id="cartEmpty">
+          <span class="drawer__empty-emoji">🍔</span>
+          <p>Ton panier est vide.<br>Ajoute un burger pour commencer.</p>
+          <button class="btn btn--sm" data-close data-cursor>Voir les burgers</button>
+        </div>
+        <ul class="drawer__items" id="cartItems"></ul>
+      </div>
+
+      <footer class="drawer__foot" id="cartFoot" hidden>
+        <div class="drawer__line"><span>Sous-total</span><b id="cartTotal">0€</b></div>
+        <div class="drawer__line drawer__line--muted"><span>Livraison</span><span>Offerte dès 25€</span></div>
+        <button class="btn btn--full" id="checkoutBtn" data-cursor>Commander <span>↗</span></button>
+      </footer>
+    </aside>
+  </div>
+
+  <!-- ===================== ORDER (CHECKOUT) MODAL ===================== -->
+  <div class="modal" id="orderModal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__box" role="dialog" aria-label="Finaliser la commande" aria-modal="true">
+      <button class="iconbtn modal__close" data-close data-cursor aria-label="Fermer">✕</button>
+      <span class="eyebrow">/ Livraison</span>
+      <h3 class="modal__title">Finalise ta commande</h3>
+      <p class="modal__sub" id="orderRecap">—</p>
+      <form id="orderForm" class="form" novalidate>
+        <label class="field">
+          <span>Ton email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="votre@email.com" data-cursor>
+        </label>
+        <label class="field">
+          <span>Adresse de livraison</span>
+          <input type="text" name="address" required autocomplete="street-address" placeholder="22 rue Oberkampf, 75011 Paris" data-cursor>
+        </label>
+        <button type="submit" class="btn btn--full" data-cursor>Envoyer la commande <span>↗</span></button>
+        <p class="form__note">On te confirme la commande et le temps de livraison par email.</p>
+      </form>
+      <div class="form__success" id="orderSuccess" hidden>
+        <span class="form__check">✓</span>
+        <h4>Commande envoyée !</h4>
+        <p id="orderSuccessTxt"></p>
+        <a class="btn btn--full" id="orderMailto" data-cursor>Confirmer par email <span>↗</span></a>
+        <button class="btn btn--ghost btn--full" data-close data-cursor>Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== RESERVATION MODAL ===================== -->
+  <div class="modal" id="resaModal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__box" role="dialog" aria-label="Réserver une table" aria-modal="true">
+      <button class="iconbtn modal__close" data-close data-cursor aria-label="Fermer">✕</button>
+      <span class="eyebrow">/ Réservation</span>
+      <h3 class="modal__title">Réserve ta table</h3>
+      <p class="modal__sub">22 rue Oberkampf, 75011 Paris · Mar – Dim, 12h – 23h</p>
+      <form id="resaForm" class="form" novalidate>
+        <label class="field">
+          <span>Ton email</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="votre@email.com" data-cursor>
+        </label>
+        <label class="field">
+          <span>Ton adresse</span>
+          <input type="text" name="address" required autocomplete="street-address" placeholder="12 rue de Paris, 75011" data-cursor>
+        </label>
+        <div class="field-row">
+          <label class="field"><span>Date</span><input type="date" name="date" required data-cursor></label>
+          <label class="field"><span>Heure</span><input type="time" name="time" required value="20:00" data-cursor></label>
+          <label class="field field--sm"><span>Couverts</span>
+            <select name="guests" data-cursor><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7+</option></select>
+          </label>
+        </div>
+        <button type="submit" class="btn btn--full" data-cursor>Envoyer la réservation <span>↗</span></button>
+        <p class="form__note">On t'envoie la confirmation par email. Sans acompte, sans appel.</p>
+      </form>
+      <div class="form__success" id="resaSuccess" hidden>
+        <span class="form__check">✓</span>
+        <h4>Réservation envoyée !</h4>
+        <p id="resaSuccessTxt"></p>
+        <a class="btn btn--full" id="resaMailto" data-cursor>Confirmer par email <span>↗</span></a>
+        <button class="btn btn--ghost btn--full" data-close data-cursor>Fermer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== TOAST ===================== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -10,6 +10,64 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-24 — [Conversion] FAQ locale de réassurance + JSON-LD `FAQPage` sur les 3 pages locales (Melun, Meaux, Paris)
+
+**Axe : Conversion** (rotation : les 3 passages du 2026-06-23 portaient sur Performance, SEO local
+et Design ; **Conversion** était l'axe le plus ancien, dernier traité le 2026-06-22 — barre CTA
+mobile). Item **« enrichir chaque page locale d'une FAQ locale (2-3 Q/R) avec JSON-LD FAQPage »** :
+c'est le **TODO le plus récurrent** des derniers passages, listé à la fois côté Conversion
+(réassurance) et SEO. Constat : les 3 pages d'atterrissage locales (Melun, Meaux, Paris) menaient
+au CTA final **sans lever les objections concrètes** du prospect local (« faut-il être de la ville ? »,
+« couvrez-vous ma commune ? », « combien de temps ? », « m'aidez-vous sur Google ? »). Or répondre
+à ces questions **juste avant le CTA** est un levier de conversion éprouvé (réassurance + réduction
+du doute), et le balisage `FAQPage` rend la page **éligible aux extraits enrichis** dans le SERP.
+
+Réalisé (sur **les 3 pages locales**, ajouts **purement additifs** — aucune suppression, aucun
+HTML existant déplacé) :
+- **Nouvelle section FAQ locale** insérée **entre « Zones desservies » et le CTA final** de chaque
+  page (`section section-light`, alternance de fond respectée). **4 questions/réponses par page**,
+  **rédigées spécifiquement pour chaque ville** (aucun texte recopié d'une page à l'autre) :
+  - **Melun** : présence à distance dans le bassin melunais · communes du sud 77 (Dammarie, Le Mée,
+    Vaux-le-Pénil, Savigny, Fontainebleau) · délais 7-15 j · SEO local + Google Business Profile.
+  - **Meaux** : zone nord 77 / Pays de Meaux · communes (Villenoy, Trilport, Claye-Souilly, Mitry-Mory,
+    Coulommiers…) · délais · référencement local.
+  - **Paris** : Webia vs agence parisienne (prix fixe dès 290€, interlocuteur unique) · 20 arrondissements
+    + proche couronne · délais · SEO concurrentiel (« ostéopathe Paris 11 »).
+- **Markup réutilisé à l'identique** du gabarit `faq.html` (`.faq-list`/`.faq-item`/`.faq-q`
+  `aria-expanded`/`.faq-a`>`.faq-a-inner`) → l'**accordéon fonctionne automatiquement** via la
+  délégation `querySelectorAll(".faq-q")` de `js/main.js` (déjà chargé sur ces pages), **sans
+  une ligne de CSS ni de JS ajoutée** → aucun risque de régression de style.
+- **3 nouveaux blocs JSON-LD `FAQPage`** (un par page), insérés dans le `<head>` après le
+  `BreadcrumbList`. **Texte des réponses strictement aligné sur le contenu visible** (exigence
+  Google) → éligibilité au rich result FAQ. Chaque page expose désormais **3 entités** :
+  `Service` (existant) + `BreadcrumbList` (existant) + `FAQPage` (nouveau).
+- **Chemin de conversion supplémentaire** : sous chaque FAQ, une ligne « Une autre question ? »
+  pointe vers **WhatsApp** avec `data-track="whatsapp"` → clic **automatiquement compté** par le
+  traçage `contact_click` déjà en place (message pré-rempli contextualisé par ville). **Rien
+  d'inventé** : prix (290€), délais (7-15 j), devis 24h, paiement, propriété, fondateur Ethan —
+  repris à l'identique des faits déjà publiés sur le site.
+
+Vérifié (validation statique rigoureuse ; serveur de prévisualisation headless toujours flaky sur
+cet environnement — même limite que les passages précédents) : sur **chacune des 3 pages**, les
+**3 blocs JSON-LD parsent sans erreur** (`ConvertFrom-Json` → Service / BreadcrumbList / FAQPage) ;
+**4 `.faq-q` + 4 `.faq-item`** par page ; **balises équilibrées** (`<section>` 6/6, `<main>` 1/1) ;
+**FAQ placée avant `cta-final`** (ligne FAQ < ligne cta-final sur les 3) ; **tous les liens internes
+`.html` pointent vers un fichier existant** ; **aucune couleur hors charte** (scan `#7C3AED`/`#FFD60A`
+= 0) ; **GTM**, **bouton WhatsApp flottant**, **bandeau d'offre**, **échéance dynamique** intacts
+(uniquement insertions). Accents UTF-8 préservés (le parse JSON des réponses accentuées réussit).
+
+**Idées pour les prochains passages :**
+- **Design** (axe désormais le plus ancien, 2026-06-23) : décliner `logo.svg` en **wordmark
+  horizontal** SVG ; raffiner cartes/sections (micro-ombres, hover).
+- **SEO** : envisager une **4ᵉ page locale** (Fontainebleau ou Chelles) sur le même gabarit ;
+  ajouter le maillage de ces FAQ locales vers `faq.html` si pertinent.
+- **Perf** : auto-héberger les polices Anton/Inter (woff2) ; lazy-loading des images sous la ligne
+  de flottaison.
+- **Conversion (suite)** : tester une **variante A/B** du libellé du CTA principal via `cta_devis_click`.
+- **Access** : `aria-label` sur les `<nav>` secondaires ; ordre de tabulation du bouton WhatsApp.
+
+---
+
 ## 2026-06-23 — [Performance] Chargement asynchrone des polices Google (suppression du render-blocking, FCP/LCP)
 
 **Axe : Performance** (rotation : les deux passages précédents du 2026-06-23 portaient sur le

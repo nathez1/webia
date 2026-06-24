@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ÉCLAT — Cinq récits. Des bagues qui se transmettent.</title>
+  <meta name="description" content="ÉCLAT — La marketplace des bagues entre particuliers. Un voyage en cinq récits. Une bague ne se porte pas seulement. Elle se transmet." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Préchargeur -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__row">
+      <span class="preloader__brand">ÉCLAT</span>
+      <span class="preloader__sub">Cinq récits de transmission</span>
+    </div>
+    <div class="preloader__count"><span id="preCount">0</span><i>%</i></div>
+    <div class="preloader__bar"><span id="preBar"></span></div>
+  </div>
+
+  <!-- Curseur -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- Bouton son -->
+  <button class="sound" id="soundBtn" data-cursor="-hover" aria-pressed="false">
+    <span class="sound__bars"><i></i><i></i><i></i><i></i></span>
+    <span class="sound__label">Le son</span>
+  </button>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__logo" data-cursor="-hover">ÉCLAT<sup>®</sup></a>
+    <nav class="nav__links">
+      <a href="#recits" data-cursor="-hover">Cinq récits</a>
+      <a href="#mecanique" data-cursor="-hover">La mécanique</a>
+      <a href="#cedant" data-cursor="-hover">Le cédant</a>
+      <a href="#offres" data-cursor="-hover">Rejoindre</a>
+    </nav>
+    <a href="vendre.html" class="nav__cta" data-cursor="-hover"><span>Vendre une bague</span></a>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" data-theme="dark">
+      <div class="hero__top">
+        <span>Marketplace · Bagues entre particuliers</span>
+        <span>Éd. 01 — Paris, 2026</span>
+      </div>
+
+      <h1 class="hero__title">
+        <span class="ln"><span>L'ÉCHO</span></span>
+        <span class="ln"><span>INVISIBLE</span></span>
+      </h1>
+
+      <div class="hero__mid">
+        <div class="hero__img hero__img--a"><img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80" alt="Bague sertie" /></div>
+        <p class="hero__lead reveal-up">Une bague ne se porte pas seulement.<br />Elle se transmet. ÉCLAT relie celles et ceux
+          qui cèdent leurs plus belles pièces à celles et ceux qui les feront vibrer à nouveau.</p>
+        <div class="hero__img hero__img--b"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80" alt="Bague émeraude" /></div>
+      </div>
+
+      <div class="hero__bottom">
+        <a href="#recits" class="hero__enter" data-cursor="-hover"><i></i><span>Entrer dans les récits</span></a>
+        <span class="hero__hint">Activez le son ✦ chaque récit a sa voix</span>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee">
+        <span>Cinq récits</span><i>✦</i><span>Authentifiées</span><i>✦</i><span>Paiement sous séquestre</span><i>✦</i>
+        <span>Transmises, pas revendues</span><i>✦</i><span>Cinq récits</span><i>✦</i><span>Authentifiées</span><i>✦</i>
+        <span>Paiement sous séquestre</span><i>✦</i><span>Transmises, pas revendues</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- MANIFESTE -->
+    <section class="manifesto" data-theme="indigo">
+      <span class="kicker">00 — Le manifeste</span>
+      <p class="manifesto__text reveal-words">
+        Chaque bague garde la trace d'une main, d'un serment, d'une saison. Quand son histoire
+        s'achève, une autre attend de commencer. Nous avons fait de ce passage un voyage —
+        cinq récits, cinq tonalités, cinq manières de se transmettre.
+      </p>
+    </section>
+
+    <!-- CINQ RÉCITS -->
+    <section class="tales" id="recits" data-theme="cream">
+      <div class="tales__head">
+        <span class="kicker">Cinq récits de transmission</span>
+        <h2 class="tales__title reveal-up">Choisissez<br />votre tonalité.</h2>
+      </div>
+
+      <!-- 01 Rythme -->
+      <article class="tale" data-theme="dark" data-tone="220">
+        <div class="tale__index"><span>01</span></div>
+        <div class="tale__media" data-cursor="-view"><img src="https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=900&q=80" alt="Bague audacieuse" /></div>
+        <div class="tale__body">
+          <h3 class="tale__name">Rythme</h3>
+          <p class="tale__desc">La liberté qui danse hors des cadres. Des pièces affirmées, pour celles et ceux qui vivent selon leurs propres règles.</p>
+          <div class="tale__feature">
+            <span>Pièce phare</span>
+            <strong>BAGUE SÉLÉNÉ — 4 200 €</strong>
+          </div>
+          <button class="tale__sound" data-tone="220" data-cursor="-hover"><i></i><span>Le son intérieur — « Une danse d'ombre et de lumière »</span></button>
+        </div>
+      </article>
+
+      <!-- 02 Battement -->
+      <article class="tale tale--rev" data-theme="indigo" data-tone="277">
+        <div class="tale__index"><span>02</span></div>
+        <div class="tale__media" data-cursor="-view"><img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=900&q=80" alt="Bague pavée" /></div>
+        <div class="tale__body">
+          <h3 class="tale__name">Battement</h3>
+          <p class="tale__desc">Un battement gravé sur la peau, une marque qui vibre. Des surfaces scintillantes étirent le silence jusqu'à la lumière.</p>
+          <div class="tale__feature">
+            <span>Pièce phare</span>
+            <strong>BAGUE MORPH — 1 690 €</strong>
+          </div>
+          <button class="tale__sound" data-tone="277" data-cursor="-hover"><i></i><span>Le son intérieur — « Le pouls de la matière »</span></button>
+        </div>
+      </article>
+
+      <!-- 03 Murmure -->
+      <article class="tale" data-theme="dark" data-tone="330">
+        <div class="tale__index"><span>03</span></div>
+        <div class="tale__media" data-cursor="-view"><img src="https://images.unsplash.com/photo-1598560917505-59a3ad559071?auto=format&fit=crop&w=900&q=80" alt="Bague délicate" /></div>
+        <div class="tale__body">
+          <h3 class="tale__name">Murmure</h3>
+          <p class="tale__desc">Un murmure qui effleure l'air, un secret glissant légèrement à travers la forêt. La discrétion comme une élégance.</p>
+          <div class="tale__feature">
+            <span>Pièce phare</span>
+            <strong>BAGUE AXIS — 890 €</strong>
+          </div>
+          <button class="tale__sound" data-tone="330" data-cursor="-hover"><i></i><span>Le son intérieur — « Le secret de la forêt »</span></button>
+        </div>
+      </article>
+
+      <!-- 04 Résonance -->
+      <article class="tale tale--rev" data-theme="indigo" data-tone="392">
+        <div class="tale__index"><span>04</span></div>
+        <div class="tale__media" data-cursor="-view"><img src="https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&w=900&q=80" alt="Solitaire" /></div>
+        <div class="tale__body">
+          <h3 class="tale__name">Résonance</h3>
+          <p class="tale__desc">L'écho se multiplie, le silence prend forme. Des formes lumineuses s'entrelacent en une énergie précieuse.</p>
+          <div class="tale__feature">
+            <span>Pièce phare</span>
+            <strong>BAGUE ROCHE — 6 850 €</strong>
+          </div>
+          <button class="tale__sound" data-tone="392" data-cursor="-hover"><i></i><span>Le son intérieur — « L'énergie qui se répand »</span></button>
+        </div>
+      </article>
+
+      <!-- 05 Houle -->
+      <article class="tale" data-theme="dark" data-tone="165">
+        <div class="tale__index"><span>05</span></div>
+        <div class="tale__media" data-cursor="-view"><img src="https://images.unsplash.com/photo-1535632787350-4e68ef0ac584?auto=format&fit=crop&w=900&q=80" alt="Bague vintage" /></div>
+        <div class="tale__body">
+          <h3 class="tale__name">Houle</h3>
+          <p class="tale__desc">La mer retient son souffle, gardienne de lumière et de mystère. Des courants submergés façonnent des formes nouvelles.</p>
+          <div class="tale__feature">
+            <span>Pièce phare</span>
+            <strong>BAGUE RESSAC — 3 400 €</strong>
+          </div>
+          <button class="tale__sound" data-tone="165" data-cursor="-hover"><i></i><span>Le son intérieur — « Le souffle des profondeurs »</span></button>
+        </div>
+      </article>
+    </section>
+
+    <!-- LA MÉCANIQUE -->
+    <section class="mech" id="mecanique" data-theme="dark">
+      <div class="mech__head">
+        <span class="kicker">La mécanique</span>
+        <h2 class="mech__title reveal-up">Quatre temps,<br />zéro doute.</h2>
+      </div>
+      <div class="mech__steps">
+        <div class="mech__step"><span>01</span><h3>Déposez</h3><p>Photos, histoire, prix. Notre estimation vous guide en minutes.</p></div>
+        <div class="mech__step"><span>02</span><h3>Authentifions</h3><p>Nos gemmologues vérifient matières, pierres et provenance.</p></div>
+        <div class="mech__step"><span>03</span><h3>Cédez</h3><p>L'acheteur paie sous séquestre. Les fonds restent protégés.</p></div>
+        <div class="mech__step"><span>04</span><h3>Transmettez</h3><p>Envoi assuré et tracé. Paiement libéré à réception validée.</p></div>
+      </div>
+      <ul class="mech__guar">
+        <li class="reveal-up"><strong>Séquestre intégré</strong> — l'argent n'est versé qu'à réception validée.</li>
+        <li class="reveal-up"><strong>Expertise gemmologique</strong> — chaque pièce &gt; 1 000 € contrôlée.</li>
+        <li class="reveal-up"><strong>Transport assuré</strong> — suivi et couvert jusqu'à 50 000 €.</li>
+        <li class="reveal-up"><strong>Litiges arbitrés</strong> — médiation humaine sous 48 h.</li>
+      </ul>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" data-theme="dark">
+      <div class="stat"><span class="stat__num" data-to="12400">0</span><p>Bagues transmises</p></div>
+      <div class="stat"><span class="stat__num" data-to="98">0</span><p>% d'acheteurs satisfaits</p></div>
+      <div class="stat"><span class="stat__num" data-to="48">0</span><p>Heures, délai moyen</p></div>
+      <div class="stat"><span class="stat__num" data-to="32">0</span><p>Pays desservis</p></div>
+    </section>
+
+    <!-- LE CÉDANT -->
+    <section class="maker" id="cedant" data-theme="cream">
+      <div class="maker__media"><img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=1000&q=80" alt="Portrait d'une cédante" /></div>
+      <div class="maker__body">
+        <span class="kicker">Le cédant</span>
+        <h2 class="maker__title reveal-up">Derrière chaque bague,<br />une histoire vraie.</h2>
+        <p class="reveal-up">Sur ÉCLAT, vous n'achetez pas à un magasin anonyme. Vous reprenez le récit
+          d'une personne. Chaque cédant raconte sa pièce — sa provenance, ses années, ce qu'elle
+          a tenu de promesses.</p>
+        <button class="maker__open" id="makerOpen" data-cursor="-hover"><span>Rencontrer un cédant</span><i></i></button>
+      </div>
+    </section>
+
+    <!-- OFFRES -->
+    <section class="pricing" id="offres" data-theme="indigo">
+      <div class="pricing__head">
+        <span class="kicker">Rejoindre</span>
+        <h2 class="pricing__title reveal-up">Une commission claire.<br />Rien d'autre.</h2>
+      </div>
+      <div class="plans">
+        <article class="plan">
+          <h3>Particulier</h3>
+          <p class="plan__price">9<i>%</i></p>
+          <p class="plan__desc">Pour céder vos pièces, à l'occasion.</p>
+          <ul><li>Dépôt illimité</li><li>Authentification de base</li><li>Paiement sous séquestre</li><li>Assurance transport</li></ul>
+          <button type="button" class="plan__cta" data-plan="particulier" data-cursor="-hover">Commencer</button>
+        </article>
+        <article class="plan plan--feat">
+          <span class="plan__badge">Le plus choisi</span>
+          <h3>Signature</h3>
+          <p class="plan__price">6<i>%</i></p>
+          <p class="plan__desc">Pour collectionneurs et cédants réguliers.</p>
+          <ul><li>Tout le plan Particulier</li><li>Certificat gemmologique offert</li><li>Mise en avant prioritaire</li><li>Photographie professionnelle</li><li>Conseiller dédié</li></ul>
+          <button type="button" class="plan__cta plan__cta--inv" data-plan="signature" data-cursor="-hover">Devenir Signature</button>
+        </article>
+        <article class="plan">
+          <h3>Maison</h3>
+          <p class="plan__price">Devis</p>
+          <p class="plan__desc">Pour joailliers et professionnels.</p>
+          <ul><li>Vitrine de marque</li><li>API & gestion de stock</li><li>Commission dégressive</li><li>Facturation & reporting</li></ul>
+          <button type="button" class="plan__cta" data-plan="maison" data-cursor="-hover">Nous contacter</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" data-theme="dark">
+      <h2 class="cta__title">
+        <span class="ln"><span>VOTRE PROCHAIN</span></span>
+        <span class="ln"><span>RÉCIT COMMENCE</span></span>
+      </h2>
+      <div class="cta__row">
+        <button type="button" class="cta__btn" data-plan="particulier" data-cursor="-hover"><span>Ouvrir mon compte</span></button>
+        <a href="#recits" class="cta__btn cta__btn--ghost" data-cursor="-hover"><span>Explorer les récits</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" data-theme="indigo">
+    <span class="footer__brand">ÉCLAT</span>
+    <div class="footer__cols">
+      <div><h4>Boutique</h4><a href="#recits">Cinq récits</a><a href="#offres">Vendre</a><a href="#">Acheter</a></div>
+      <div><h4>Parler</h4><a href="#">Let's talk</a><a href="#">WhatsApp</a><a href="#">Email</a></div>
+      <div><h4>Suivre</h4><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">Journal</a></div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 ÉCLAT — Conçu à Paris</span>
+      <span>Une bague ne se porte pas seulement. Elle se transmet.</span>
+    </div>
+  </footer>
+
+  <!-- Modal offres / contact -->
+  <div class="pmodal" id="planModal" aria-hidden="true">
+    <div class="pmodal__overlay" data-pclose></div>
+    <div class="pmodal__panel">
+      <button class="pmodal__close" data-pclose data-cursor="-hover" aria-label="Fermer">✕</button>
+
+      <div class="pmodal__form" id="pmForm">
+        <span class="kicker" id="pmPlan">Offre</span>
+        <h3 id="pmTitle">Créer mon compte</h3>
+        <p id="pmSub">Commencez à céder vos bagues.</p>
+        <div class="pmodal__field"><label for="pmName">Nom complet</label><input type="text" id="pmName" placeholder="Prénom Nom" /></div>
+        <div class="pmodal__field"><label for="pmEmail">Email</label><input type="email" id="pmEmail" placeholder="vous@email.com" /></div>
+        <div class="pmodal__field" id="pmMsgWrap" hidden><label for="pmMsg">Votre maison / votre besoin</label><textarea id="pmMsg" rows="3" placeholder="Quelques mots sur votre activité…"></textarea></div>
+        <p class="pmodal__err" id="pmErr"></p>
+        <button type="button" class="pmodal__submit" id="pmSubmit" data-cursor="-hover">Créer mon compte</button>
+      </div>
+
+      <div class="pmodal__done" id="pmDone" hidden>
+        <span class="pmodal__check">✦</span>
+        <h3 id="pmDoneTitle">C'est fait.</h3>
+        <p id="pmDoneText"></p>
+        <a href="vendre.html" class="pmodal__submit pmodal__link" id="pmDoneLink" data-cursor="-hover" hidden>Déposer une bague →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal cédant -->
+  <div class="modal" id="makerModal" aria-hidden="true">
+    <div class="modal__overlay" data-close></div>
+    <div class="modal__panel">
+      <button class="modal__close" data-close data-cursor="-hover" aria-label="Fermer">✕</button>
+      <div class="modal__img"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=700&q=80" alt="Camille" /></div>
+      <div class="modal__content">
+        <span class="kicker">Cédante — Annecy</span>
+        <h3>Camille R.</h3>
+        <p>« J'ai cédé la bague de fiançailles de ma grand-mère à quelqu'un qui en prendra soin.
+          Tout s'est fait en deux jours, sans jamais douter. La voir partir avec son histoire intacte,
+          c'est ça que je cherchais. »</p>
+        <div class="modal__meta">
+          <div><span>Pièce</span><strong>Solitaire « Belle Époque »</strong></div>
+          <div><span>Transmise en</span><strong>2 jours</strong></div>
+          <div><span>Récit</span><strong>Houle</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

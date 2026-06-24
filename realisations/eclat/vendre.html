@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vendre une bague — ÉCLAT</title>
+  <meta name="description" content="Déposez votre bague sur ÉCLAT en quelques minutes. Estimation gratuite, authentification, paiement sous séquestre." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="vendre.css" />
+</head>
+<body class="sell">
+  <div class="cursor" id="cursor"></div>
+
+  <header class="nav nav--light" id="nav">
+    <a href="index.html" class="nav__logo" data-cursor="-hover">ÉCLAT<sup>®</sup></a>
+    <nav class="nav__links">
+      <a href="index.html#recits" data-cursor="-hover">Cinq récits</a>
+      <a href="index.html#mecanique" data-cursor="-hover">La mécanique</a>
+      <a href="index.html#cedant" data-cursor="-hover">Le cédant</a>
+    </nav>
+    <a href="index.html" class="nav__cta" data-cursor="-hover"><span>← Accueil</span></a>
+  </header>
+
+  <main class="sell__main">
+    <!-- Colonne formulaire -->
+    <section class="sell__form">
+      <div class="sell__intro">
+        <span class="kicker">Déposer — étape 01 du parcours</span>
+        <h1>Vendez<br />votre bague.</h1>
+        <p>Quelques photos, l'histoire de la pièce, votre prix. Notre estimation vous guide.
+          Dépôt gratuit — nous ne prenons une commission qu'une fois la vente conclue.</p>
+      </div>
+
+      <!-- Progression -->
+      <ol class="steps" id="steps">
+        <li class="steps__i is-active" data-step="1"><span>01</span>Photos</li>
+        <li class="steps__i" data-step="2"><span>02</span>La pièce</li>
+        <li class="steps__i" data-step="3"><span>03</span>Le récit</li>
+        <li class="steps__i" data-step="4"><span>04</span>Le prix</li>
+        <li class="steps__i" data-step="5"><span>05</span>Vous</li>
+      </ol>
+      <div class="steps__bar"><span id="stepsBar"></span></div>
+
+      <form id="sellForm" novalidate>
+        <!-- ÉTAPE 1 — Photos -->
+        <fieldset class="step is-current" data-step="1">
+          <h2 class="step__title">Montrez-la sous son meilleur jour.</h2>
+          <p class="step__hint">3 photos minimum — face, profil, et le poinçon si visible. Lumière naturelle, fond neutre.</p>
+          <label class="drop" id="drop" data-cursor="-hover">
+            <input type="file" id="photos" accept="image/*" multiple hidden />
+            <span class="drop__icon">+</span>
+            <span class="drop__t">Glissez vos photos ici</span>
+            <span class="drop__s">ou cliquez pour parcourir · JPG, PNG · 10 Mo max</span>
+          </label>
+          <div class="thumbs" id="thumbs"></div>
+          <p class="field__err" data-err="photos"></p>
+        </fieldset>
+
+        <!-- ÉTAPE 2 — La pièce -->
+        <fieldset class="step" data-step="2">
+          <h2 class="step__title">Les caractéristiques.</h2>
+
+          <div class="field">
+            <label>Type de bague</label>
+            <div class="chips" data-field="type">
+              <button type="button" class="chip" data-cursor="-hover">Solitaire</button>
+              <button type="button" class="chip" data-cursor="-hover">Alliance</button>
+              <button type="button" class="chip" data-cursor="-hover">Jonc</button>
+              <button type="button" class="chip" data-cursor="-hover">Toi &amp; Moi</button>
+              <button type="button" class="chip" data-cursor="-hover">Vintage</button>
+              <button type="button" class="chip" data-cursor="-hover">Autre</button>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="metal">Métal</label>
+              <select id="metal">
+                <option value="">Choisir…</option>
+                <option value="platine">Platine</option>
+                <option value="or-blanc">Or blanc 18 ct</option>
+                <option value="or-jaune">Or jaune 18 ct</option>
+                <option value="or-rose">Or rose 18 ct</option>
+                <option value="argent">Argent</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="stone">Pierre principale</label>
+              <select id="stone">
+                <option value="aucune">Aucune</option>
+                <option value="diamant">Diamant</option>
+                <option value="emeraude">Émeraude</option>
+                <option value="saphir">Saphir</option>
+                <option value="rubis">Rubis</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="carat">Carat (pierre)</label>
+              <input type="number" id="carat" min="0" step="0.1" placeholder="ex. 1.1" />
+            </div>
+            <div class="field">
+              <label for="size">Taille (tour de doigt)</label>
+              <input type="number" id="size" min="40" max="70" placeholder="ex. 54" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>État</label>
+            <div class="chips" data-field="etat">
+              <button type="button" class="chip" data-val="1" data-cursor="-hover">Neuf</button>
+              <button type="button" class="chip" data-val="0.85" data-cursor="-hover">Excellent</button>
+              <button type="button" class="chip" data-val="0.7" data-cursor="-hover">Bon</button>
+              <button type="button" class="chip" data-val="0.55" data-cursor="-hover">Correct</button>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="city">Ville</label>
+              <input type="text" id="city" placeholder="ex. Paris" />
+            </div>
+            <div class="field">
+              <label for="year">Année (optionnel)</label>
+              <input type="text" id="year" placeholder="ex. 1998" />
+            </div>
+          </div>
+          <p class="field__err" data-err="piece"></p>
+        </fieldset>
+
+        <!-- ÉTAPE 3 — Le récit -->
+        <fieldset class="step" data-step="3">
+          <h2 class="step__title">Donnez-lui une tonalité.</h2>
+          <p class="step__hint">Chaque bague rejoint l'un de nos cinq récits. Choisissez celui qui lui ressemble.</p>
+          <div class="tales-pick" data-field="recit">
+            <button type="button" class="tale-pick" data-cursor="-hover"><b>Rythme</b><span>Audacieuse, libre, qui sort du cadre.</span></button>
+            <button type="button" class="tale-pick" data-cursor="-hover"><b>Battement</b><span>Vibrante, scintillante, qui capte la lumière.</span></button>
+            <button type="button" class="tale-pick" data-cursor="-hover"><b>Murmure</b><span>Discrète, délicate, élégante en silence.</span></button>
+            <button type="button" class="tale-pick" data-cursor="-hover"><b>Résonance</b><span>Imposante, lumineuse, pleine d'énergie.</span></button>
+            <button type="button" class="tale-pick" data-cursor="-hover"><b>Houle</b><span>Profonde, mystérieuse, chargée d'histoire.</span></button>
+          </div>
+          <div class="field">
+            <label for="title">Nom / titre de la pièce</label>
+            <input type="text" id="title" placeholder="ex. Solitaire « Belle Époque »" />
+          </div>
+          <div class="field">
+            <label for="story">Son histoire</label>
+            <textarea id="story" rows="4" placeholder="D'où vient-elle ? Qu'a-t-elle accompagné ? Ce que vous aimeriez transmettre avec…"></textarea>
+          </div>
+          <p class="field__err" data-err="recit"></p>
+        </fieldset>
+
+        <!-- ÉTAPE 4 — Le prix -->
+        <fieldset class="step" data-step="4">
+          <h2 class="step__title">Fixez votre prix.</h2>
+          <p class="step__hint">Notre estimation se base sur le métal, la pierre, le carat et l'état renseignés. Vous restez libre.</p>
+
+          <div class="estim" id="estimCard">
+            <span class="estim__label">Estimation ÉCLAT</span>
+            <strong class="estim__range" id="estimRange">Complétez l'étape « La pièce »</strong>
+            <span class="estim__note">Fourchette indicative, hors authentification gemmologique.</span>
+          </div>
+
+          <div class="field field--price">
+            <label for="price">Votre prix de vente (€)</label>
+            <input type="number" id="price" min="0" step="10" placeholder="ex. 3400" />
+          </div>
+
+          <div class="payout" id="payout" hidden>
+            <div class="payout__row"><span>Prix de vente</span><b id="poPrice">—</b></div>
+            <div class="payout__row payout__row--mut"><span>Commission ÉCLAT (9 %)</span><b id="poFee">—</b></div>
+            <div class="payout__row payout__row--net"><span>Vous recevez</span><b id="poNet">—</b></div>
+          </div>
+          <p class="field__err" data-err="price"></p>
+        </fieldset>
+
+        <!-- ÉTAPE 5 — Vous -->
+        <fieldset class="step" data-step="5">
+          <h2 class="step__title">Où vous joindre ?</h2>
+          <div class="grid2">
+            <div class="field"><label for="name">Nom complet</label><input type="text" id="name" placeholder="Prénom Nom" /></div>
+            <div class="field"><label for="email">Email</label><input type="email" id="email" placeholder="vous@email.com" /></div>
+          </div>
+          <div class="field"><label for="phone">Téléphone (optionnel)</label><input type="tel" id="phone" placeholder="+33…" /></div>
+          <label class="check" data-cursor="-hover">
+            <input type="checkbox" id="cgu" />
+            <span class="check__box"></span>
+            <span>J'accepte les conditions de vente et la politique de confidentialité d'ÉCLAT.</span>
+          </label>
+          <p class="field__err" data-err="vous"></p>
+        </fieldset>
+
+        <!-- Navigation du formulaire -->
+        <div class="form-nav">
+          <button type="button" class="btn btn--ghost" id="prevBtn" data-cursor="-hover" hidden>← Précédent</button>
+          <button type="button" class="btn" id="nextBtn" data-cursor="-hover">Continuer →</button>
+          <button type="submit" class="btn btn--go" id="submitBtn" data-cursor="-hover" hidden>Envoyer mon dépôt ✦</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Colonne aperçu sticky -->
+    <aside class="sell__preview">
+      <div class="preview-card">
+        <div class="preview-card__img" id="pvImg">
+          <span class="preview-card__ph">Aperçu de votre bague</span>
+        </div>
+        <div class="preview-card__body">
+          <span class="preview-card__tale" id="pvTale">Récit —</span>
+          <h3 id="pvTitle">Votre pièce</h3>
+          <p id="pvMeta">Métal · Pierre · Ville</p>
+          <div class="preview-card__price"><span>Prix</span><b id="pvPrice">— €</b></div>
+        </div>
+      </div>
+      <ul class="reassure">
+        <li>✦ Estimation gratuite et sans engagement</li>
+        <li>✦ Authentification par nos gemmologues</li>
+        <li>✦ Paiement sous séquestre, transport assuré</li>
+      </ul>
+    </aside>
+  </main>
+
+  <!-- Écran de confirmation -->
+  <div class="done" id="done" aria-hidden="true">
+    <div class="done__inner">
+      <span class="done__check">✦</span>
+      <h2>Dépôt envoyé.</h2>
+      <p id="doneText">Merci. Notre comité examine votre bague sous 24 h et revient vers vous par email
+        avec l'estimation finale et les prochaines étapes.</p>
+      <div class="done__row">
+        <a href="index.html" class="btn" data-cursor="-hover">Retour à l'accueil</a>
+        <button class="btn btn--ghost" id="againBtn" data-cursor="-hover">Déposer une autre bague</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="vendre.js"></script>
+</body>
+</html>
