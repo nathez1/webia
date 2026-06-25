@@ -929,6 +929,30 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 }
 .price-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lift); }
 
+/* Liseré d'accent supérieur qui se déploie au survol — cohérent avec les
+   cartes de services (.card) et les étapes (.step), color-codé par offre.
+   Volontairement INSET et SANS overflow:hidden : le ".featured-badge" déborde
+   en haut (top:-15px) et ne doit jamais être rogné. */
+.price-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 30px;
+  right: 30px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--violet), #0BB257);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.price-card:hover::before,
+.price-card:focus-within::before { transform: scaleX(1); }
+/* Carte Pro (mise en avant, fond sombre) : accent vert vif en écho au glow */
+.price-card.featured::before { background: linear-gradient(90deg, #16E06F, #2BF56F); }
+/* Carte Business (3ᵉ) : accent cyan, comme la 3ᵉ carte de services */
+.pricing-grid > .price-card:nth-child(3)::before { background: linear-gradient(90deg, var(--cyan), #0EA5E9); }
+
 .price-name {
   font-family: var(--font-display);
   font-size: 1.3rem;

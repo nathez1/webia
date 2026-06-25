@@ -10,6 +10,59 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-25 — [Design] Liseré d'accent supérieur color-codé au survol sur les cartes de prix `.price-card` (tarifs.html)
+
+**Axe : Design** (rotation : le dernier passage du **2026-06-25** portait sur la Performance
+(auto-hébergement des polices) ; côté **Design**, le dernier datait du **2026-06-24** (liseré sur
+les `.card`/`.step`) → **Design était l'axe le plus ancien**). Item **« traitement d'accent cohérent
+sur les `.price-card` de `tarifs.html` »** : c'est le **TODO Design le plus récurrent** des derniers
+passages. Constat : le passage du 2026-06-24 avait doté les cartes de services (`.card`) et les
+étapes (`.step`) d'un **liseré d'accent supérieur animé** (détail signature « SaaS moderne »), mais
+les **cartes de prix** de `tarifs.html` — page de **décision d'achat**, donc à fort enjeu de
+conversion/perception de qualité — étaient restées en dehors : survol seulement « plat » (lift +
+ombre). Incohérence visible entre la page tarifs et le reste du site.
+
+**Réalisé** (**`css/style.css` uniquement — aucune retouche HTML/JS**, donc aucun risque de
+régression structurelle ; s'applique automatiquement aux 3 cartes de `tarifs.html`) :
+- **`.price-card::before`** : liseré de **3 px** en haut de carte, `transform: scaleX(0)` au repos →
+  `scaleX(1)` **au survol et au focus clavier** (`:hover`, `:focus-within` → accessibilité),
+  transition douce `cubic-bezier(.22,1,.36,1)`, **en écho exact** au liseré des `.card`/`.step`.
+- **Choix délibéré : liseré INSET (`left/right:30px`, coins arrondis) et SANS `overflow:hidden`.**
+  La carte « Pro » porte un **`.featured-badge` qui déborde en haut** (`top:-15px`) : ajouter
+  `overflow:hidden` (comme sur `.card`) l'aurait **rogné** → régression. Le liseré inset reste dans
+  la partie plate du bord supérieur (hors rayons de 20 px) et grandit depuis le **centre**
+  (`transform-origin:center`), cohérent avec la mise en page centrée des cartes de prix.
+- **Color-codage par offre, 100 % charte** : Starter **vert** (#16E06F→#0BB257) ; Pro (featured,
+  fond sombre) **vert vif** (#16E06F→#2BF56F) en écho au glow de la carte ; Business (3ᵉ) **cyan**
+  (#2DD9FE→#0EA5E9), comme la 3ᵉ carte de services.
+- **`prefers-reduced-motion`** : pris en charge **sans règle ajoutée** par le bloc global existant
+  (`*, *::before { transition-duration: 0.01ms !important }`, ligne ~1410) → l'accent apparaît
+  **instantanément** au survol, aucun mouvement continu.
+
+**Vérifié** (serveur de prévisualisation local + DOM/CSSOM, page `tarifs.html` servie) : les **3
+`.price-card`** exposent un `::before` **height 3px**, `transform: matrix(0,0,0,1,0,0)` (= scaleX 0)
+au repos, `border-radius 3px`, `left 30px` ; **dégradés corrects** (Starter vert, Pro vert vif,
+Business cyan — **100 % charte**) ; **carte `overflow:visible`** et **`.featured-badge` toujours
+`display:flex`** (badge **non rogné**, « Le plus choisi » intact) ; **règle de survol présente dans
+le CSSOM** : `.price-card:hover::before, .price-card:focus-within::before → scaleX(1)`. Invariants
+intacts : **GTM** (`dataLayer`), **bouton WhatsApp flottant**, **bandeau d'urgence** + **échéance
+dynamique** (« 30 juin »), **3 cartes de prix** — présents. **Console sans erreur ni avertissement.**
+**Accolades CSS équilibrées (466/466)** ; **aucune couleur hors charte introduite** (les seules
+occurrences `#7C3AED`/`#FFD60A` restent dans le **commentaire d'en-tête historique**, ligne 4, hors
+de toute règle). *(Note environnement : `preview_screenshot` expire en rendu headless — limite connue
+notée en mémoire ; preuve par géométrie DOM + CSSOM.)*
+
+**Idées pour les prochains passages :**
+- **SEO local** (désormais axe le plus ancien, 2026-06-24) : maillage des FAQ locales vers
+  `faq.html` ; 5ᵉ page locale (Chelles ou Sénart) si les 4 actuelles performent.
+- **Conversion** (2026-06-24) : variante A/B du libellé du CTA principal via `cta_devis_click`.
+- **Design (suite)** : décliner `logo.svg` en **wordmark horizontal** SVG (signatures, réseaux) ;
+  appliquer le même liseré au **tableau comparatif** de tarifs.html si pertinent.
+- **Perf** : `lazy`/`decoding=async` sur les images des sous-sites `realisations/*`.
+- **Access** : `aria-label` distinct sur les `<nav>` ; ordre de tabulation du bouton WhatsApp flottant.
+
+---
+
 ## 2026-06-25 — [Performance & accessibilité] Auto-hébergement des polices Anton + Inter (woff2, sous-ensemble latin)
 
 **Axe : Performance & accessibilité** (rotation : les axes Design, SEO local et Conversion avaient
