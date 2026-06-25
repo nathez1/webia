@@ -4,6 +4,29 @@
    Dark: #0A0613 · Violet: #7C3AED · Jaune: #FFD60A
    ============================================================ */
 
+/* ------------------------------------------------------------
+   Polices auto-hébergées (woff2, sous-ensemble latin)
+   Évite toute requête vers Google Fonts → plus rapide (FCP/LCP)
+   et conforme RGPD (aucune IP transmise à un tiers).
+   Inter v20 est une police variable : un seul fichier couvre
+   tous les graisses 100→900 utilisées sur le site.
+   font-display: swap → texte visible immédiatement (pas de FOIT).
+   ------------------------------------------------------------ */
+@font-face {
+  font-family: 'Anton';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/anton-latin-400.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../fonts/inter-latin-var.woff2') format('woff2');
+}
+
 :root {
   /* Couleurs */
   /* Palette : bleu électrique + vert électrique + blanc

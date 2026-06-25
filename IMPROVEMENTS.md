@@ -10,6 +10,61 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-25 — [Performance & accessibilité] Auto-hébergement des polices Anton + Inter (woff2, sous-ensemble latin)
+
+**Axe : Performance & accessibilité** (rotation : les axes Design, SEO local et Conversion avaient
+tous un passage daté du **2026-06-24** ; le dernier **Performance** datait du **2026-06-23** (chargement
+asynchrone des polices Google) → axe le plus ancien). Item **« auto-héberger les polices Anton/Inter
+(woff2) »** : c'est le **TODO Perf le plus récurrent** des derniers passages, et la suite logique du
+passage du 2026-06-23 (qui avait rendu les polices Google non bloquantes, mais conservait la
+**dépendance à un tiers**).
+
+**Constat** : chaque page chargeait les polices depuis `fonts.googleapis.com` + `fonts.gstatic.com`,
+avec `preconnect` x2, `preload as=style`, puis le hack `media="print" onload`. Cela impose à chaque
+visiteur : une résolution DNS + handshake TLS vers **deux domaines tiers**, un aller-retour CSS, puis
+le téléchargement des woff2 — soit plusieurs centaines de ms de latence réseau sur le **chemin
+critique du premier rendu** (FCP/LCP), et une **transmission d'IP à Google** (enjeu **RGPD** réel pour
+une agence française : la CNIL et la jurisprudence allemande sanctionnent l'usage de Google Fonts en
+ligne).
+
+**Réalisé** :
+- **Téléchargement des woff2 (sous-ensemble `latin`)** depuis Google Fonts dans un nouveau dossier
+  `fonts/` versionné : `anton-latin-400.woff2` (18 Ko) + `inter-latin-var.woff2` (48 Ko). **Inter v20
+  est une police variable** : un **seul fichier** couvre toutes les graisses 400→800 utilisées
+  (`font-weight: 100 900`), au lieu de 5 fichiers statiques. **67 Ko au total**, soit moins lourd que
+  l'ancien aller-retour multi-domaines. Le sous-ensemble `latin` (U+0000–00FF + ponctuation/€/™)
+  couvre **tous les accents français** (é è à ç ù ê î ô…) — vérifié.
+- **Deux blocs `@font-face`** ajoutés en tête de `css/style.css` (déjà chargée sur les 12 pages, donc
+  **zéro requête supplémentaire**), avec **`font-display: swap`** (texte visible immédiatement, pas de
+  FOIT) et `src: url('../fonts/…woff2') format('woff2')`.
+- **Remplacement du bloc Google Fonts** (5 lignes : 2 `preconnect`, `preload as=style`, `stylesheet
+  media=print`, `noscript`) sur **les 12 pages racine** par **2 `preload as=font` locaux**
+  (`inter-latin-var.woff2` + `anton-latin-400.woff2`, avec `crossorigin` requis pour les polices)
+  → le navigateur télécharge les polices **en parallèle, dès le parse du `<head>`**, sans attendre le
+  CSS, et **sans aucune connexion tierce**.
+
+**Vérifié** (serveur de prévisualisation local + `document.fonts`) : `document.fonts.ready` →
+**Anton 400 `loaded`** et **Inter 100–900 `loaded`** ; `document.fonts.check()` **OK** pour Anton 700
+et Inter 600 ; `h1` rendu en **Anton**, `body` en **Inter** ; **les seules requêtes de polices** sont
+`localhost/fonts/inter-latin-var.woff2` et `…/anton-latin-400.woff2` — **0 requête vers googleapis /
+gstatic** ; **console sans erreur ni avertissement** ; `grep` confirme **aucune référence
+`fonts.googleapis.com` restante** sur les 12 pages. Éléments existants intacts (GTM, WhatsApp
+flottant, bandeau d'offre, formulaires) — non touchés. Charte respectée (aucune couleur modifiée).
+*(Capture d'écran non jointe : le `preview_screenshot` time out dans cet environnement — limite connue
+notée en mémoire ; vérification faite par snapshot DOM + `document.fonts`.)*
+
+**Idées pour les prochains passages :**
+- **Design** (désormais axe le plus ancien, 2026-06-24) : décliner `logo.svg` en **wordmark
+  horizontal** SVG ; traitement d'accent cohérent sur les `.price-card` de `tarifs.html`.
+- **Perf (suite)** : `lazy`/`decoding=async` sur les images des sous-sites `realisations/*` (les pages
+  racine sont déjà couvertes) ; envisager `latin-ext` seulement si un besoin typographique apparaît.
+- **Conversion** : variante A/B du libellé du CTA principal via `cta_devis_click`.
+- **SEO local** : maillage des FAQ locales vers `faq.html` ; 5ᵉ page locale (Chelles ou Sénart) si les
+  4 actuelles performent.
+- **Access** : `aria-label` distinct sur les `<nav>` ; ordre de tabulation du bouton WhatsApp flottant.
+
+---
+
 ## 2026-06-24 — [SEO local] 4ᵉ page d'atterrissage locale : « Création de site internet à Fontainebleau (77) »
 
 **Axe : SEO local** (rotation : les passages les plus récents étaient Design (2026-06-24, liseré
