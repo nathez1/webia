@@ -30,22 +30,112 @@ document.querySelectorAll(".faq-q").forEach((btn) => {
   });
 });
 
-// ===== Formulaire de devis =====
+// ===== Formulaire (devis + affiliation) — envoi réel du lead =====
+// Les pages devis.html et affiliation.html partagent id="devis-form" + #form-success.
+// Le lead est transmis par email via FormSubmit (action du <form>), sans backend.
+// Soumission en AJAX pour conserver l'écran de confirmation. Filet de sécurité :
+// si l'envoi automatique échoue (réseau, service indisponible, activation en
+// attente), on propose un envoi en un clic via WhatsApp/email pré-rempli avec
+// la demande — aucune demande de devis n'est perdue.
 const devisForm = document.getElementById("devis-form");
 if (devisForm) {
+  const WA_NUMBER = "33782934069";
+  const CONTACT_EMAIL = "contact@webia.fr";
+
+  // Résumé lisible du formulaire (on ignore les champs de config FormSubmit "_*").
+  function leadSummary(formData) {
+    const lines = [];
+    formData.forEach((value, key) => {
+      if (key.charAt(0) === "_" || !String(value).trim()) return;
+      lines.push(key + " : " + value);
+    });
+    return lines.join("\n");
+  }
+
+  function showSuccess() {
+    devisForm.style.display = "none";
+    document.getElementById("form-success").classList.add("visible");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Filet de sécurité : envoi manuel en un clic si l'AJAX échoue.
+  function showFallback(summary) {
+    if (devisForm.querySelector(".form-fallback")) return;
+    const intro = "Bonjour Ethan, voici ma demande via le site Webia :\n\n";
+    const wa = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(intro + summary);
+    const mail = "mailto:" + CONTACT_EMAIL +
+      "?subject=" + encodeURIComponent("Demande via le site Webia") +
+      "&body=" + encodeURIComponent(summary);
+    const box = document.createElement("div");
+    box.className = "form-fallback";
+    box.setAttribute("role", "alert");
+    box.innerHTML =
+      "<p><strong>Envoi automatique momentanément indisponible.</strong> " +
+      "Transmettez votre demande en un clic, on vous répond sous 24h :</p>" +
+      '<div class="form-fallback-actions">' +
+      '<a class="btn btn-wa" target="_blank" rel="noopener" data-track="whatsapp">Envoyer sur WhatsApp</a>' +
+      '<a class="btn btn-dark" data-track="email">Envoyer par email</a>' +
+      "</div>";
+    box.querySelector(".btn-wa").setAttribute("href", wa);
+    box.querySelector(".btn-dark").setAttribute("href", mail);
+    const submitBtn = devisForm.querySelector('button[type="submit"]');
+    if (submitBtn) submitBtn.insertAdjacentElement("afterend", box);
+    else devisForm.appendChild(box);
+    box.scrollIntoView({ behavior: "smooth", block: "center" });
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "lead_fallback", form: devisForm.id });
+  }
+
   devisForm.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!devisForm.checkValidity()) {
       devisForm.reportValidity();
       return;
     }
+    const oldFallback = devisForm.querySelector(".form-fallback");
+    if (oldFallback) oldFallback.remove();
+
+    const formData = new FormData(devisForm);
+    const summary = leadSummary(formData);
+
     // Suivi de conversion (Google Tag Manager / GA4)
     const formule = (devisForm.querySelector('input[name="formule"]:checked') || {}).value;
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "generate_lead", form: devisForm.id, formule: formule || "n/a" });
-    devisForm.style.display = "none";
-    document.getElementById("form-success").classList.add("visible");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const submitBtn = devisForm.querySelector('button[type="submit"]');
+    const originalBtnHtml = submitBtn ? submitBtn.innerHTML : "";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute("aria-busy", "true");
+      submitBtn.textContent = "Envoi en cours…";
+    }
+
+    const action = devisForm.getAttribute("action") || "";
+    const endpoint = action.replace("formsubmit.co/", "formsubmit.co/ajax/");
+    if (!endpoint) { showSuccess(); return; }
+
+    fetch(endpoint, {
+      method: "POST",
+      body: formData,
+      headers: { Accept: "application/json" }
+    })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r)))
+      .then((data) => {
+        if (data && (data.success === "true" || data.success === true)) {
+          showSuccess();
+        } else {
+          throw new Error("unexpected response");
+        }
+      })
+      .catch(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.removeAttribute("aria-busy");
+          submitBtn.innerHTML = originalBtnHtml;
+        }
+        showFallback(summary);
+      });
   });
 }
 

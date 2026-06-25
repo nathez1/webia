@@ -10,6 +10,72 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-25 — [Conversion] Les formulaires de devis et d'affiliation transmettent enfin réellement le lead (FormSubmit + filet de sécurité WhatsApp/email)
+
+**Axe : Conversion** (rotation : derniers passages par axe → Design 2026-06-25, Performance
+2026-06-25, SEO local 2026-06-24, **Conversion 2026-06-24** → Conversion = axe le plus ancien, et
+le plus directement lié à l'objectif business « plus de demandes de devis »).
+
+**Constat — bug critique de conversion, prioritaire sur toute autre amélioration.** Le formulaire
+de devis (`devis.html`) **ET** le formulaire d'affiliation (`affiliation.html`) partagent
+`id="devis-form"` + `#form-success` et le **même gestionnaire** dans `js/main.js`. Or ce
+gestionnaire faisait : `e.preventDefault()` → push `generate_lead` (analytics) → affichage de
+l'écran « Demande bien reçue ! ». **Aucun `action`, aucun `fetch`, aucun `mailto`** : les données
+saisies (nom, email, projet, formule, filleul…) **n'étaient envoyées nulle part**. Le visiteur
+voyait une confirmation rassurante pendant qu'Ethan **ne recevait jamais le lead**. C'est le
+**point de fuite n°1** du tunnel : peu importe la qualité de la page, le taux de conversion réel
+en demande exploitable était de **0 %** via le formulaire (seuls WhatsApp/Calendly fonctionnaient).
+
+**Réalisé** (`devis.html`, `affiliation.html`, `js/main.js`, `css/style.css`) :
+- **Transmission réelle sans backend ni secret** via **FormSubmit** (`contact@webia.fr`, déjà
+  **publique** sur le footer + pages légales → aucune exposition nouvelle ; **aucune clé** dans le
+  dépôt public). Chaque `<form>` reçoit `action="https://formsubmit.co/contact@webia.fr"`
+  `method="POST"` + champs de config cachés : `_subject` (distinct par formulaire :
+  *« Nouvelle demande de devis — site Webia »* / *« Nouvelle recommandation (affiliation) — Webia »*),
+  `_template=table`, `_captcha=false`, et un **pot de miel anti-spam** `_honey` (hors écran,
+  `opacity:0`, `tabindex=-1`, `aria-hidden`).
+- **Soumission AJAX** (`js/main.js`) : `fetch` vers l'endpoint `…/ajax/…` en `FormData`,
+  l'écran de confirmation existant est **conservé** sur succès (`{success:"true"}`). Bouton passé
+  en état `aria-busy` + « Envoi en cours… » pendant l'appel.
+- **Filet de sécurité — aucune demande perdue.** Si l'AJAX échoue (réseau, service indisponible,
+  ou **activation FormSubmit encore en attente**), un panneau `role="alert"` apparaît avec **deux
+  liens en un clic pré-remplis** avec le récapitulatif du lead : **WhatsApp** (`wa.me/33782934069`,
+  canal principal confirmé d'Ethan) et **email** (`mailto:contact@webia.fr`). Le lead atteint donc
+  Ethan **quoi qu'il arrive**, dès maintenant et même avant activation.
+- **Amélioration progressive** : `action`+`method=POST` natifs présents → même **sans JavaScript**,
+  le formulaire poste vers FormSubmit (pas de cul-de-sac). Tracking GA4 `generate_lead` conservé ;
+  ajout d'un événement `lead_fallback` pour mesurer les bascules.
+- **CSS** (charte respectée) : `.form-fallback` (fond mint `--violet-pale` #E5FCEE, bordure verte
+  `--violet` #16E06F, boutons `.btn-wa`/`.btn-dark` existants), `.btn[aria-busy]`/`.btn:disabled`.
+  `prefers-reduced-motion` pris en charge par le bloc global existant.
+
+> **ACTION REQUISE (une seule fois) côté patron :** à la **première** demande envoyée, FormSubmit
+> adresse à **contact@webia.fr** un email d'activation — **cliquer le lien** pour activer la boîte.
+> Tant que ce n'est pas fait, le filet WhatsApp/email prend le relais (rien n'est perdu), mais
+> l'envoi automatique « propre » ne s'active qu'après ce clic.
+
+**Vérifié** (serveur de prévisualisation local, `devis.html` + `affiliation.html`) :
+- **Succès** (fetch mocké OK) : formulaire masqué (`display:none`), écran « Demande bien reçue ! »
+  affiché — sur les **deux** pages, avec le bon `_subject` chacune.
+- **Échec** (fetch mocké rejeté) : panneau `.form-fallback` injecté (`role="alert"`), **lien
+  WhatsApp pré-rempli** contenant tous les champs (`nom`, `activite`, `email`, `formule`, `projet`,
+  `delai`), **lien mailto** pré-rempli, **bouton réactivé**, formulaire **toujours visible**.
+- Couleurs du panneau **100 % charte** (bg `rgb(229,252,238)`, bordure `rgb(22,224,111)`).
+  **Console sans erreur ni avertissement.** Accolades CSS **équilibrées (472/472)**. Invariants
+  intacts : GTM (`dataLayer`), bouton WhatsApp flottant, lien Calendly, bandeau d'offre + échéance
+  dynamique. *(Note : `preview_screenshot` expire en headless — preuve par DOM/CSSOM, limite connue.)*
+
+**Idées pour les prochains passages :**
+- **SEO local** (désormais axe le plus ancien) : maillage des FAQ locales → `faq.html` ; 5ᵉ page
+  locale (Chelles ou Sénart) si les 4 actuelles performent.
+- **Conversion (suite)** : page `merci.html` de remerciement (au lieu de l'écran inline) pour
+  pouvoir y placer un événement de conversion GA4 dédié et du contenu de réassurance/cross-sell ;
+  `_next` FormSubmit pointant dessus pour le chemin sans-JS.
+- **Design** : décliner `logo.svg` en wordmark horizontal ; liseré sur le tableau comparatif tarifs.
+- **Perf** : `lazy`/`decoding=async` sur les images des sous-sites `realisations/*`.
+
+---
+
 ## 2026-06-25 — [Design] Liseré d'accent supérieur color-codé au survol sur les cartes de prix `.price-card` (tarifs.html)
 
 **Axe : Design** (rotation : le dernier passage du **2026-06-25** portait sur la Performance

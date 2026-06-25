@@ -1249,6 +1249,22 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 }
 .form-note .icon { width: 16px; height: 16px; color: var(--ok); }
 
+/* Bouton d'envoi pendant la transmission du lead */
+.btn[aria-busy="true"] { opacity: 0.7; cursor: progress; }
+.btn:disabled { cursor: not-allowed; }
+
+/* Filet de sécurité : envoi manuel en un clic si l'AJAX échoue */
+.form-fallback {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid var(--violet);
+  border-radius: 14px;
+  background: var(--violet-pale);
+}
+.form-fallback p { margin: 0 0 14px; font-size: 0.9rem; color: var(--text); }
+.form-fallback-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.form-fallback-actions .btn { flex: 1 1 200px; }
+
 .form-success {
   display: none;
   text-align: center;

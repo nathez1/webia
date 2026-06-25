@@ -93,7 +93,13 @@
             <p>Merci pour votre confiance. Nous revenons vers vous <strong>sous 24h ouvrées</strong> avec une proposition personnalisée.<br><br>En attendant, jetez un œil à nos <a href="realisations.html">réalisations</a>.</p>
           </div>
 
-          <form id="devis-form" novalidate>
+          <form id="devis-form" action="https://formsubmit.co/contact@webia.fr" method="POST" novalidate>
+            <!-- Configuration FormSubmit : transmet le lead par email, sans backend. -->
+            <input type="hidden" name="_subject" value="Nouvelle demande de devis — site Webia">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <!-- Pot de miel anti-spam (un bot le remplit, FormSubmit ignore l'envoi). -->
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;">
             <div class="form-row">
               <div class="form-group">
                 <label for="nom">Votre nom <span class="req" aria-hidden="true">*</span></label>
