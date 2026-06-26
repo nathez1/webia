@@ -10,6 +10,69 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-26 — [Conversion] Page de confirmation dédiée `merci.html` (URL de conversion mesurable + relance Calendly/WhatsApp à chaud)
+
+**Axe : Conversion** (rotation : dernier passage = SEO local 2026-06-26 ; avant : Conversion / Design /
+Performance le 2026-06-25 → on enchaîne sur **Conversion**, l'axe le plus directement aligné sur
+l'objectif business « plus de demandes de devis », et c'est le TODO Conversion explicite des derniers
+passages : « page `merci.html` dédiée (event GA4 de conversion + cross-sell), `_next` FormSubmit pointant
+dessus »).
+
+**Constat — pas de point de conversion mesurable ni de relance à chaud.** Depuis le passage du 2026-06-25,
+les formulaires de devis (`devis.html`) et d'affiliation (`affiliation.html`) transmettent réellement le
+lead (FormSubmit + repli WhatsApp/email), mais affichaient une **confirmation _en place_** (`#form-success`)
+**sans changement d'URL**. Deux limites :
+1. **Mesure** : sans page de confirmation à URL propre, la conversion ne peut être suivie de façon fiable
+   côté GA4 (un objectif « page de destination » est le signal le plus robuste — il ne dépend pas du bon
+   déclenchement d'un `event` dataLayer au moment du submit, ni de l'exécution complète du JS). On ne savait
+   donc pas mesurer proprement le taux de conversion réel.
+2. **Relance** : juste après l'envoi, au pic d'intention, le visiteur ne se voyait proposer **aucune action
+   immédiate** (réserver un appel, écrire sur WhatsApp). Un lead « chaud » repartait sans accélérateur.
+
+**Réalisé** (nouveau `merci.html`, `devis.html`, `affiliation.html`, `js/main.js`, `css/style.css`) :
+- **Nouvelle page `merci.html`** (charte respectée, **`<meta robots="noindex, follow">`** car page de
+  confirmation — non indexée, hors `sitemap.xml`). Réutilise l'en-tête, le pied de page minimal, le bouton
+  WhatsApp flottant et **GTM** des autres pages. Contenu : grosse coche verte animée (charte
+  #16E06F→#00E3B4, `prefers-reduced-motion` respecté), titre, rassurance « réponse sous 24h », **timeline
+  « Ce qui se passe ensuite » en 3 étapes**, et une **carte de relance** avec double CTA — **Réserver un
+  appel (Calendly)** + **WhatsApp** — plus un cross-sell vers `realisations.html` / accueil.
+- **Signal de conversion fiable** : au chargement, `merci.html` pousse
+  `dataLayer.push({event:"lead_confirmed", lead_type:"devis"|"affiliation"})` (conversion confirmée par
+  pageview, distincte du `generate_lead` déjà émis à l'intention). Le **type est lu depuis `?type=`** et
+  **adapte le message** (variante affiliation : « Merci pour la recommandation », rappel des 100€).
+- **Redirection cohérente JS *et* sans-JS** : chaque `<form>` reçoit un champ caché
+  **`_next`** (`https://webia.fr/merci.html` ; `…?type=affiliation` pour l'affiliation) → utilisé par
+  FormSubmit pour le **repli sans JavaScript**. Côté JS, `showSuccess()` lit ce même `_next` et fait
+  `window.location.assign(next)` après succès AJAX → **même destination dans les deux cas**. Le **filet de
+  sécurité WhatsApp/email en cas d'échec d'envoi reste intact** (inchangé), et la confirmation _en place_
+  historique demeure en repli si jamais `_next` était absent.
+- **CSS** : **uniquement des classes neuves ajoutées en fin de feuille** (`.merci-check`, `.merci-grid`,
+  `.merci-steps`, `.merci-num`, `.merci-cta-card`) — **aucune règle existante modifiée** → zéro risque de
+  régression sur les autres pages.
+
+**Vérifié** (serveur de prévisualisation local) :
+- `merci.html` → **HTTP 200**, `title` correct, **`robots = noindex, follow`**, **GTM présent**, bouton
+  WhatsApp flottant présent, **3 étapes**, CTA Calendly + WhatsApp, cross-sell (réalisations + accueil).
+- **Variante `?type=affiliation`** : titre bien remplacé par « Merci pour la recommandation », texte
+  contenant « 100€ », et `dataLayer` recevant **`lead_confirmed` / `lead_type:"affiliation"`** (contrôlé en
+  direct dans la page).
+- Coche : **dégradé vert de charte** (`rgb(22,224,111)→rgb(0,227,180)`), affichée ; grille **responsive**
+  (1 colonne sous 760px confirmée). `devis.html` → `_next = …/merci.html`, `affiliation.html` →
+  `_next = …/merci.html?type=affiliation`, `main.js` → redirection via `window.location.assign(next)`.
+- **Console sans erreur ni avertissement.** *(`preview_screenshot` en timeout — limite headless connue,
+  déjà constatée ; preuve par DOM/CSSOM/dataLayer.)*
+
+**Idées pour les prochains passages :**
+- **Conversion (suite)** : intégrer l'**embed Calendly inline** sur `merci.html` (au lieu d'un lien sortant)
+  pour réserver l'appel sans quitter la page — encore plus de RDV captés à chaud.
+- **SEO** : `realisations.html` n'a **toujours aucune donnée structurée** → `CollectionPage`/`ItemList` des
+  3 réalisations (brut-burger, eclat, sole).
+- **Perf** : `loading="lazy"`/`decoding="async"` sur les images des sous-sites `realisations/*`.
+- **Design** : 5ᵉ colonne « Zones desservies » au pied de page (regrouper les liens locaux sous un intitulé
+  explicite pour Google).
+
+---
+
 ## 2026-06-26 — [SEO local] Maillage interne site-wide vers les 4 pages locales (liens en pied de page sur toutes les pages)
 
 **Axe : SEO local** (rotation : derniers passages → Conversion 2026-06-25, Design 2026-06-25,

@@ -1858,3 +1858,62 @@ a:focus-visible,
 @media (prefers-reduced-motion: reduce) {
   .mobile-cta-bar { animation: none; }
 }
+
+/* ---------- Page de confirmation (merci.html) ---------- */
+.merci-check {
+  width: 88px; height: 88px;
+  margin: 0 auto 26px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--violet), var(--magenta));
+  color: var(--on-yellow);
+  box-shadow: var(--glow-violet);
+  animation: merci-pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+.merci-check .icon { width: 42px; height: 42px; stroke-width: 2.5; }
+@keyframes merci-pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.merci-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 40px;
+  align-items: start;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.merci-steps { display: flex; flex-direction: column; gap: 18px; }
+.merci-steps li {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.merci-steps li strong { color: var(--text); }
+.merci-num {
+  flex: 0 0 auto;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  background: var(--bg-alt);
+  color: var(--violet-deep);
+  border: 1.5px solid var(--border);
+}
+.merci-cta-card {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  box-shadow: var(--shadow-card);
+}
+@media (max-width: 760px) {
+  .merci-grid { grid-template-columns: 1fr; gap: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .merci-check { animation: none; }
+}

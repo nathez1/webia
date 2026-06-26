@@ -53,6 +53,12 @@ if (devisForm) {
   }
 
   function showSuccess() {
+    // Redirection vers la page de confirmation dédiée (URL de conversion
+    // mesurable côté GA4 + relance Calendly/WhatsApp). On reprend la même
+    // destination que le repli sans JS (champ caché _next du formulaire).
+    const next = (devisForm.querySelector('input[name="_next"]') || {}).value;
+    if (next) { window.location.assign(next); return; }
+    // Repli historique si _next absent : confirmation en place.
     devisForm.style.display = "none";
     document.getElementById("form-success").classList.add("visible");
     window.scrollTo({ top: 0, behavior: "smooth" });
