@@ -10,6 +10,58 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-26 — [Performance] Lazy-loading + `decoding="async"` des images des démos `realisations/*` (eclat, brut-burger)
+
+**Axe : Performance & accessibilité** (rotation : derniers passages → Conversion 2026-06-26
+(merci.html), SEO local 2026-06-26 (maillage footer), Design 2026-06-25 (liseré price-card),
+**Performance 2026-06-25** (auto-hébergement polices) → Performance = axe le plus ancien). Item
+**« `loading="lazy"`/`decoding="async"` sur les images des sous-sites `realisations/*` »** : c'est
+le **TODO Perf le plus récurrent** des derniers passages, listé à chaque exécution depuis le
+2026-06-23 et **jamais traité** (les pages racine étaient déjà couvertes — `index.html` a son
+`<img class="photo-cutout">` en lazy depuis le 2026-06-22).
+
+**Constat.** Les deux démos vitrine montrées aux prospects comme **preuve de qualité** chargeaient
+**toutes** leurs images dès le parse du HTML, sans aucun lazy-loading :
+- **`realisations/eclat/`** (le cas le plus lourd) : **9 images Unsplash distantes** (w=700→1000),
+  dont **7 sous la ligne de flottaison** (les 5 récits, le portrait de la cédante, l'image du modal
+  témoignage **caché**). Le navigateur les téléchargeait toutes immédiatement, y compris l'image
+  d'un modal jamais ouvert → bande passante et temps de chargement gaspillés sur une page démo.
+- **`realisations/brut-burger/`** : la photo `plancha.webp` (section « À propos ») et 3 cut-outs
+  décoratifs du footer, tous sous la ligne de flottaison, chargés d'emblée.
+
+**Réalisé** (HTML uniquement — **aucune retouche CSS/JS**, donc zéro risque de régression de mise
+en page ou d'animation) :
+- **`eclat/index.html`** : `loading="lazy" decoding="async"` ajouté aux **7 images sous la ligne
+  de flottaison** (récits 01→05, portrait cédante, image du modal). Les **2 images du hero**
+  (`hero__img--a/--b`, au-dessus de la ligne de flottaison) reçoivent **`decoding="async"` seul,
+  PAS `loading="lazy"`** → on ne pénalise pas le LCP / premier rendu.
+- **`brut-burger/index.html`** : `loading="lazy" decoding="async"` sur `plancha.webp` + les 3
+  cut-outs du footer ; **`decoding="async"` seul** sur les 5 images du hero (4 ingrédients flottants
+  animés en parallaxe `data-speed` + le burger héros) → parallaxe et LCP intacts.
+- **Pas de layout shift** : ces démos dimensionnent les images via **conteneurs CSS**
+  (`.tale__media`, `.hero__img`, `.about__card`, `.float`), pas via attributs `width/height`
+  intrinsèques → le lazy-loading ne décale rien.
+- **`realisations/sole/`** : déjà couvert — ses images raster sont générées en JS avec
+  `loading="lazy" decoding="async"` (`js/data.js`) ; sa seule balise statique est un SVG
+  décoratif (aucun gain raster). Rien à changer.
+
+**Vérifié** (serveur de prévisualisation local, port 8742, contrôle DOM via `DOMParser` sur le HTML
+servi) : **eclat** → 9 `<img>`, **7 en `loading="lazy"`**, **9 en `decoding="async"`**, **0 image
+du hero en lazy** ; **brut-burger** → 9 `<img>`, **4 en `loading="lazy"`** (plancha + 3 floats
+footer), **9 en `decoding="async"`**, **0 hero en lazy**. **Console sans erreur** sur la page eclat
+(démo GSAP) après modification. Les `alt` existants et toute la structure sont préservés. *(Les pages
+racine du site Webia et les invariants — GTM, WhatsApp flottant, bandeau d'offre — ne sont pas
+touchés : seules 2 démos `realisations/*` modifiées.)*
+
+**Idées pour les prochains passages :**
+- **SEO** : `realisations.html` (la page galerie) n'a **toujours aucune donnée structurée** →
+  `CollectionPage`/`ItemList` des 3 réalisations (brut-burger, eclat, sole).
+- **Conversion** : embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page).
+- **Design** : 5ᵉ colonne « Zones desservies » au pied de page (intitulé explicite pour Google).
+- **Access** : `aria-label` distinct sur les `<nav>` ; ordre de tabulation du bouton WhatsApp flottant.
+
+---
+
 ## 2026-06-26 — [Conversion] Page de confirmation dédiée `merci.html` (URL de conversion mesurable + relance Calendly/WhatsApp à chaud)
 
 **Axe : Conversion** (rotation : dernier passage = SEO local 2026-06-26 ; avant : Conversion / Design /
