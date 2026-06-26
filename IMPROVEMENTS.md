@@ -10,6 +10,53 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-26 — [SEO local] Maillage interne site-wide vers les 4 pages locales (liens en pied de page sur toutes les pages)
+
+**Axe : SEO local** (rotation : derniers passages → Conversion 2026-06-25, Design 2026-06-25,
+Performance 2026-06-25, **SEO local 2026-06-24** → SEO local = axe le plus ancien, et c'est le TODO
+SEO le plus récurrent des derniers passages : « maillage des pages locales »).
+
+**Constat — fuite de jus de lien interne.** Les 4 pages d'atterrissage locales
+(`creation-site-internet-melun/meaux/fontainebleau/paris.html`) ne recevaient de liens internes que
+depuis **`index.html`** (colonne « Navigation » du pied de page) et **entre elles** (cross-linking).
+Les **7 autres pages** à pied de page complet — `tarifs.html`, `realisations.html`,
+`affiliation.html`, `faq.html`, `mentions-legales.html`, `confidentialite.html` — affichaient la même
+colonne « Navigation » **sans** ces liens locaux. Or l'accueil concentre déjà le plus de jus de lien
+externe ; les pages locales, elles, dépendaient d'un seul lien entrant interne chacune. Résultat :
+crawl et autorité interne mal répartis vers les pages censées capter les recherches géolocalisées
+(« création site internet Melun/Meaux/Fontainebleau/Paris »).
+
+**Réalisé** (HTML uniquement, **aucune retouche CSS/JS** → zéro risque de régression de mise en page) :
+- Ajout des **4 liens locaux** dans la colonne « Navigation » du pied de page des **6 pages** qui ne
+  les avaient pas (tarifs, réalisations, affiliation, faq, mentions-légales, confidentialité), en
+  reprenant **à l'identique** le bloc déjà en place et fonctionnel sur `index.html` (colonne à 9
+  items). Chaque page du site (hors `devis.html`) pointe désormais vers **les 4 pages locales**.
+- **`devis.html` laissé intact** : pied de page minimal volontaire (page de conversion, distractions
+  réduites) — on ne lui ajoute pas de pied de page complet.
+- **sitemap.xml** : `lastmod` des 6 pages modifiées passé à **2026-06-26** (signal de fraîcheur
+  cohérent avec le changement réel).
+
+**Vérifié** (serveur de prévisualisation local, port dynamique) :
+- Les **6 pages** renvoient **HTTP 200** et exposent **exactement 4 liens locaux** dans `.site-footer`
+  (Melun, Meaux, Fontainebleau, Paris) — contrôle DOM via `DOMParser` sur le HTML servi.
+- Mise en page intacte : `.footer-grid` conserve ses **4 colonnes** (`footerCols=4`), colonne
+  Navigation à **9 items** (identique à `index.html`, déjà éprouvé), **CSS non modifié**.
+- Invariants intacts : **GTM** (`dataLayer` défini), **bouton WhatsApp flottant** présent.
+  **Console sans erreur ni avertissement.** *(Note : `preview_screenshot`/`innerWidth` peu fiables en
+  headless — preuve par DOM/CSSOM, limite connue.)*
+
+**Idées pour les prochains passages :**
+- **SEO local (suite)** : transformer la liste « Navigation » du footer en colonne dédiée
+  « Zones desservies » (intitulé plus explicite pour Google) — nécessite un ajustement `.footer-grid`
+  (5ᵉ colonne) à tester ; ou 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles performent.
+- **SEO** : `realisations.html` n'a **aucune donnée structurée** → `CollectionPage`/`ItemList` des 3
+  réalisations (brut-burger, eclat, sole) pour des résultats enrichis.
+- **Conversion** : page `merci.html` dédiée (event GA4 de conversion + cross-sell), `_next`
+  FormSubmit pointant dessus.
+- **Perf** : `loading="lazy"`/`decoding="async"` sur les images des sous-sites `realisations/*`.
+
+---
+
 ## 2026-06-25 — [Conversion] Les formulaires de devis et d'affiliation transmettent enfin réellement le lead (FormSubmit + filet de sécurité WhatsApp/email)
 
 **Axe : Conversion** (rotation : derniers passages par axe → Design 2026-06-25, Performance
