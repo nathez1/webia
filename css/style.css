@@ -1380,8 +1380,8 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 }
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+  gap: 32px;
   margin-bottom: 48px;
 }
 .footer-grid p { font-size: 0.9rem; margin-top: 16px; max-width: 300px; }

@@ -10,6 +10,62 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-27 — [Design] Colonne de pied de page dédiée « Zones desservies » (footer unifié 5 colonnes + maillage interne des pages locales)
+
+**Axe : Design** (rotation : derniers passages → Performance 2026-06-26 (lazy-loading démos),
+Conversion 2026-06-26 (merci.html), SEO local 2026-06-26 (maillage footer), **Design 2026-06-25**
+(liseré price-card) → **Design = axe le plus ancien**). C'était aussi l'idée Design explicitement
+listée au passage précédent : « 5ᵉ colonne *Zones desservies* au pied de page (intitulé explicite
+pour Google) ».
+
+**Constat — deux pieds de page incohérents + maillage local rompu.** Le footer existait en **deux
+variantes** :
+- **Pages standard** (`index`, `tarifs`, `realisations`, `affiliation`, `faq`, `confidentialite`,
+  `mentions-legales`) : la colonne **Navigation** entassait **9 liens** (5 liens de site + les 4
+  pages locales aux ancres longues « Création de site à Melun (77) »…). Colonne surchargée,
+  hiérarchie visuelle brouillée.
+- **Pages locales** (`creation-site-internet-melun/meaux/fontainebleau/paris`) : footer **sans
+  aucun lien vers les pages locales sœurs** → silo SEO local non maillé (chaque atterrissage local
+  était un cul-de-sac, mauvais pour le crawl et le PageRank interne entre pages géo).
+
+**Réalisé.**
+- **Nouvelle colonne `<div class="footer-col">` « Zones desservies »** ajoutée sur les **11 pages à
+  footer complet**, placée entre **Navigation** et **Offres**, avec 4 liens aux **ancres courtes et
+  lisibles** : Melun (77) · Meaux (77) · Fontainebleau (77) · Paris (75). L'intitulé de section
+  porte désormais le **signal géographique explicite** pour Google ; les ancres restent
+  géo-pertinentes sans surcharger.
+- **Colonne Navigation décombrée** : revient à **5 entrées propres** (Accueil, Tarifs, Réalisations,
+  Affiliation, FAQ) sur les pages standard — les 4 ancres locales longues en sont retirées.
+- **Maillage interne local réparé** : les 4 pages locales **se lient désormais mutuellement** dans
+  le footer (le gain SEO principal) ; auparavant elles n'avaient aucun lien footer vers leurs sœurs.
+- **Footer unifié** : les 11 pages affichent exactement le même ordre de colonnes
+  **Navigation | Zones desservies | Offres | Contact** + bloc logo — cohérence inter-pages totale.
+- **CSS** : `.footer-grid` passe de `1.6fr 1fr 1fr 1fr` (4 col) à `1.6fr 1fr 1fr 1fr 1fr` (5 col) ;
+  `gap` ramené de 40px à 32px pour loger la 5ᵉ colonne dans le conteneur de 1180px. **Aucune touche
+  aux media-queries** : ≤1024px reste `1fr 1fr` (les 5 enfants se réorganisent), ≤768px reste `1fr`.
+- **Pages exclues volontairement** : `devis.html` et `merci.html` conservent leur footer minimal
+  (pages de conversion sans distraction — intentionnel).
+
+**Vérifié** (serveur de prévisualisation local port 8742 ; contrôle DOM via `DOMParser` sur le HTML
+servi) : les **11 pages** rendent un footer identique **Navigation | Zones desservies | Offres |
+Contact**, **Navigation = 5 items** partout, **colonne Zones = 4 liens** corrects (vers les 4 pages
+locales) sur chaque page y compris les locales. CSS servi confirmé en **5 colonnes** (gap 32px),
+**media-queries 1024px/768px intactes**. **0 erreur console.** Invariants préservés : GTM, WhatsApp
+flottant, bandeau d'offre, Calendly, formulaires — non touchés. Charte respectée (aucun violet/jaune ;
+`--yellow` reste l'alias du vert `#2BF56F`).
+
+**Idées pour les prochains passages :**
+- **SEO** : `realisations.html` n'a **toujours aucune donnée structurée** → `CollectionPage`/`ItemList`
+  des 3 réalisations (brut-burger, eclat, sole).
+- **Conversion** : embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page).
+- **Access** : `aria-label` distinct sur chaque `<nav>` ; vérifier l'ordre de tabulation du bouton
+  WhatsApp flottant ; éventuel `aria-current="page"` sur le lien de la ville courante dans la colonne
+  Zones desservies.
+- **Perf** : auditer le poids de `img/og-webia.png` (115 Ko) et `img/ethan.png` (701 Ko, doublon du
+  `.webp` de 80 Ko — le `.png` est-il encore référencé ?).
+
+---
+
 ## 2026-06-26 — [Performance] Lazy-loading + `decoding="async"` des images des démos `realisations/*` (eclat, brut-burger)
 
 **Axe : Performance & accessibilité** (rotation : derniers passages → Conversion 2026-06-26
