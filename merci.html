@@ -90,7 +90,7 @@
             <h3 style="font-family: var(--font-display); text-transform: uppercase; font-size: 1.25rem; margin-bottom: 8px;">Envie d'avancer plus vite&nbsp;?</h3>
             <p style="color: var(--text-muted); margin-bottom: 18px;">Réservez dès maintenant votre créneau d'appel, ou écrivez-moi directement&nbsp;: on gagne 24h.</p>
             <div style="display:flex; flex-direction:column; gap:10px;">
-              <a href="https://calendly.com/nathepnathep/new-meeting" target="_blank" rel="noopener" data-track="calendly" class="btn btn-yellow btn-block">
+              <a href="#reserver" data-track="calendly" class="btn btn-yellow btn-block">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
                 Réserver un appel (30 min)
               </a>
@@ -106,6 +106,27 @@
           </p>
         </aside>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- Réservation d'appel EN LIGNE, sans quitter la page (Calendly inline, chargé en différé) -->
+  <section class="section" id="reserver" style="padding-top: 8px;">
+    <div class="container">
+      <div style="text-align:center; max-width: 660px; margin: 0 auto 30px;">
+        <span class="badge-pill" style="margin:0 auto 16px;">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          On gagne 24h
+        </span>
+        <h2 class="display">Réservez votre <span class="accent">appel</span> maintenant</h2>
+        <p class="lead" style="margin: 14px auto 0;">Choisissez le créneau de 30 min qui vous arrange. On cadre votre projet ensemble, par téléphone ou visio — sans engagement.</p>
+      </div>
+      <div class="calendly-inline-widget" data-track="calendly" data-url="https://calendly.com/nathepnathep/new-meeting?hide_gdpr_banner=1&background_color=ffffff&primary_color=16e06f&text_color=101a9e" style="min-width:320px; height:680px; border-radius:18px; overflow:hidden; box-shadow: var(--shadow-card); background:#fff;">
+        <noscript>
+          <p style="text-align:center; padding:32px 24px;">
+            <a href="https://calendly.com/nathepnathep/new-meeting" target="_blank" rel="noopener" class="btn btn-yellow">Réserver un appel (30 min)</a>
+          </p>
+        </noscript>
       </div>
     </div>
   </section>
@@ -141,6 +162,35 @@
       } else {
         window.dataLayer.push({ event: "lead_confirmed", lead_type: "devis" });
       }
+    })();
+  </script>
+  <!-- Calendly inline : le script tiers n'est chargé que quand la section de réservation approche (perf + RGPD : aucune requête tierce avant) -->
+  <script>
+    (function () {
+      var target = document.getElementById("reserver");
+      if (!target) return;
+      var loaded = false;
+      function loadCalendly() {
+        if (loaded) return;
+        loaded = true;
+        var s = document.createElement("script");
+        s.src = "https://assets.calendly.com/assets/external/widget.js";
+        s.async = true;
+        document.body.appendChild(s);
+      }
+      if ("IntersectionObserver" in window) {
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { loadCalendly(); io.disconnect(); }
+          });
+        }, { rootMargin: "500px" });
+        io.observe(target);
+      } else {
+        loadCalendly();
+      }
+      // Clic sur « Réserver un appel » dans la carte : on s'assure que le widget est prêt avant l'arrivée.
+      var jump = document.querySelector('a[href="#reserver"]');
+      if (jump) jump.addEventListener("click", loadCalendly);
     })();
   </script>
   <script src="js/main.js"></script>

@@ -10,6 +10,63 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-27 — [Conversion] Embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page de confirmation)
+
+**Axe : Conversion** (rotation : derniers passages → SEO local 2026-06-27 (`CollectionPage`/`ItemList`),
+Design 2026-06-27 (footer « Zones desservies »), Performance 2026-06-26 (lazy-loading démos),
+**Conversion 2026-06-26** (création de `merci.html`) → **Conversion = axe le plus ancien**). C'est aussi
+le **TODO Conversion le plus récurrent**, listé à chaque passage depuis le 2026-06-26 et jamais traité :
+« embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page) ».
+
+**Constat.** `merci.html` (page de confirmation post-envoi, atteinte au **pic d'intention** du lead)
+proposait de réserver un appel via un **lien sortant** vers Calendly (`target="_blank"`). Chaque clic
+= une page quittée, un nouvel onglet, une friction supplémentaire avant la prise de RDV. Or c'est
+exactement le moment où il faut **capter le créneau à chaud, sans rupture de parcours**. Un embed
+inline supprime cette friction : le visiteur choisit son créneau **directement sur la page**.
+
+**Réalisé** (`merci.html` uniquement — **aucune retouche CSS/JS partagé** → zéro risque de régression
+sur les autres pages) :
+- **Nouvelle section `#reserver`** (`section` claire, après la grille « Ce qui se passe ensuite »,
+  avant le footer) : badge-pill « On gagne 24h », titre `h2.display` « Réservez votre **appel**
+  maintenant », lead de réassurance, puis le **widget Calendly inline** (`.calendly-inline-widget`,
+  `data-url` vers `calendly.com/nathepnathep/new-meeting`, hauteur 680px, coins arrondis 18px,
+  `box-shadow: var(--shadow-card)`). Couleurs du widget paramétrées **à la charte** via l'URL
+  (`primary_color=16e06f` vert, `text_color=101a9e` bleu, `background_color=ffffff`,
+  `hide_gdpr_banner=1`).
+- **Chargement différé du script tiers** (perf + RGPD) : `assets.calendly.com/.../widget.js` n'est
+  injecté que lorsque la section `#reserver` **approche du viewport** (`IntersectionObserver`,
+  `rootMargin: 500px`) — **aucune requête tierce tant que le visiteur n'a pas scrollé** vers la
+  réservation. Repli sans `IntersectionObserver` (chargement immédiat) et **chargement anticipé au
+  clic** sur le bouton de la carte.
+- **Le bouton « Réserver un appel » de la carte d'accélération** devient une **ancre interne**
+  (`href="#reserver"`) qui défile jusqu'au widget — plus de nouvel onglet, plus de double point
+  d'entrée Calendly concurrent. Le bouton **WhatsApp** de la carte est **inchangé**.
+- **Fallback robuste** : `<noscript>` dans le conteneur du widget → si JS/Calendly est bloqué, le
+  **lien direct** « Réserver un appel (30 min) » vers Calendly s'affiche quand même. Aucun cul-de-sac.
+- **Tracking conservé** : `data-track="calendly"` sur l'ancre et sur le widget → comptage
+  `contact_click` déjà en place via `js/main.js` (non modifié).
+
+**Vérifié** : validation statique (Node) → section `#reserver` présente, `.calendly-inline-widget`
+avec `data-url` correct, `<noscript>` de repli présent, bouton de carte transformé en ancre
+`#reserver` (plus aucun lien sortant Calendly dans la carte), loader `IntersectionObserver` +
+widget.js présents, **balises équilibrées** (`<section>` 3/3, `<main>` 1/1). **Serveur live (port
+8742) → HTTP 200**, page servie contenant bien `#reserver`, le widget et l'ancre. Invariants
+intacts : **GTM** (`GTM-KF6HJ4WF`), **bouton WhatsApp flottant** (`wa-float`), `js/main.js`, signal
+de conversion `lead_confirmed` — **non touchés**. Charte respectée (aucune couleur hors charte ;
+widget paramétré vert #16E06F / bleu #101A9E). *(Capture headless en timeout — limite connue notée
+en mémoire ; preuve par DOM statique + HTTP live.)*
+
+**Idées pour les prochains passages :**
+- **Access** : `aria-label` distinct sur chaque `<nav>` ; `aria-current="page"` sur la ville courante
+  dans la colonne « Zones desservies » ; ordre de tabulation du bouton WhatsApp flottant.
+- **Perf** : auditer le poids de `img/ethan.png` (701 Ko, doublon du `.webp` de 80 Ko) et
+  `img/og-webia.png` (115 Ko).
+- **SEO** : `BreadcrumbList` sur `realisations.html` ; 5ᵉ page locale (Chelles / Sénart) si les 4
+  actuelles performent.
+- **Design** : décliner `logo.svg` en wordmark horizontal SVG (signatures, réseaux).
+
+---
+
 ## 2026-06-27 — [SEO local] Données structurées `CollectionPage` + `ItemList` des 3 réalisations réelles sur `realisations.html`
 
 **Axe : SEO local** (rotation : dernier passage = Design 2026-06-27 (footer « Zones desservies ») ;
