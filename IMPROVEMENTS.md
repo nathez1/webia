@@ -10,6 +10,53 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-27 — [SEO local] Données structurées `CollectionPage` + `ItemList` des 3 réalisations réelles sur `realisations.html`
+
+**Axe : SEO local** (rotation : dernier passage = Design 2026-06-27 (footer « Zones desservies ») ;
+avant : Performance 2026-06-26, Conversion 2026-06-26, **SEO local 2026-06-26** → SEO local = axe le
+plus ancien). C'est aussi le **TODO SEO le plus récurrent** des derniers passages, listé à chaque
+exécution depuis le 2026-06-26 et **jamais traité** : « `realisations.html` n'a toujours aucune donnée
+structurée → `CollectionPage`/`ItemList` des 3 réalisations (brut-burger, eclat, sole) ».
+
+**Constat.** `realisations.html` (la page galerie, indexable) était la **seule page de contenu sans
+aucun bloc JSON-LD** : `index`, `tarifs`, `faq` et les 4 pages locales exposent toutes des entités
+structurées (ProfessionalService, FAQPage, BreadcrumbList…), mais la page qui présente le **portfolio**
+— preuve de qualité directement liée à la conversion — n'envoyait **aucun signal sémantique** à Google
+sur les projets réalisés. Aucune éligibilité aux résultats enrichis de type liste/galerie.
+
+**Réalisé** (HTML uniquement — **1 seul bloc `<script type="application/ld+json">` ajouté** avant
+`</head>`, **aucune retouche CSS/JS ni au corps de page** → zéro risque de régression) :
+- **`CollectionPage`** (`@id …#page`) décrivant la page, **rattachée au graphe existant** via
+  `isPartOf`/`about` → `{ "@id": "https://webia.fr/#business" }` (le nœud `ProfessionalService` défini
+  sur `index.html`) pour une cohérence inter-pages du knowledge graph.
+- **`mainEntity` = `ItemList`** ordonné (`ItemListOrderAscending`, `numberOfItems: 3`) avec 3
+  `ListItem` → chacun un `WebSite` (name, `url` absolue vers la démo en ligne, `description` reprise
+  **mot pour mot du texte visible**, `inLanguage: fr`, `genre`, et `creator` pointant vers
+  `#business`).
+- **Périmètre volontairement limité aux 3 projets RÉELS** (SOLE, ÉCLAT, BRUT — démos en ligne
+  vérifiables, sous-sites présents dans `realisations/*/`). Les **3 maquettes illustratives** de la
+  page (Institut Éclat, Durand Conseil, Maison Gourmande) ne sont **PAS** balisées : ce sont des
+  exemples fictifs, les marquer comme réalisations réelles aurait été un faux signal → respect de la
+  contrainte « jamais inventer de faux clients/avis/stats ». **Aucune note, avis ou statistique
+  inventés** dans le balisage.
+
+**Vérifié** : `JSON.parse` du bloc → **1 bloc valide**, `@type: CollectionPage`, `mainEntity` à **3
+items**. Les **3 fichiers de démo référencés existent** (`realisations/sole|eclat|brut-burger/
+index.html`). Le corps de la page, le footer (colonnes Navigation | Zones desservies | Offres |
+Contact), GTM, bouton WhatsApp flottant, bandeau d'offre et CTA sont **inchangés** (seul le `<head>`
+est touché). Charte respectée (aucune couleur modifiée).
+
+**Idées pour les prochains passages :**
+- **Conversion** : embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page).
+- **Access** : `aria-label` distinct sur chaque `<nav>` ; `aria-current="page"` sur la ville courante
+  dans la colonne « Zones desservies » ; ordre de tabulation du bouton WhatsApp flottant.
+- **Perf** : auditer le poids de `img/ethan.png` (701 Ko, doublon du `.webp` de 80 Ko — encore
+  référencé dans le JSON-LD `index` via `image`) et `img/og-webia.png` (115 Ko).
+- **SEO (suite)** : `BreadcrumbList` sur `realisations.html` ; 5ᵉ page locale (Chelles / Sénart) si
+  les 4 actuelles performent.
+
+---
+
 ## 2026-06-27 — [Design] Colonne de pied de page dédiée « Zones desservies » (footer unifié 5 colonnes + maillage interne des pages locales)
 
 **Axe : Design** (rotation : derniers passages → Performance 2026-06-26 (lazy-loading démos),
