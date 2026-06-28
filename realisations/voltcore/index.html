@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VOLTCORE — Composants PC haute performance</title>
+<meta name="description" content="VOLTCORE — La boutique des builders exigeants. Cartes graphiques, processeurs, RAM, watercooling et boîtiers nouvelle génération. Livraison 24h, garantie 5 ans." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/style.css" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23ffffff' d='M18 2 6 18h8l-2 12 14-18h-8z'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<!-- announce bar -->
+<div class="announce">
+  <div class="announce__track">
+    <span>Livraison express 24h offerte dès 99€</span><i>⌁</i>
+    <span>Paiement en 4× sans frais</span><i>⌁</i>
+    <span>Garantie 5 ans sur les composants VOLTCORE</span><i>⌁</i>
+    <span>SAV par de vrais builders, 7j/7</span><i>⌁</i>
+    <span>Livraison express 24h offerte dès 99€</span><i>⌁</i>
+    <span>Paiement en 4× sans frais</span><i>⌁</i>
+    <span>Garantie 5 ans sur les composants VOLTCORE</span><i>⌁</i>
+    <span>SAV par de vrais builders, 7j/7</span><i>⌁</i>
+  </div>
+</div>
+
+<!-- header -->
+<header class="header" id="header">
+  <a href="#top" class="brand" aria-label="VOLTCORE accueil">
+    <span class="brand__mark"><svg viewBox="0 0 32 32" width="22" height="22"><path d="M18 2 6 18h8l-2 12 14-18h-8z"/></svg></span>
+    <span class="brand__name">VOLTCORE</span>
+  </a>
+  <nav class="nav" id="nav">
+    <a href="#categories" data-link>Composants</a>
+    <a href="#products" data-link>Catalogue</a>
+    <a href="#spotlight" data-link>Flagship</a>
+    <a href="#bench" data-link>Benchmarks</a>
+    <a href="#build" data-link>Configurateur</a>
+  </nav>
+  <div class="header__actions">
+    <button class="icon-btn" aria-label="Rechercher"><svg viewBox="0 0 24 24" width="19" height="19"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" aria-label="Mon compte"><svg viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="8" r="4"/><path d="M5 21c1.2-4 12.8-4 14 0"/></svg></button>
+    <button class="icon-btn cart-btn" id="cartBtn" aria-label="Mon panier">
+      <svg viewBox="0 0 24 24" width="19" height="19"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <span class="cart-count" id="cartCount">0</span>
+    </button>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero__grain" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <div class="hero__head">
+      <span class="eyebrow"><span class="led"></span> Série NOVA · nouvelle génération</span>
+      <h1 class="hero__title">
+        <span>Construis</span>
+        <span>sans limites</span>
+      </h1>
+      <p class="hero__sub">Composants triés sur le volet, prix négociés, montés et testés par des passionnés. La machine de tes rêves, sans le casse-tête.</p>
+    </div>
+
+    <div class="hero__stage">
+      <!-- carte sombre centrale flottant sur le bleu -->
+      <div class="mock" id="heroMock">
+        <div class="mock__top">
+          <span class="mock__brand">VOLTCORE</span>
+          <span class="mock__live"><i></i> en stock</span>
+        </div>
+        <img class="mock__img" src="assets/img/ui/hero-gpu.jpg" alt="Carte graphique NOVA RTX 5090 Ti" />
+        <div class="mock__foot">
+          <div>
+            <span class="mock__tag">Carte graphique</span>
+            <h3 class="mock__name">NOVA RTX 5090 Ti</h3>
+          </div>
+          <div class="mock__price"><b>2 199€</b></div>
+        </div>
+      </div>
+      <!-- sous-cartes verre flottantes -->
+      <div class="floatcard floatcard--a" data-float="1.4">
+        <span class="floatcard__k">GDDR7</span><b>24 Go</b>
+      </div>
+      <div class="floatcard floatcard--b" data-float="2.1">
+        <span class="floatcard__k">4K · DLSS 4</span><b>240 fps</b>
+      </div>
+      <div class="floatcard floatcard--c" data-float="1.7">
+        <span class="led led--lime"></span> Expédié aujourd'hui
+      </div>
+    </div>
+
+    <div class="hero__bar">
+      <div class="hero__cta">
+        <a href="#build" class="btn btn--yellow magnetic" data-link>Configurer mon PC <svg viewBox="0 0 24 24" width="17" height="17"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="#products" class="btn btn--glass magnetic" data-link>Voir le catalogue</a>
+      </div>
+      <div class="hero__stats">
+        <div><b data-count="250" data-suffix="k+">0</b><span>commandes</span></div>
+        <div><b data-count="4.9" data-decimals="1">0</b><span>note / 5</span></div>
+        <div><b data-count="24" data-suffix="h">0</b><span>expédition</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BRANDS ============ -->
+<section class="brands" aria-label="Marques partenaires">
+  <div class="brands__track">
+    <span>NVIDIA</span><i>·</i><span>AMD</span><i>·</i><span>INTEL</span><i>·</i><span>CORSAIR</span><i>·</i><span>ASUS ROG</span><i>·</i><span>NZXT</span><i>·</i><span>GIGABYTE</span><i>·</i><span>be quiet!</span><i>·</i><span>SAMSUNG</span><i>·</i><span>MSI</span><i>·</i>
+    <span>NVIDIA</span><i>·</i><span>AMD</span><i>·</i><span>INTEL</span><i>·</i><span>CORSAIR</span><i>·</i><span>ASUS ROG</span><i>·</i><span>NZXT</span><i>·</i><span>GIGABYTE</span><i>·</i><span>be quiet!</span><i>·</i><span>SAMSUNG</span><i>·</i><span>MSI</span><i>·</i>
+  </div>
+</section>
+
+<!-- ============ CATEGORIES ============ -->
+<section class="section" id="categories">
+  <div class="section__head">
+    <div class="reveal-up"><span class="kicker">/ Composants</span><h2 class="h2">Chaque pièce,<br>au sommet</h2></div>
+    <p class="section__lead reveal-up">Huit familles sélectionnées et testées en interne. Tu choisis la perf, on garantit la compatibilité.</p>
+  </div>
+  <div class="cats" id="cats">
+    <a href="#products" data-link data-cat="gpu" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/gpu.jpg" alt=""></div><div class="cat__body"><span class="cat__count">38 modèles</span><h3>Cartes graphiques</h3></div></a>
+    <a href="#products" data-link data-cat="cpu" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/cpu.jpg" alt=""></div><div class="cat__body"><span class="cat__count">24 modèles</span><h3>Processeurs</h3></div></a>
+    <a href="#products" data-link data-cat="mb" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/motherboard.jpg" alt=""></div><div class="cat__body"><span class="cat__count">17 modèles</span><h3>Cartes mères</h3></div></a>
+    <a href="#products" data-link data-cat="ram" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/ram.jpg" alt=""></div><div class="cat__body"><span class="cat__count">19 kits</span><h3>Mémoire DDR5</h3></div></a>
+    <a href="#products" data-link data-cat="cool" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/cooling.jpg" alt=""></div><div class="cat__body"><span class="cat__count">27 modèles</span><h3>Refroidissement</h3></div></a>
+    <a href="#products" data-link data-cat="storage" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/ssd.jpg" alt=""></div><div class="cat__body"><span class="cat__count">31 SSD</span><h3>Stockage NVMe</h3></div></a>
+    <a href="#products" data-link data-cat="periph" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/keyboard.jpg" alt=""></div><div class="cat__body"><span class="cat__count">44 produits</span><h3>Périphériques</h3></div></a>
+    <a href="#products" data-link data-cat="case" class="cat reveal-up"><div class="cat__media"><img src="assets/img/products/case.jpg" alt=""></div><div class="cat__body"><span class="cat__count">22 boîtiers</span><h3>Boîtiers</h3></div></a>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="section" id="products">
+  <div class="section__head">
+    <div class="reveal-up"><span class="kicker">/ Best-sellers</span><h2 class="h2">Le hardware<br>le plus convoité</h2></div>
+    <p class="section__lead reveal-up">Les composants les plus commandés ce mois-ci. Stock réel, prix négociés, expédition le jour même.</p>
+  </div>
+  <div class="filters reveal-up" id="filters">
+    <button class="chip is-active" data-filter="all">Tout</button>
+    <button class="chip" data-filter="gpu">Cartes graphiques</button>
+    <button class="chip" data-filter="cpu">Processeurs</button>
+    <button class="chip" data-filter="ram">RAM</button>
+    <button class="chip" data-filter="cool">Refroidissement</button>
+    <button class="chip" data-filter="storage">Stockage</button>
+    <button class="chip" data-filter="periph">Périphériques</button>
+    <button class="chip" data-filter="case">Boîtiers</button>
+  </div>
+  <div class="grid" id="productGrid"><!-- JS --></div>
+</section>
+
+<!-- ============ SPOTLIGHT ============ -->
+<section class="section spotlight" id="spotlight">
+  <div class="spotlight__inner">
+    <div class="spotlight__stage">
+      <div class="mock mock--lg">
+        <div class="mock__top"><span class="mock__brand">VOLTCORE</span><span class="mock__sku">SKU · NV-5090TI</span></div>
+        <img class="mock__img" src="assets/img/ui/hero-cards.jpg" alt="NOVA RTX 5090 Ti" data-parallax="0.12" />
+      </div>
+      <div class="floatcard floatcard--s1" data-float="1.5"><span class="floatcard__k">Boost</span><b>2.81 GHz</b></div>
+      <div class="floatcard floatcard--s2" data-float="2.0"><span class="floatcard__k">Refroidissement</span><b>0 dB au repos</b></div>
+    </div>
+    <div class="spotlight__copy">
+      <span class="kicker reveal-up">/ Le Flagship · édition limitée</span>
+      <h2 class="spotlight__title reveal-up">NOVA RTX<br>5090 Ti</h2>
+      <p class="reveal-up">Notre carte signature. Architecture Blackwell, 24 Go de GDDR7 et un refroidissement triple ventilateur muet sous charge. Le 4K à 240 fps, sans jamais broncher.</p>
+      <ul class="spec-list reveal-up">
+        <li><span>GPU</span><b>Blackwell · 21 760 cœurs</b></li>
+        <li><span>Mémoire</span><b>24 Go GDDR7 · 512-bit</b></li>
+        <li><span>Boost</span><b>2.81 GHz · DLSS 4</b></li>
+      </ul>
+      <div class="spotlight__buy reveal-up">
+        <div class="price price--xl"><b>2 199€</b><s>2 499€</s></div>
+        <button class="btn btn--yellow magnetic" data-add="gpu-5090">Ajouter au panier</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENCHMARKS ============ -->
+<section class="section bench" id="bench">
+  <div class="section__head">
+    <div class="reveal-up"><span class="kicker">/ Benchmarks maison</span><h2 class="h2">On teste,<br>on te montre</h2></div>
+    <p class="section__lead reveal-up">Chaque build VOLTCORE passe au banc. Voici les scores moyens relevés sur nos configs phares, en 4K ultra.</p>
+  </div>
+  <div class="bench__panel reveal-up">
+    <div class="bench__row"><span class="bench__name">NOVA RTX 5090 Ti</span><div class="bench__bar"><i style="--v:98%"></i></div><b class="bench__val" data-count="98">0</b></div>
+    <div class="bench__row"><span class="bench__name">NOVA RTX 5080</span><div class="bench__bar"><i style="--v:84%"></i></div><b class="bench__val" data-count="84">0</b></div>
+    <div class="bench__row"><span class="bench__name">Ryzen Forge X9</span><div class="bench__bar"><i style="--v:91%"></i></div><b class="bench__val" data-count="91">0</b></div>
+    <div class="bench__row"><span class="bench__name">Glacier AIO 360</span><div class="bench__bar"><i style="--v:76%"></i></div><b class="bench__val" data-count="76">0</b></div>
+  </div>
+  <div class="stats">
+    <div class="stat reveal-up"><b data-count="250" data-suffix="k">0</b><span>commandes expédiées</span></div>
+    <div class="stat reveal-up"><b data-count="98" data-suffix="%">0</b><span>livrées en 24h</span></div>
+    <div class="stat reveal-up"><b data-count="4.9" data-decimals="1">0</b><span>/5 · 41 200 avis</span></div>
+    <div class="stat reveal-up"><b data-count="5" data-suffix=" ans">0</b><span>de garantie</span></div>
+  </div>
+</section>
+
+<!-- ============ BUILD ============ -->
+<section class="section build" id="build">
+  <div class="build__panel reveal-up">
+    <div class="build__copy">
+      <span class="kicker">/ Configurateur</span>
+      <h2 class="h2">On monte<br>ton PC</h2>
+      <p>Réponds à 4 questions sur ton usage et ton budget. On assemble une machine 100% compatible, optimisée perf/prix, montée et stress-testée 24h avant l'envoi.</p>
+      <a href="#" class="btn btn--yellow magnetic" data-toast="Configurateur bientôt disponible — on te tient au courant !">Lancer le configurateur</a>
+    </div>
+    <div class="build__steps">
+      <div class="step"><span class="step__n">01</span><div><b>Ton usage</b><small>Gaming, création, IA…</small></div></div>
+      <div class="step"><span class="step__n">02</span><div><b>Ton budget</b><small>De 800€ à l'illimité</small></div></div>
+      <div class="step"><span class="step__n">03</span><div><b>On assemble</b><small>Compatibilité garantie</small></div></div>
+      <div class="step"><span class="step__n">04</span><div><b>Stress-test 24h</b><small>Avant expédition</small></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="section" id="reviews">
+  <div class="section__head">
+    <div class="reveal-up"><span class="kicker">/ Avis vérifiés</span><h2 class="h2">Ils ont upgrade.<br>Ils valident</h2></div>
+    <p class="section__lead reveal-up">41 200 avis, 4.9 de moyenne. Ce que disent les builders qui ont fait confiance à VOLTCORE.</p>
+  </div>
+  <div class="reviews">
+    <article class="review reveal-up"><div class="review__stars">★★★★★</div><p>« Commande à 23h, carte graphique reçue le lendemain midi. Emballage de dingue, perf au rendez-vous. Je ne commande plus ailleurs. »</p><footer><span class="avatar">K</span><div><b>Karim B.</b><small>RTX 5090 Ti · Lyon</small></div></footer></article>
+    <article class="review reveal-up"><div class="review__stars">★★★★★</div><p>« Le configurateur m'a évité une grosse erreur de compatibilité RAM / carte mère. Build silencieux, températures nickel. »</p><footer><span class="avatar">É</span><div><b>Élise M.</b><small>Config complète · Nantes</small></div></footer></article>
+    <article class="review reveal-up"><div class="review__stars">★★★★★</div><p>« SAV au top : un technicien m'a aidé à overclocker ma DDR5 par tchat un dimanche soir. Service rare aujourd'hui. »</p><footer><span class="avatar">T</span><div><b>Thomas R.</b><small>Vengeance 64 Go · Lille</small></div></footer></article>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="section newsletter">
+  <div class="newsletter__card reveal-up">
+    <h2>Reçois les drops<br>avant tout le monde</h2>
+    <p>Restocks GPU, ventes flash et codes promo réservés aux abonnés. Zéro spam, désinscription en un clic.</p>
+    <form class="newsletter__form" id="newsletterForm">
+      <input type="email" placeholder="ton@email.com" required aria-label="Adresse e-mail" />
+      <button type="submit" class="btn btn--yellow">Je m'abonne</button>
+    </form>
+    <small id="newsletterMsg"></small>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__col footer__col--brand">
+      <a href="#top" class="brand" data-link><span class="brand__mark"><svg viewBox="0 0 32 32" width="20" height="20"><path d="M18 2 6 18h8l-2 12 14-18h-8z"/></svg></span><span class="brand__name">VOLTCORE</span></a>
+      <p>La boutique des builders exigeants. Composants triés, prix négociés, support par des passionnés.</p>
+      <div class="socials"><a href="#" aria-label="X">X</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="YouTube">▶</a><a href="#" aria-label="Discord">◈</a></div>
+    </div>
+    <div class="footer__col"><h4>Boutique</h4><a href="#products" data-link>Cartes graphiques</a><a href="#products" data-link>Processeurs</a><a href="#products" data-link>Mémoire</a><a href="#products" data-link>Boîtiers</a></div>
+    <div class="footer__col"><h4>Aide</h4><a href="#">Suivi de commande</a><a href="#">Retours &amp; SAV</a><a href="#">Garantie 5 ans</a><a href="#">Contact</a></div>
+    <div class="footer__col"><h4>Société</h4><a href="#">À propos</a><a href="#">Nos ateliers</a><a href="#">Recrutement</a><a href="#">Mentions légales</a></div>
+  </div>
+
+  <!-- WORDMARK LIQUIDE -->
+  <div class="wordmark" aria-hidden="true">
+    <div class="wordmark__glass"><span class="wordmark__ghost">COMPOSANTS · CONFIG · BENCHMARKS · SUPPORT</span></div>
+    <svg class="wordmark__svg" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <filter id="liquid" x="-6%" y="-8%" width="112%" height="116%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.013 0.04" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="6" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+        <linearGradient id="dissolve" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#fff" stop-opacity="1" />
+          <stop offset="80%" stop-color="#fff" stop-opacity="1" />
+          <stop offset="100%" stop-color="#fff" stop-opacity="0.4" />
+        </linearGradient>
+        <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ffffff" />
+          <stop offset="45%" stop-color="#EAF2FF" />
+          <stop offset="70%" stop-color="#C9DBFF" />
+          <stop offset="100%" stop-color="#ffffff" />
+        </linearGradient>
+        <mask id="fade"><rect width="1200" height="260" fill="url(#dissolve)" /></mask>
+      </defs>
+      <text x="600" y="204" text-anchor="middle" font-family="'Anton',sans-serif" font-size="236" letter-spacing="-9" fill="url(#chrome)" filter="url(#liquid)" mask="url(#fade)">VOLTCORE</text>
+    </svg>
+  </div>
+
+  <div class="footer__bottom">
+    <span>© 2026 VOLTCORE — Tous droits réservés.</span>
+    <span>Conçu pour les machines qui ne s'arrêtent jamais.</span>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Panier" aria-hidden="true">
+  <div class="cart-drawer__head"><h3>Ton panier <span id="cartHeadCount">(0)</span></h3><button class="icon-btn" id="cartClose" aria-label="Fermer"><svg viewBox="0 0 24 24" width="19" height="19"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="cart-drawer__body" id="cartItems"></div>
+  <div class="cart-drawer__empty" id="cartEmpty">
+    <div class="cart-drawer__empty-icon"><svg viewBox="0 0 24 24" width="36" height="36"><path d="M5 7h14l-1.4 11.2a2 2 0 0 1-2 1.8H8.4a2 2 0 0 1-2-1.8L5 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></div>
+    <p>Ton panier est vide.</p><button class="btn btn--glass" id="cartCta">Voir le catalogue</button>
+  </div>
+  <div class="cart-drawer__foot" id="cartFoot">
+    <div class="cart-drawer__row"><span>Sous-total</span><b id="cartSubtotal">0€</b></div>
+    <div class="cart-drawer__row cart-drawer__row--muted"><span>Livraison express</span><b>Offerte</b></div>
+    <button class="btn btn--yellow btn--block" data-toast="Paiement sécurisé — démo. Merci d'avoir testé VOLTCORE !">Passer commande</button>
+    <p class="cart-drawer__reassure">🔒 Paiement sécurisé · 4× sans frais · Retour 30 jours</p>
+  </div>
+</aside>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal__overlay" id="modalOverlay"></div>
+  <div class="modal__card" id="modalCard" role="dialog" aria-modal="true">
+    <button class="icon-btn modal__close" id="modalClose" aria-label="Fermer"><svg viewBox="0 0 24 24" width="19" height="19"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div class="modal__media"><img id="modalImg" src="" alt="" /></div>
+    <div class="modal__info">
+      <span class="tag" id="modalTag"></span>
+      <h3 id="modalName"></h3>
+      <div class="rating" id="modalRating"></div>
+      <p id="modalDesc"></p>
+      <ul class="modal__specs" id="modalSpecs"></ul>
+      <div class="modal__buy"><div class="price price--lg" id="modalPrice"></div><button class="btn btn--yellow magnetic" id="modalAdd">Ajouter au panier</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script src="assets/js/vendor/gsap.min.js"></script>
+<script src="assets/js/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
