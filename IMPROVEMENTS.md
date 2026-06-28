@@ -10,6 +10,61 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-28 — [Design] Compteurs animés sur les stats du hero (count-up 0 → valeur réelle au scroll, charte « SaaS moderne »)
+
+**Axe : Design** (rotation : passages les plus récents par axe → **Performance 2026-06-28** (nav
+accessible, plus bas), **Conversion 2026-06-27** (Calendly inline merci), **SEO local 2026-06-27**
+(CollectionPage realisations), **Design 2026-06-27** (footer « Zones desservies ») → **Design = axe
+le plus ancien**). Le TODO Design le plus listé (« décliner `logo.svg` en wordmark horizontal ») est
+en réalité **déjà couvert** : `.logo .logo-star` affiche le badge « W » SVG en `background-image`
+dans l'en-tête et le pied de page des 13 pages (le glyphe `✦` n'est qu'un fallback masqué). J'ai
+donc choisi le détail Design « SaaS moderne » manquant le plus visible : **l'animation des chiffres
+clés du hero**.
+
+**Constat.** Les 3 gros chiffres de réassurance du hero d'accueil (`.hero-stats .num` :
+**40+** sites livrés, **7-15j** délai, **100%** propriétaire) étaient **statiques**. C'est pourtant
+le bloc de preuve chiffrée juste sous la ligne de flottaison ; l'incrément animé au défilement est
+le détail signature des landing pages startup/SaaS qui **attire l'œil sur les chiffres** et renforce
+la perception de dynamisme et de crédibilité — sans rien changer aux valeurs affichées.
+
+**Réalisé** (purement **additif** : `index.html` attributaire, **bloc JS autonome** dans
+`js/main.js`, **1 propriété CSS** → zéro suppression, zéro changement structurel) :
+- **`index.html`** : ajout de **`data-count="40"`** et **`data-count="100"`** sur les deux stats à
+  entier pur. Le stat **« 7-15j » est volontairement laissé sans `data-count`** (intervalle, pas un
+  entier → un count-up n'aurait pas de sens) : il reste affiché tel quel. Le texte HTML (40, 100)
+  **reste le fallback** sans JS.
+- **`js/main.js`** : nouveau bloc IIFE « Compteurs animés ». Au défilement (`IntersectionObserver`,
+  `threshold: 0.4`), chaque `.num[data-count]` s'incrémente de **0 → valeur cible** sur **1,4 s**
+  avec un easing `easeOutCubic` (`requestAnimationFrame`). Le **suffixe `<em>` (+ / %) est préservé**
+  : on n'anime que le **premier nœud texte** (`el.firstChild.nodeValue`), l'`<em>` reste intact.
+  **Aucune donnée inventée** : la cible = `data-count` = valeur déjà affichée dans le HTML.
+- **Dégradation propre** : si `prefers-reduced-motion: reduce` **ou** absence d'`IntersectionObserver`,
+  le bloc **sort sans animer** → la valeur finale du HTML reste affichée (aucun chiffre figé à 0).
+- **`css/style.css`** : `font-variant-numeric: tabular-nums` ajouté à `.hero-stats .num` → **largeur
+  de chiffre stable** pendant le comptage (pas de micro-décalage horizontal du conteneur).
+
+**Vérifié** : audit statique Node → `data-count` **40** et **100** présents, **« 7-15j » sans
+`data-count`** confirmé, `animateCount` présent, garde **reduced-motion + IntersectionObserver**
+présente, préservation de l'`<em>` via `firstChild`, `threshold 0.4`, **`tabular-nums`** présent,
+**accolades CSS équilibrées 488/488**, **JS parse OK** (`new Function`). **Serveur local (port 8123)
+→ HTTP 200** : `index.html` sert bien `num" data-count="40"` et `data-count="100"`, `js/main.js` sert
+bien `animateCount`. Invariants intacts : **GTM** (GTM-KF6HJ4WF), **bouton WhatsApp flottant**
+(07 82 93 40 69), bandeau d'offre, Calendly, formulaires — **non touchés** (seuls le bloc stats, un
+bloc JS isolé et une propriété CSS modifiés). Charte respectée (aucune couleur ajoutée/modifiée).
+*(Capture headless non jointe — limite connue notée en mémoire ; preuve par DOM/JS servi + parse.)*
+
+**Idées pour les prochains passages :**
+- **Perf** : `img/ethan.png` (701 Ko) est encore référencé dans le JSON-LD `image` d'`index.html`
+  alors que le `.webp` 80 Ko existe → basculer le JSON-LD vers le `.webp` ou ré-encoder le PNG ;
+  `img/og-webia.png` (115 Ko).
+- **SEO** : `BreadcrumbList` sur `realisations.html` ; 5ᵉ page locale (Chelles / Sénart) si les 4
+  actuelles performent.
+- **Conversion** : variante A/B du libellé du CTA principal du hero via `cta_devis_click`.
+- **Access** : ordre de tabulation du bouton WhatsApp flottant vis-à-vis du skip-link ; contraste des
+  liens de pied de page mutés sur fond sombre.
+
+---
+
 ## 2026-06-28 — [Performance & Accessibilité] Navigation accessible : nom du repère `<nav>` d'en-tête + `aria-current="page"` complet dans le pied de page (« vous êtes ici »)
 
 **Axe : Performance & accessibilité** (rotation : derniers passages → Conversion 2026-06-27 (Calendly

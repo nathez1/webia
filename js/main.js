@@ -230,6 +230,53 @@ if (reveals.length) {
   }
 }
 
+// ===== Compteurs animés (stats hero) =====
+// Les gros chiffres de réassurance (.num[data-count]) s'incrémentent de 0 vers
+// leur valeur réelle quand ils entrent dans le viewport — détail signature des
+// landing pages modernes qui renforce la crédibilité des chiffres clés. Aucune
+// donnée inventée : la valeur cible vient de l'attribut data-count, identique au
+// texte déjà affiché dans le HTML (qui reste le fallback sans JS). Respecte
+// prefers-reduced-motion (affichage direct de la valeur finale, sans animation).
+(function () {
+  const counters = document.querySelectorAll(".num[data-count]");
+  if (!counters.length) return;
+  const reduced =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function animateCount(el) {
+    const target = parseInt(el.getAttribute("data-count"), 10);
+    // Le 1er nœud est le texte du chiffre ; l'<em> du suffixe (+, %) est préservé.
+    const node = el.firstChild;
+    if (!node || isNaN(target)) return;
+    const duration = 1400;
+    let startTime = null;
+    function step(now) {
+      if (startTime === null) startTime = now;
+      const progress = Math.min((now - startTime) / duration, 1);
+      // easeOutCubic : démarrage vif, fin douce.
+      const eased = 1 - Math.pow(1 - progress, 3);
+      node.nodeValue = String(Math.round(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+      else node.nodeValue = String(target);
+    }
+    requestAnimationFrame(step);
+  }
+
+  if (reduced || !("IntersectionObserver" in window)) return; // fallback : valeur HTML conservée
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCount(entry.target);
+          io.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
+  counters.forEach((el) => io.observe(el));
+})();
+
 // ===== Indicateur de progression de lecture =====
 // Fine barre en haut de page qui se remplit selon la position de défilement.
 // L'élément est créé ici (aucune retouche HTML) → présent automatiquement sur

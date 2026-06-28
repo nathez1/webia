@@ -433,6 +433,7 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 .hero-stats > div + div { border-left: 1px solid var(--border-dark); }
 .hero-stats .num {
   font-family: var(--font-display);
+  font-variant-numeric: tabular-nums; /* largeur stable pendant le compteur animé */
   font-size: clamp(2rem, 3.6vw, 2.9rem);
   line-height: 1;
   color: #fff;
