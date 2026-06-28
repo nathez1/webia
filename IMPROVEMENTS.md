@@ -10,6 +10,60 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-28 — [SEO local] Fil d'Ariane structuré `BreadcrumbList` sur les 3 pages de contenu qui en manquaient (realisations, faq, affiliation) → couverture site complète
+
+**Axe : SEO local** (rotation : passages les plus récents par axe → Design 2026-06-28 (compteurs hero),
+Performance 2026-06-28 (nav accessible), Conversion 2026-06-27 (Calendly inline merci), **SEO local
+2026-06-27** (CollectionPage realisations) → **SEO local = axe le plus ancien**). C'est aussi le **TODO
+SEO le plus récurrent** des derniers passages, listé à chaque exécution depuis le 2026-06-27 et jamais
+traité : « `BreadcrumbList` sur `realisations.html` ».
+
+**Constat — couverture fil d'Ariane incomplète.** Le balisage `BreadcrumbList` (éligible au rich result
+« fil d'Ariane » dans les SERP, qui remplace l'URL brute par une trace de navigation cliquable) était
+déjà présent sur **`tarifs.html` et les 4 pages locales** (Melun, Meaux, Fontainebleau, Paris), mais
+**absent de 3 pages de contenu indexables** :
+- **`realisations.html`** (le portfolio — preuve de qualité liée à la conversion) : avait `CollectionPage`
+  + `ItemList` depuis le 2026-06-27, mais **aucun fil d'Ariane**.
+- **`faq.html`** : avait `FAQPage`, mais **aucun fil d'Ariane**.
+- **`affiliation.html`** : **aucune donnée structurée du tout**.
+Résultat : signal de hiérarchie de site incohérent pour Google, et 3 pages privées de l'éligibilité au
+rich result breadcrumb.
+
+**Réalisé** (HTML uniquement — **1 bloc `<script type="application/ld+json">` autonome ajouté avant
+`</head>` par page**, **aucune retouche CSS/JS ni au corps de page** → zéro risque de régression) :
+- **`realisations.html`** : `BreadcrumbList` *Accueil → Réalisations* ajouté **en second bloc JSON-LD**
+  (les blocs multiples sont valides et recommandés par Google → le `CollectionPage`/`ItemList` existant
+  n'est **pas restructuré**, donc intact).
+- **`faq.html`** : `BreadcrumbList` *Accueil → FAQ* ajouté **en second bloc** après le `FAQPage` (idem,
+  bloc existant intact).
+- **`affiliation.html`** : `BreadcrumbList` *Accueil → Programme d'affiliation* — **première donnée
+  structurée** de cette page.
+- **URLs absolues `https://webia.fr/…`** cohérentes avec le reste du graphe (base déjà retenue pour
+  canonical/sitemap). Indentation et style **calqués** sur le `BreadcrumbList` déjà en place dans
+  `tarifs.html`/pages locales. **Aucune donnée inventée** (juste la hiérarchie de navigation réelle).
+- `index.html` (racine, pas de parent → fil d'Ariane sans intérêt) et `devis.html`/`merci.html`
+  (conversion `noindex`, hors périmètre) volontairement non touchés.
+
+**Vérifié** : audit Node (`JSON.parse`) → **chaque bloc parse sans erreur** ; `realisations.html` = **2
+blocs** dont 1 `BreadcrumbList` (CollectionPage préservé), `faq.html` = **2 blocs** dont 1 `BreadcrumbList`
+(FAQPage préservé), `affiliation.html` = **1 bloc** `BreadcrumbList`. **Un seul `</head>` par page**,
+**GTM (GTM-KF6HJ4WF) intact** sur les 3. Invariants non touchés (corps de page, footer, bouton WhatsApp
+flottant, bandeau d'offre, Calendly, formulaires). Charte respectée (aucune couleur ni style modifiés —
+changement 100 % `<head>`). *(Capture headless non jointe — limite connue notée en mémoire ; preuve par
+parsing JSON-LD + comptage des blocs.)*
+
+**Idées pour les prochains passages :**
+- **Perf** : `img/ethan.png` (701 Ko) encore référencé dans le JSON-LD `image` d'`index.html` alors que
+  le `.webp` 80 Ko existe → basculer le JSON-LD vers le `.webp` ou ré-encoder le PNG ; `img/og-webia.png`
+  (115 Ko).
+- **SEO (suite)** : 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles performent ; envisager un fil
+  d'Ariane **visuel** (nav `aria-label="Fil d'Ariane"`) en complément du balisage.
+- **Conversion** : variante A/B du libellé du CTA principal du hero via `cta_devis_click`.
+- **Access** : ordre de tabulation du bouton WhatsApp flottant vis-à-vis du skip-link ; contraste des
+  liens de pied de page mutés sur fond sombre.
+
+---
+
 ## 2026-06-28 — [Design] Compteurs animés sur les stats du hero (count-up 0 → valeur réelle au scroll, charte « SaaS moderne »)
 
 **Axe : Design** (rotation : passages les plus récents par axe → **Performance 2026-06-28** (nav
