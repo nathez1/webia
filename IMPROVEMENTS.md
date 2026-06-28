@@ -10,6 +10,64 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-28 — [Performance & Accessibilité] Navigation accessible : nom du repère `<nav>` d'en-tête + `aria-current="page"` complet dans le pied de page (« vous êtes ici »)
+
+**Axe : Performance & accessibilité** (rotation : derniers passages → Conversion 2026-06-27 (Calendly
+inline merci.html), SEO local 2026-06-27 (CollectionPage realisations), Design 2026-06-27 (footer Zones
+desservies), **Performance 2026-06-26** (lazy-loading démos) → **Performance/Accessibilité = axe le plus
+ancien**). C'est aussi le **TODO Access le plus récurrent**, listé à chaque passage depuis le 2026-06-23
+et jamais traité : « `aria-label` distinct sur chaque `<nav>` ; `aria-current="page"` sur la ville courante
+dans la colonne Zones desservies ».
+
+**Constat — deux trous d'accessibilité dans la navigation.**
+1. **Repère de navigation sans nom.** Le `<nav class="nav-links" id="main-nav">` d'en-tête n'avait
+   **aucun `aria-label`** : un lecteur d'écran qui liste les régions de la page annonçait un repère
+   « navigation » générique, sans le distinguer. Sur un site multi-pages, c'est le repère le plus utilisé
+   pour naviguer au clavier/lecteur d'écran.
+2. **Aucune indication « vous êtes ici » dans le pied de page.** Le footer (colonnes Navigation, Zones
+   desservies + liens légaux) ne signalait **nulle part** la page courante — ni visuellement ni pour les
+   technologies d'assistance. Sur les **4 pages locales**, le visiteur ne savait pas quelle ville il
+   consultait dans la colonne « Zones desservies » ; idem pour les pages légales.
+
+**Réalisé** (HTML attributaire **purement additif** sur 13 pages + **1 règle CSS scopée** → zéro
+suppression, zéro changement structurel, donc zéro risque de régression) :
+- **`aria-label="Navigation principale"`** ajouté au `<nav>` d'en-tête des **13 pages** → le repère de
+  navigation porte enfin un **nom accessible distinct**.
+- **`aria-current="page"`** ajouté à **chaque lien du pied de page qui pointe vers la page courante** :
+  - **5 pages standard** (index, tarifs, realisations, affiliation, faq) → l'entrée correspondante de la
+    colonne **Navigation** (en plus de l'`aria-current` déjà présent dans l'en-tête).
+  - **4 pages locales** (Melun, Meaux, Fontainebleau, Paris) → leur **auto-lien** dans la colonne
+    **Zones desservies** (le TODO récurrent enfin traité).
+  - **2 pages légales** (mentions-legales, confidentialite) → leur **auto-lien** dans le bas de page.
+  - `merci.html`/`devis.html` (pied de page minimal, hors nav) : rien à marquer — cohérent.
+- **Indice visuel scopé** (`css/style.css`) : `.site-footer a[aria-current="page"] { color: var(--yellow);
+  font-weight: 600; }` → **double signal** (couleur **verte de charte** + graisse) sur le lien de la page
+  courante. Sélecteur d'attribut qui ne matchait **aucun lien auparavant** → aucun effet de bord sur
+  l'existant. L'en-tête reste géré par `.nav-links > a.active` (inchangé) et n'est **pas** touché (règle
+  scopée à `.site-footer`).
+
+**Vérifié** : audit statique → **13/13** `<nav>` avec `aria-label="Navigation principale"` ; comptes
+`aria-current` cohérents (standard = **2** : en-tête + footer ; locales/légales/devis = **1** ; merci =
+**0**) ; **accolades CSS équilibrées 488/488** ; **aucune couleur hors charte** introduite (les seules
+`#7C3AED`/`#FFD60A` restent dans le commentaire d'en-tête historique, hors règle). **Serveur local +
+curl** : `tarifs.html` sert bien `…tarifs.html" aria-current="page">Tarifs`, `creation-site-internet-melun.html`
+sert l'auto-lien Melun marqué, `index.html` sert le `<nav>` nommé, et `css/style.css` sert la règle
+`.site-footer a[aria-current="page"]`. Invariants intacts : **GTM** (GTM-KF6HJ4WF), **bouton WhatsApp
+flottant** (`aria-label` déjà présent), bandeau d'offre, Calendly, formulaires — non touchés. *(Capture
+headless non jointe — limite connue ; preuve par DOM servi + CSSOM/règle servie.)*
+
+**Idées pour les prochains passages :**
+- **Perf** : auditer le poids de `img/ethan.png` (701 Ko, fallback `<picture>` + référencé dans le JSON-LD
+  `image` d'`index` → Google télécharge le PNG lourd ; basculer le JSON-LD vers le `.webp` 80 Ko ou
+  ré-encoder le PNG) ; `img/og-webia.png` (115 Ko).
+- **Access (suite)** : ordre de tabulation / position du bouton WhatsApp flottant vis-à-vis du skip-link ;
+  contraste des liens de pied de page mutés sur fond sombre.
+- **SEO** : `BreadcrumbList` sur `realisations.html` ; 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles
+  performent.
+- **Design** : décliner `logo.svg` en wordmark horizontal SVG (signatures, réseaux).
+
+---
+
 ## 2026-06-27 — [Conversion] Embed Calendly **inline** sur `merci.html` (réserver l'appel sans quitter la page de confirmation)
 
 **Axe : Conversion** (rotation : derniers passages → SEO local 2026-06-27 (`CollectionPage`/`ItemList`),
