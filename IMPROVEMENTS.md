@@ -10,6 +10,58 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-29 — [Performance] Resource hints (`preconnect`/`dns-prefetch`) vers les origines tierces critiques sur les 13 pages (latence de connexion réduite : GTM, Calendly, FormSubmit)
+
+**Axe : Performance & accessibilité** (rotation : passages les plus récents par axe → Conversion 2026-06-29
+(validation inline), SEO local 2026-06-28 (BreadcrumbList), Design 2026-06-28 (compteurs hero),
+**Performance 2026-06-28** (nav accessible) → **Performance = axe le plus ancien**).
+
+**Constat — aucune préconnexion aux tiers, handshake DNS+TCP+TLS payé tardivement.** Le site est par
+ailleurs très léger côté chargement (CSS/JS locaux, polices woff2 auto-hébergées + préchargées,
+`<picture>` webp), mais **aucune origine tierce n'était annoncée au navigateur**. Or chaque page contacte
+des tiers conversion-critiques : **GTM** (`www.googletagmanager.com`, chargé immédiatement sur les 13 pages
+→ analytics + suivi de conversion), **Calendly** (`calendly.com`/`assets.calendly.com`, popup/embed de
+prise de RDV), **FormSubmit** (`formsubmit.co`, envoi du formulaire de devis/affiliation). Sans `preconnect`,
+la résolution DNS + l'ouverture TCP/TLS de ces origines n'a lieu qu'au moment du `fetch` → ~100-300 ms de
+latence ajoutée pile sur le chemin de conversion. C'est la recommandation PageSpeed « Préconnexion aux
+origines requises », jamais traitée.
+
+**Réalisé** (HTML uniquement — **bloc additif inséré dans le `<head>` juste après les `preload` de polices
+et avant le `<!-- Google Tag Manager -->`**, via script Node mécanique sur les 13 pages → **aucune retouche
+CSS/JS ni au corps de page**, zéro risque de régression) :
+- **`preconnect` GTM sur les 13 pages** : `<link rel="preconnect" href="https://www.googletagmanager.com">`
+  — **sans `crossorigin`** (le `gtm.js` est un script no-CORS ; le `crossorigin` est réservé aux polices
+  woff2 qui le portent déjà). Préconnexion forte (DNS+TCP+TLS) car GTM est chargé d'emblée partout.
+- **`dns-prefetch` Calendly** (`calendly.com` + `assets.calendly.com`) sur **index, devis, merci** — les
+  3 seules pages qui utilisent Calendly (popup sur index/devis, embed inline sur merci). `dns-prefetch`
+  (moins coûteux que `preconnect`) car le tiers n'est sollicité qu'à l'**interaction**, pas au chargement.
+- **`dns-prefetch` FormSubmit** (`formsubmit.co`) sur **devis + affiliation** — les 2 pages porteuses du
+  formulaire. Idem : sollicité seulement à la **soumission**.
+- Hiérarchie des hints respectée : préconnexions fortes pour le tiers immédiat (GTM), `dns-prefetch` léger
+  pour les tiers à l'interaction → pas de saturation du pool de connexions. **Les sous-sites de démo dans
+  `realisations/` (Unsplash, Google Fonts, GSAP, cdnjs/jsDelivr) ne sont pas touchés** (hors périmètre des
+  pages marketing).
+
+**Vérifié** (audit shell sur les 13 pages) : **1 seul `<head>`/`</head>` par page**, **1 seul
+`<!-- Google Tag Manager -->`** et **`GTM-KF6HJ4WF` toujours présent 2×** (script head + iframe noscript)
+partout → GTM intact. Comptage des hints conforme au plan : `preconnect=1` partout ; `dns-prefetch` =
+index 2, affiliation 1, devis 3, merci 2, autres 0. Bloc bien positionné (après `preload` polices, avant
+GTM). Tags `<link>` HTML5 (éléments void, bien formés). Invariants non touchés : bouton WhatsApp flottant,
+bandeau d'offre, Calendly, FormSubmit + filet WhatsApp/email, formulaires, charte (changement 100 %
+`<head>`, aucune couleur/style).
+
+**Idées pour les prochains passages :**
+- **Perf (suite)** : `img/ethan.png` (701 Ko) encore référencé dans le JSON-LD `image` d'`index.html`
+  (ligne 49) alors qu'`og-webia.png` 1200×630 (115 Ko, image représentative) ou `ethan.webp` (80 Ko)
+  conviendrait mieux → corriger le JSON-LD ; ré-encoder/alléger le PNG fallback de `<picture>` (sharp dispo).
+- **SEO** : 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles performent ; fil d'Ariane **visuel**
+  (`nav aria-label="Fil d'Ariane"`) en complément du balisage `BreadcrumbList`.
+- **Conversion** : compteur de caractères / encouragement sur le textarea `projet` ; variante A/B du
+  libellé du CTA principal du hero via `cta_devis_click`.
+- **Access** : ordre de tabulation du bouton WhatsApp flottant vis-à-vis du skip-link.
+
+---
+
 ## 2026-06-29 — [Conversion] Validation inline accessible des formulaires de devis & d'affiliation (messages clairs sous chaque champ, anti-abandon)
 
 **Axe : Conversion** (rotation : passages les plus récents par axe → SEO local 2026-06-28
