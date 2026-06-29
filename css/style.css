@@ -1177,6 +1177,38 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 
 .field-hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; }
 
+/* Validation inline accessible : message d'erreur clair sous le champ
+   (réduit l'abandon du formulaire). Rouge fonctionnel --ko, hors charte de marque. */
+.field-error { display: none; margin: 7px 0 0; font-size: 0.82rem; font-weight: 600; color: var(--ko); }
+.field-error.show { display: flex; align-items: center; gap: 7px; }
+.field-error.show::before {
+  content: "!";
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ko);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.form-group input[aria-invalid="true"],
+.form-group select[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] {
+  border-color: var(--ko);
+  background: #FEF2F2;
+}
+.form-group input[aria-invalid="true"]:focus,
+.form-group select[aria-invalid="true"]:focus,
+.form-group textarea[aria-invalid="true"]:focus {
+  border-color: var(--ko);
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.18);
+}
+
 /* Récapitulatif des garanties juste avant l'envoi (réassurance conversion) */
 .form-guarantees {
   display: flex;

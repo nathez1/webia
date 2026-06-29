@@ -10,6 +10,64 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-29 — [Conversion] Validation inline accessible des formulaires de devis & d'affiliation (messages clairs sous chaque champ, anti-abandon)
+
+**Axe : Conversion** (rotation : passages les plus récents par axe → SEO local 2026-06-28
+(BreadcrumbList), Design 2026-06-28 (compteurs hero), Performance 2026-06-28 (nav accessible),
+**Conversion 2026-06-27** (Calendly inline merci) → **Conversion = axe le plus ancien**). Levier le plus
+directement aligné sur l'objectif « plus de demandes de devis » : **réduire l'abandon du formulaire**,
+point de fuite n°1 du tunnel.
+
+**Constat — feedback d'erreur natif, peu lisible et hors charte.** Les deux formulaires (`devis.html` et
+`affiliation.html`, qui partagent `id="devis-form"`) étaient en `novalidate` et s'appuyaient sur
+`checkValidity()` + **`reportValidity()`** : à la soumission d'un champ manquant ou d'un email invalide,
+le navigateur affichait sa **bulle native** (style et langue dépendant du navigateur, position aléatoire,
+disparaît au moindre clic, **invisible des lecteurs d'écran de façon fiable**). Mauvaise UX = friction =
+abandon, juste avant la conversion.
+
+**Réalisé** (`js/main.js` + `css/style.css` uniquement — **purement additif**, **aucune retouche HTML** →
+zéro risque de régression structurelle ; bénéficie aux **2 formulaires** d'un coup) :
+- **Messages d'erreur inline** : à la soumission **et au blur** de chaque champ requis, un message clair en
+  français s'affiche **sous le champ** (`<p class="field-error">` créé en JS, donc aucune retouche HTML),
+  avec un message **contextualisé** (champ vide → « Ce champ est obligatoire. » ; email vide → « Indiquez
+  votre email pour qu'on vous réponde. » ; email mal formé → « Vérifiez votre email (ex : jean@exemple.fr). » ;
+  projet vide → « Dites-nous en quelques mots votre projet. »).
+- **Accessibilité** : le champ en erreur reçoit **`aria-invalid="true"`** + **`aria-describedby`** pointant
+  vers le message (`aria-live="polite"`), et le **focus est déplacé** sur le premier champ invalide (avec
+  `scrollIntoView`) → utilisable au clavier et au lecteur d'écran. `reportValidity()` (bulles natives)
+  **supprimé**.
+- **Effacement en direct** : une fois un champ en erreur, il est **revalidé à chaque frappe** (`input`) →
+  le message disparaît dès que la saisie devient valide (renforcement positif, moins frustrant).
+- **Groupes de radios gérés** (1 message par groupe, marquage de tous les boutons) ; les champs **optionnels**
+  (tél, message) **ne sont jamais marqués**. La formule « Pro » cochée par défaut → le groupe formule n'est
+  jamais signalé à tort.
+- **CSS charte** : `.field-error` en **rouge fonctionnel `--ko` (#DC2626)** — couleur d'**état**, pas de
+  marque (aucun violet/jaune réintroduit), déjà utilisée par l'astérisque `.req`. Champ invalide : bordure
+  rouge + fond `#FEF2F2` + halo de focus rouge. Pastille « ! » devant le message. **Accolades CSS 493/493.**
+
+**Vérifié** (serveur de prévisualisation local port 8742, contrôle DOM live) :
+- **`devis.html`** soumis vide → **4 messages** affichés (nom, activité, email, projet), 4 champs
+  `aria-invalid`, **focus sur `nom`**, `aria-describedby="err-nom"` ; le groupe **formule (Pro coché) NON
+  signalé** (correct).
+- **Email** : `pasunemail` au blur → « Vérifiez votre email… » ; correction `jean@exemple.fr` à la frappe →
+  **message effacé**, `aria-invalid`/`aria-describedby` **retirés**. Couleur du message = **`rgb(220,38,38)`**
+  (= `--ko`).
+- **`affiliation.html`** soumis vide → **4 messages** (parrain, parrain-contact, filleul, filleul-contact),
+  focus sur `parrain` ; le textarea `message` **optionnel non signalé**. **JS parse OK**, **console sans
+  erreur ni avertissement**. Invariants intacts : **GTM** (GTM-KF6HJ4WF), bouton WhatsApp flottant, bandeau
+  d'offre, Calendly, **FormSubmit + filet WhatsApp/email**, redirection `_next`/`merci.html` — non touchés.
+
+**Idées pour les prochains passages :**
+- **Perf** : `img/ethan.png` (701 Ko) encore référencé dans le JSON-LD `image` d'`index.html` alors que le
+  `.webp` 80 Ko existe → basculer le JSON-LD vers le `.webp` ou ré-encoder le PNG ; `img/og-webia.png` (115 Ko).
+- **SEO** : 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles performent ; fil d'Ariane **visuel**
+  (`nav aria-label="Fil d'Ariane"`) en complément du balisage.
+- **Conversion (suite)** : compteur de caractères / encouragement sur le textarea `projet` ; variante A/B du
+  libellé du CTA principal du hero via `cta_devis_click`.
+- **Access** : ordre de tabulation du bouton WhatsApp flottant vis-à-vis du skip-link.
+
+---
+
 ## 2026-06-28 — [SEO local] Fil d'Ariane structuré `BreadcrumbList` sur les 3 pages de contenu qui en manquaient (realisations, faq, affiliation) → couverture site complète
 
 **Axe : SEO local** (rotation : passages les plus récents par axe → Design 2026-06-28 (compteurs hero),

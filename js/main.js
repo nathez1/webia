@@ -92,10 +92,100 @@ if (devisForm) {
     window.dataLayer.push({ event: "lead_fallback", form: devisForm.id });
   }
 
+  // ---- Validation inline accessible (réduit l'abandon de formulaire) ----
+  // Remplace les bulles natives de reportValidity() (peu lisibles, dans la
+  // langue du navigateur) par des messages clairs affichés SOUS chaque champ,
+  // reliés au champ via aria-describedby + aria-invalid (lecteurs d'écran).
+  // Validation au blur, effacement en direct dès correction, focus sur le
+  // premier champ en erreur à la soumission. 100% additif.
+  function fieldMessage(field) {
+    const v = field.validity;
+    if (v.valid) return "";
+    if (v.valueMissing) {
+      if (field.type === "radio") return "Sélectionnez une formule.";
+      if (field.tagName === "TEXTAREA") return "Dites-nous en quelques mots votre projet.";
+      if (field.type === "email") return "Indiquez votre email pour qu'on vous réponde.";
+      return "Ce champ est obligatoire.";
+    }
+    if (v.typeMismatch && field.type === "email") {
+      return "Vérifiez votre email (ex : jean@exemple.fr).";
+    }
+    return "Merci de corriger ce champ.";
+  }
+
+  // Liste des champs à valider (champs requis ; un seul par groupe de radios).
+  const validatedFields = [];
+  const seenRadioGroups = {};
+  devisForm.querySelectorAll("input[required], textarea[required], select[required]").forEach((f) => {
+    if (f.type === "radio") {
+      if (seenRadioGroups[f.name]) return;
+      seenRadioGroups[f.name] = true;
+    }
+    validatedFields.push(f);
+  });
+
+  function getErrorEl(field) {
+    const key = field.type === "radio" ? field.name : (field.id || field.name);
+    const holder = field.type === "radio"
+      ? (field.closest("fieldset") || field.closest(".form-group"))
+      : field.closest(".form-group");
+    if (!holder) return null;
+    let el = holder.querySelector(":scope > .field-error[data-for='" + key + "']");
+    if (!el) {
+      el = document.createElement("p");
+      el.className = "field-error";
+      el.id = "err-" + key;
+      el.setAttribute("data-for", key);
+      el.setAttribute("aria-live", "polite");
+      holder.appendChild(el);
+    }
+    return el;
+  }
+
+  function setFieldState(field, message) {
+    const el = getErrorEl(field);
+    const group = field.type === "radio"
+      ? devisForm.querySelectorAll('input[name="' + field.name + '"]')
+      : [field];
+    group.forEach((g) => {
+      if (message) {
+        g.setAttribute("aria-invalid", "true");
+        if (el) g.setAttribute("aria-describedby", el.id);
+      } else {
+        g.removeAttribute("aria-invalid");
+        if (el && g.getAttribute("aria-describedby") === el.id) g.removeAttribute("aria-describedby");
+      }
+    });
+    if (el) {
+      el.textContent = message || "";
+      el.classList.toggle("show", !!message);
+    }
+  }
+
+  function validateField(field) {
+    const valid = field.validity.valid;
+    setFieldState(field, valid ? "" : fieldMessage(field));
+    return valid;
+  }
+
+  validatedFields.forEach((field) => {
+    const evt = (field.tagName === "SELECT" || field.type === "radio") ? "change" : "blur";
+    field.addEventListener(evt, () => validateField(field));
+    // Une fois en erreur, on revalide en direct pour retirer le message dès correction.
+    field.addEventListener("input", () => {
+      if (field.getAttribute("aria-invalid") === "true") validateField(field);
+    });
+  });
+
   devisForm.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (!devisForm.checkValidity()) {
-      devisForm.reportValidity();
+    let firstInvalid = null;
+    validatedFields.forEach((field) => {
+      if (!validateField(field) && !firstInvalid) firstInvalid = field;
+    });
+    if (firstInvalid) {
+      if (typeof firstInvalid.focus === "function") firstInvalid.focus();
+      firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     const oldFallback = devisForm.querySelector(".form-fallback");
