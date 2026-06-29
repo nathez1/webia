@@ -342,6 +342,29 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
   transform: translate(-50%, -50%);
 }
 
+/* Dérive « aurora » des glows : lente respiration décorative (charte, GPU-friendly).
+   Purement esthétique — aucune donnée/contenu modifié. N'anime que transform/opacity
+   (compositeur, pas de reflow). Désactivée si l'utilisateur réduit les animations :
+   le rendu statique d'origine est alors conservé à l'identique. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero::before  { animation: aurora-a 19s ease-in-out infinite alternate; will-change: transform, opacity; }
+  .hero::after   { animation: aurora-b 23s ease-in-out infinite alternate; will-change: transform, opacity; }
+  .section-dark::before { animation: aurora-c 27s ease-in-out infinite alternate; will-change: transform, opacity; }
+}
+@keyframes aurora-a {
+  from { transform: translate3d(0, 0, 0) scale(1);          opacity: 0.78; }
+  to   { transform: translate3d(-44px, 34px, 0) scale(1.16); opacity: 1; }
+}
+@keyframes aurora-b {
+  from { transform: translate3d(0, 0, 0) scale(1.06);       opacity: 0.72; }
+  to   { transform: translate3d(52px, -28px, 0) scale(0.9);  opacity: 1; }
+}
+@keyframes aurora-c {
+  /* conserve impérativement le centrage translate(-50%, -50%) de .section-dark::before */
+  from { transform: translate(-50%, -50%) scale(1) rotate(0deg);    opacity: 0.8; }
+  to   { transform: translate(-50%, -50%) scale(1.14) rotate(8deg); opacity: 1; }
+}
+
 /* Grille décorative */
 .hero-grid-bg {
   position: absolute;

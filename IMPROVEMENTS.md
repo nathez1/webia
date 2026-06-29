@@ -10,6 +10,63 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-29 — [Design] Dérive « aurora » des glows décoratifs des heros et sections sombres (respiration lente GPU-friendly, reduced-motion-safe, site-wide)
+
+**Axe : Design** (rotation : passages les plus récents par axe → **Performance 2026-06-29**
+(resource hints), **Conversion 2026-06-29** (validation inline), **SEO local 2026-06-28**
+(BreadcrumbList), **Design 2026-06-28** (compteurs hero) → **Design = axe le plus ancien**).
+
+**Constat — les halos lumineux étaient totalement figés.** Chaque page (les 13) porte un `.hero` dont
+les pseudo-éléments `::before`/`::after` peignent deux halos flous (`radial-gradient` + `blur(90px)`,
+cyan #2DD9FE et vert #16E06F), plus un halo central sur `.section-dark::before` (index + realisations).
+C'est le décor signature de la charte « SaaS moderne »… mais **100 % statique**. Or la dérive lente de
+ces auras (« aurora background ») est le détail vivant des landing pages startup haut de gamme : elle
+donne une impression de profondeur et de dynamisme **sans rien changer au contenu, aux couleurs ni à la
+mise en page**.
+
+**Réalisé** (purement **additif**, **CSS uniquement** — `css/style.css`, bloc inséré juste après la
+définition de `.section-dark::before`, **0 HTML/JS touché**, **0 couleur ajoutée/modifiée**) :
+- **3 keyframes** `aurora-a` / `aurora-b` / `aurora-c` : translation douce + léger `scale` + respiration
+  d'`opacity` (0.72→1). Chaque halo a sa **durée distincte** (19 s / 23 s / 27 s) et `ease-in-out
+  infinite alternate` → mouvement organique, jamais synchronisé.
+- **N'anime que `transform` et `opacity`** (composables par le compositeur GPU) → **aucun reflow/repaint
+  de layout**. `will-change: transform, opacity` ajouté sur les 3 cibles (justifié : animation infinie).
+- **`aurora-c` conserve impérativement le centrage `translate(-50%, -50%)`** de `.section-dark::before`
+  (sinon le halo central se décale) — vérifié.
+- **Garde `@media (prefers-reduced-motion: no-preference)`** : tout le bloc d'animation est enfermé
+  dedans → si l'utilisateur réduit les animations, **`animation-name` n'est jamais posé** et le rendu
+  statique d'origine est conservé **à l'identique** (les halos restent exactement où ils étaient).
+- **Aucun risque de débordement** : les halos sont `position:absolute; pointer-events:none` dans
+  `.hero { overflow:hidden }` → tout déplacement (≤ 52 px, scale ≤ 1.16) est **clippé**.
+
+**Vérifié** (serveur de prévisualisation local, port 8742, `index.html`) :
+- **Web Animations API (`document.getAnimations()`)** → les 3 animations sont **`running`** sur les bons
+  pseudo-éléments avec les bonnes durées : `aurora-a ::before 19 s`, `aurora-b ::after 23 s`,
+  `aurora-c .section-dark::before 27 s`. Les animations préexistantes (`marquee-scroll`, `wa-pulse`
+  bouton WhatsApp) **toujours running** → rien cassé.
+- **`getComputedStyle(::before).animationName` = `aurora-a`** → la `@media no-preference` matche et les
+  `@keyframes` résolvent bien. *(Le `transform` calculé restait à `matrix(1,0,0,1,0,0)` : artefact connu
+  de throttling d'animation en headless quand la frame n'est pas peinte — pas un défaut CSS, l'API
+  d'animation confirme l'état `running`.)*
+- **0 erreur console**, `hero h1` rendu normalement, **`overflow:hidden`** sur `.hero`, **pas de scroll
+  horizontal** introduit, **GTM `GTM-KF6HJ4WF` présent**, **bouton WhatsApp présent**.
+- **Accolades CSS équilibrées 506/506.** Invariants intacts : GTM, WhatsApp flottant (07 82 93 40 69),
+  bandeau d'offre, Calendly, FormSubmit, formulaires — **non touchés** (CSS décoratif uniquement).
+
+**Idées pour les prochains passages :**
+- **Doc/charte** : l'en-tête de commentaire de `css/style.css` (lignes 1-5) est **périmé** — il indique
+  encore « Violet: #7C3AED · Jaune: #FFD60A » alors que les variables `--violet/--yellow` sont aliasées
+  au vert/bleu de la charte. À corriger (cosmétique, sans impact rendu).
+- **Perf** : `img/ethan.png` (701 Ko) encore référencé dans le JSON-LD `image` d'`index.html` alors
+  qu'`og-webia.png` (115 Ko, 1200×630) ou `ethan.webp` (80 Ko) conviendrait → corriger le JSON-LD ;
+  ré-encoder/alléger le PNG fallback du `<picture>`.
+- **SEO** : 5ᵉ page locale (Chelles / Sénart) si les 4 actuelles performent ; fil d'Ariane **visuel** en
+  complément du `BreadcrumbList`.
+- **Conversion** : compteur de caractères sur le textarea `projet` ; variante A/B du libellé du CTA hero
+  via `cta_devis_click`.
+
+---
+
 ## 2026-06-29 — [Performance] Resource hints (`preconnect`/`dns-prefetch`) vers les origines tierces critiques sur les 13 pages (latence de connexion réduite : GTM, Calendly, FormSubmit)
 
 **Axe : Performance & accessibilité** (rotation : passages les plus récents par axe → Conversion 2026-06-29
