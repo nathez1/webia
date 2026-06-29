@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SÈVE — Atelier de mobilier d'auteur</title>
+  <meta name="description" content="SÈVE conçoit des assises sculpturales qui ne meublent pas une pièce — elles la révèlent. Mobilier d'auteur, fait main, depuis 2015." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="preload" as="image" href="assets/img/hero-chair.webp" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Curseur personnalisé -->
+  <div class="cursor" data-cursor>
+    <div class="cursor__dot"></div>
+    <div class="cursor__ring"></div>
+  </div>
+
+  <!-- Écran de chargement -->
+  <div class="loader" data-loader>
+    <div class="loader__inner">
+      <span class="loader__word">SÈVE</span>
+      <div class="loader__bar"><span data-loader-bar></span></div>
+    </div>
+  </div>
+
+  <div class="page" data-scroll-container>
+
+    <!-- ====================== HERO ====================== -->
+    <header class="hero" id="accueil">
+      <!-- Barre de navigation -->
+      <nav class="nav" data-nav>
+        <a href="#accueil" class="nav__logo" data-magnetic>
+          <span class="nav__leaf">❧</span> sève<span class="nav__dot">.</span>
+        </a>
+        <ul class="nav__links">
+          <li><a href="#accueil" class="nav__link is-active">Accueil</a></li>
+          <li><a href="#collection" class="nav__link">Collection</a></li>
+          <li><a href="#atelier" class="nav__link">L'atelier</a></li>
+          <li><a href="#process" class="nav__link">Sur-mesure</a></li>
+        </ul>
+        <div class="nav__actions">
+          <button class="nav__icon" aria-label="Rechercher" data-magnetic>
+            <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+          <a href="#contact" class="btn btn--pill" data-magnetic>Nous contacter
+            <span class="btn__bubble"><svg viewBox="0 0 24 24" width="15" height="15"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.25 1z" fill="currentColor"/></svg></span>
+          </a>
+        </div>
+        <button class="nav__burger" aria-label="Menu" data-burger><span></span><span></span></button>
+      </nav>
+
+      <!-- Cadre / grande carte arrondie -->
+      <div class="stage" data-stage>
+        <!-- Typo géante en fond -->
+        <h1 class="stage__title" aria-label="Sève">
+          <span class="stage__word stage__word--l" data-hero-word>sè</span>
+          <span class="stage__sub" data-hero-sub>atelier</span>
+          <span class="stage__word stage__word--r" data-hero-word>ve</span>
+        </h1>
+
+        <!-- Chaise qui flotte -->
+        <div class="stage__product" data-tilt>
+          <img src="assets/img/hero-chair.webp" alt="Fauteuil sculptural en bouclette ivoire" class="stage__chair" data-chair-img data-float />
+          <div class="stage__shadow" data-chair-shadow></div>
+
+          <!-- pastilles infos -->
+          <span class="hot hot--1" data-hot style="--x:24%;--y:34%">
+            <i></i><span class="hot__tip">Mousse haute résilience — assise ferme et durable</span>
+          </span>
+          <span class="hot hot--2" data-hot style="--x:74%;--y:58%">
+            <i></i><span class="hot__tip">Bouclette déperlante, douce et facile d'entretien</span>
+          </span>
+        </div>
+
+        <!-- Bloc texte gauche -->
+        <div class="stage__intro" data-reveal-group>
+          <p data-reveal>Nous dessinons des assises qui ne complètent pas un intérieur — elles en deviennent l'accent.</p>
+          <p data-reveal>Chaque pièce est une rencontre entre forme architecturale, plaisir tactile et harmonie visuelle.</p>
+          <a href="#collection" class="btn btn--ghost" data-magnetic data-reveal>Voir la collection
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Choix de teinte -->
+        <div class="swatches" data-swatches>
+          <span class="swatches__label">Choisissez votre teinte</span>
+          <div class="swatches__row">
+            <button class="swatch is-active" data-swatch data-img="assets/img/hero-chair.webp" data-accent="#caa75c" style="--sw:#efe6d4" aria-label="Ivoire bouclette"></button>
+            <button class="swatch" data-swatch data-img="assets/img/chair-emerald.webp" data-accent="#1f7a5c" style="--sw:#0f5a43" aria-label="Émeraude velours"></button>
+            <button class="swatch" data-swatch data-img="assets/img/chair-ochre.webp" data-accent="#c98a2e" style="--sw:#cf8f37" aria-label="Ocre bouclette"></button>
+            <button class="swatch" data-swatch data-img="assets/img/chair-ivory.webp" data-accent="#b06a4f" style="--sw:#b8654a" aria-label="Crème terracotta"></button>
+          </div>
+        </div>
+
+        <!-- Carte consultation -->
+        <aside class="consult" data-consult>
+          <img src="assets/img/designer.webp" alt="Conseillère SÈVE" class="consult__photo" />
+          <div class="consult__body">
+            <strong>Un conseil offert</strong>
+            <p>Décrivez votre projet, notre studio vous rappelle sous 24&nbsp;h.</p>
+            <a href="#contact" class="consult__cta" data-magnetic>Être rappelé
+              <svg viewBox="0 0 24 24" width="13" height="13"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </aside>
+
+        <!-- bas de scène -->
+        <div class="stage__foot">
+          <div class="socials" data-socials>
+            <a href="#" aria-label="Instagram" data-magnetic><svg viewBox="0 0 24 24" width="15" height="15"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="Pinterest" data-magnetic><svg viewBox="0 0 24 24" width="15" height="15"><path d="M12 3a9 9 0 0 0-3.3 17.4c-.08-.74-.15-1.9.03-2.72.16-.7 1.05-4.45 1.05-4.45s-.27-.54-.27-1.33c0-1.25.72-2.18 1.62-2.18.77 0 1.14.57 1.14 1.26 0 .77-.49 1.92-.74 2.99-.21.9.45 1.63 1.33 1.63 1.6 0 2.83-1.69 2.83-4.12 0-2.16-1.55-3.66-3.76-3.66-2.56 0-4.06 1.92-4.06 3.9 0 .77.3 1.6.67 2.05a.27.27 0 0 1 .06.26c-.07.28-.22.9-.25 1.02-.04.16-.13.2-.3.12-1.12-.52-1.82-2.16-1.82-3.48 0-2.83 2.06-5.43 5.93-5.43 3.11 0 5.53 2.22 5.53 5.18 0 3.09-1.95 5.58-4.65 5.58-.91 0-1.76-.47-2.05-1.03l-.56 2.13c-.2.78-.75 1.76-1.12 2.36A9 9 0 1 0 12 3z" fill="currentColor"/></svg></a>
+            <a href="#" aria-label="LinkedIn" data-magnetic><svg viewBox="0 0 24 24" width="15" height="15"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM.5 8h4V24h-4V8zM8 8h3.8v2.2h.06c.53-1 1.83-2.2 3.77-2.2 4.03 0 4.77 2.65 4.77 6.1V24h-4v-7.1c0-1.7-.03-3.88-2.36-3.88-2.37 0-2.73 1.85-2.73 3.76V24H8V8z" fill="currentColor"/></svg></a>
+          </div>
+          <span class="stage__since">Maison fondée<br/>en 2015</span>
+          <a href="#collection" class="scroll-cue" data-magnetic aria-label="Faire défiler">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 4v14M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ====================== MARQUEE ====================== -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track" data-marquee>
+        <span>Fait main en France ✦ Bois certifié FSC ✦ Mousse sans CFC ✦ Garantie 10 ans ✦ Édition limitée ✦ Livraison gantée ✦&nbsp;</span>
+        <span>Fait main en France ✦ Bois certifié FSC ✦ Mousse sans CFC ✦ Garantie 10 ans ✦ Édition limitée ✦ Livraison gantée ✦&nbsp;</span>
+      </div>
+    </section>
+
+    <!-- ====================== COLLECTION ====================== -->
+    <section class="collection" id="collection">
+      <div class="section-head">
+        <span class="eyebrow" data-reveal>✦ La collection 2026</span>
+        <h2 class="section-title" data-reveal>Des assises<br/>qui ont du <em>caractère.</em></h2>
+        <p class="section-lede" data-reveal>Quatre signatures, une même obsession : la courbe juste. Survolez une pièce pour la révéler.</p>
+      </div>
+
+      <div class="grid">
+        <article class="card" data-card style="--card-bg:#0f5a43;--card-ink:#f4efe3">
+          <div class="card__top">
+            <span class="card__num">01</span>
+            <span class="card__tag">Velours</span>
+          </div>
+          <div class="card__media">
+            <img src="assets/img/chair-emerald.webp" alt="Fauteuil Onde, velours émeraude" />
+          </div>
+          <div class="card__info">
+            <h3>Onde</h3>
+            <div class="card__row"><span>Fauteuil lounge</span><span class="card__price">1 290 €</span></div>
+          </div>
+          <a href="#contact" class="card__plus" aria-label="Découvrir Onde" data-magnetic>+</a>
+        </article>
+
+        <article class="card" data-card style="--card-bg:#efe6d4;--card-ink:#1c2b22">
+          <div class="card__top">
+            <span class="card__num">02</span>
+            <span class="card__tag">Bouclette</span>
+          </div>
+          <div class="card__media">
+            <img src="assets/img/hero-chair.webp" alt="Fauteuil Galet, bouclette ivoire" />
+          </div>
+          <div class="card__info">
+            <h3>Galet</h3>
+            <div class="card__row"><span>Fauteuil signature</span><span class="card__price">1 450 €</span></div>
+          </div>
+          <a href="#contact" class="card__plus" aria-label="Découvrir Galet" data-magnetic>+</a>
+        </article>
+
+        <article class="card" data-card style="--card-bg:#cf8f37;--card-ink:#2a1d07">
+          <div class="card__top">
+            <span class="card__num">03</span>
+            <span class="card__tag">Bouclette</span>
+          </div>
+          <div class="card__media">
+            <img src="assets/img/chair-ochre.webp" alt="Fauteuil Mistral, bouclette ocre" />
+          </div>
+          <div class="card__info">
+            <h3>Mistral</h3>
+            <div class="card__row"><span>Fauteuil pivotant</span><span class="card__price">1 380 €</span></div>
+          </div>
+          <a href="#contact" class="card__plus" aria-label="Découvrir Mistral" data-magnetic>+</a>
+        </article>
+
+        <article class="card" data-card style="--card-bg:#b8654a;--card-ink:#2b120b">
+          <div class="card__top">
+            <span class="card__num">04</span>
+            <span class="card__tag">Édition</span>
+          </div>
+          <div class="card__media">
+            <img src="assets/img/chair-ivory.webp" alt="Fauteuil Argile, crème sur structure noire" />
+          </div>
+          <div class="card__info">
+            <h3>Argile</h3>
+            <div class="card__row"><span>Édition limitée</span><span class="card__price">1 690 €</span></div>
+          </div>
+          <a href="#contact" class="card__plus" aria-label="Découvrir Argile" data-magnetic>+</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====================== ATELIER / PHILOSOPHIE ====================== -->
+    <section class="atelier" id="atelier">
+      <div class="atelier__media" data-parallax-wrap>
+        <img src="assets/img/ambiance.jpg" alt="Intérieur signé SÈVE" data-parallax />
+        <div class="atelier__badge" data-magnetic>
+          <svg viewBox="0 0 100 100" class="atelier__seal"><defs><path id="circlePath" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs><text><textPath href="#circlePath">FAIT MAIN · ÉDITION LIMITÉE · SÈVE 2015 · </textPath></text></svg>
+          <span class="atelier__seal-mark">❧</span>
+        </div>
+      </div>
+      <div class="atelier__text">
+        <span class="eyebrow" data-reveal>✦ L'atelier</span>
+        <h2 class="section-title" data-reveal>Le geste<br/>avant l'objet.</h2>
+        <p data-reveal>Dans notre atelier près de Lyon, le bois est cintré à la vapeur, la mousse sculptée à la main, le tissu tendu au millimètre. Rien n'est pressé — une assise SÈVE demande près de quarante heures de travail.</p>
+        <p data-reveal>Nous croyons qu'un meuble doit vieillir mieux qu'il n'a commencé. C'est pourquoi chaque pièce est pensée pour être réparée, regarnie, transmise.</p>
+
+        <div class="stats" data-stats>
+          <div class="stat"><span class="stat__num" data-count="40">0</span><span class="stat__unit">h</span><span class="stat__lab">de travail par pièce</span></div>
+          <div class="stat"><span class="stat__num" data-count="100">0</span><span class="stat__unit">%</span><span class="stat__lab">fabriqué en France</span></div>
+          <div class="stat"><span class="stat__num" data-count="10">0</span><span class="stat__unit">ans</span><span class="stat__lab">de garantie</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================== PROCESS / SUR-MESURE ====================== -->
+    <section class="process" id="process">
+      <div class="section-head section-head--center">
+        <span class="eyebrow" data-reveal>✦ Sur-mesure</span>
+        <h2 class="section-title" data-reveal>Votre pièce, en quatre temps.</h2>
+      </div>
+      <ol class="steps">
+        <li class="step" data-step>
+          <span class="step__n">01</span>
+          <h3>L'échange</h3>
+          <p>On écoute votre espace, vos usages, vos envies. Un rendez-vous, sans engagement.</p>
+        </li>
+        <li class="step" data-step>
+          <span class="step__n">02</span>
+          <h3>Le dessin</h3>
+          <p>Croquis, choix des bois, palette de tissus. Vous validez chaque détail.</p>
+        </li>
+        <li class="step" data-step>
+          <span class="step__n">03</span>
+          <h3>L'atelier</h3>
+          <p>Vos artisans façonnent la pièce. Photos d'avancement à chaque étape.</p>
+        </li>
+        <li class="step" data-step>
+          <span class="step__n">04</span>
+          <h3>La livraison</h3>
+          <p>Installation gantée chez vous, anciens meubles repris si besoin.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ====================== CTA / CONTACT ====================== -->
+    <section class="cta" id="contact">
+      <div class="cta__card" data-cta>
+        <div class="cta__text">
+          <span class="eyebrow" data-reveal>✦ Parlons-en</span>
+          <h2 data-reveal>Et si votre prochain<br/>coup de cœur était<br/>fait pour vous&nbsp;?</h2>
+          <p data-reveal>Laissez-nous vos coordonnées. Un conseiller SÈVE vous recontacte sous 24&nbsp;h pour dessiner le projet ensemble.</p>
+        </div>
+        <form class="cta__form" data-reveal onsubmit="return false">
+          <label>Nom<input type="text" placeholder="Camille Durand" /></label>
+          <label>Email<input type="email" placeholder="camille@email.com" /></label>
+          <label>Votre projet<textarea rows="3" placeholder="Un fauteuil pour mon salon…"></textarea></label>
+          <button class="btn btn--solid" data-magnetic type="submit">Envoyer la demande
+            <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ====================== FOOTER ====================== -->
+    <footer class="footer">
+      <div class="footer__big" data-foot-word>sève<span>.</span></div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <span class="footer__h">Studio</span>
+          <a href="#collection">Collection</a>
+          <a href="#atelier">L'atelier</a>
+          <a href="#process">Sur-mesure</a>
+        </div>
+        <div class="footer__col">
+          <span class="footer__h">Suivre</span>
+          <a href="#">Instagram</a>
+          <a href="#">Pinterest</a>
+          <a href="#">LinkedIn</a>
+        </div>
+        <div class="footer__col">
+          <span class="footer__h">Atelier</span>
+          <p>14 rue des Tisserands<br/>69001 Lyon, France</p>
+          <a href="mailto:bonjour@seve-studio.fr">bonjour@seve-studio.fr</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <span>© 2026 SÈVE — Atelier de mobilier d'auteur</span>
+        <span>Conçu avec soin, à Lyon.</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- GSAP + plugins + smooth scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
