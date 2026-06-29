@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NOVA — Le son, sublimé.</title>
+  <meta name="description" content="NOVA conçoit des produits audio d'exception : écouteurs, casques et enceintes au son cristallin et au design minimaliste." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="loading">
+  <!-- ===== PRELOADER / INTRO ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-rays" id="loaderRays"></div>
+    <div class="loader-particles" id="loaderParticles"></div>
+    <div class="loader-orb" id="loaderOrb"></div>
+    <div class="loader-brand" id="loaderBrand">NOVA</div>
+    <div class="loader-count"><span id="loaderNum">0</span><i>%</i></div>
+    <div class="loader-foot">Initialisation de l'expérience sonore</div>
+  </div>
+
+  <!-- Ambient mesh background -->
+  <div class="bg-mesh" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <div class="grain"></div>
+  </div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <a href="#hero" class="brand" aria-label="NOVA accueil">
+      <span class="brand-mark"></span><span class="brand-name">NOVA</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#produits">Produits</a>
+      <a href="#tech">Technologie</a>
+      <a href="#ecosysteme">Écosystème</a>
+      <a href="#avis">Avis</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="header-actions">
+      <button class="cart-toggle" id="cartToggle" aria-label="Ouvrir le panier">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <a href="#produits" class="btn btn-dark">Acheter</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- ===== CINEMATIC (pinned, scroll-driven) ===== -->
+    <section class="cine" id="hero">
+      <div class="cine-stage" id="cineStage">
+        <div class="cine-orb" id="cineOrb" aria-hidden="true"></div>
+        <div class="cine-shards" id="cineShards" aria-hidden="true"></div>
+
+        <!-- Scene 0 : hero (interactive au sommet) -->
+        <div class="cine-scene scene-hero" id="sceneHero">
+          <div class="badge"><span class="dot"></span> Nouveau · NOVA One <em>Gen 2</em></div>
+          <h1 class="hero-title"><span>Le son,</span> <em>sublimé.</em></h1>
+          <p class="hero-sub">Des écouteurs, casques et enceintes pensés pour disparaître — et ne laisser que la musique.</p>
+          <div class="hero-cta">
+            <a href="#produits" class="btn btn-dark btn-lg">Découvrir la collection</a>
+            <a href="#tech" class="btn btn-ghost btn-lg"><span class="play-ic">▶</span> La technologie</a>
+          </div>
+        </div>
+
+        <!-- Scene 1 -->
+        <div class="cine-scene scene-step" id="scene1">
+          <span class="cine-kicker">01 — le constat</span>
+          <h2 class="cine-big">Le monde ne se<br><em>tait jamais.</em></h2>
+        </div>
+        <!-- Scene 2 -->
+        <div class="cine-scene scene-step" id="scene2">
+          <span class="cine-kicker">02 — le chaos</span>
+          <h2 class="cine-big">Trop de bruit.<br><em>Trop de tout.</em></h2>
+        </div>
+        <!-- Scene 3 -->
+        <div class="cine-scene scene-step" id="scene3">
+          <span class="cine-kicker">03 — la réponse</span>
+          <h2 class="cine-big">Puis vient<br><em>le silence.</em></h2>
+        </div>
+
+        <a href="#produits" class="scroll-hint" id="scrollHint">
+          <span>Défiler pour découvrir</span><span class="scroll-line"></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Hi-Res Audio</span><span>•</span><span>Dolby Atmos</span><span>•</span>
+        <span>Spatial Sound</span><span>•</span><span>Bluetooth 5.4</span><span>•</span>
+        <span>Multipoint</span><span>•</span><span>USB-C</span><span>•</span>
+        <span>Hi-Res Audio</span><span>•</span><span>Dolby Atmos</span><span>•</span>
+        <span>Spatial Sound</span><span>•</span><span>Bluetooth 5.4</span><span>•</span>
+        <span>Multipoint</span><span>•</span><span>USB-C</span><span>•</span>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <section class="stats" id="stats">
+      <div class="stat reveal" data-rev><div class="stat-num"><span class="count" data-to="99">0</span><i>%</i></div><p>de bruit extérieur supprimé par l'ANC adaptatif</p></div>
+      <div class="stat reveal" data-rev><div class="stat-num"><span class="count" data-to="38">0</span><i>h</i></div><p>d'écoute en continu, boîtier de charge inclus</p></div>
+      <div class="stat reveal" data-rev><div class="stat-num"><span class="count" data-to="24">0</span><i>bit</i></div><p>audio Hi-Res sans perte, fidèle au master studio</p></div>
+      <div class="stat reveal" data-rev><div class="stat-num"><span class="count" data-to="6">0</span><i>mic</i></div><p>micros à formation de faisceau pour une voix nette</p></div>
+    </section>
+
+    <!-- PRODUITS -->
+    <section class="section products" id="produits">
+      <div class="section-head">
+        <span class="eyebrow reveal" data-rev>La collection</span>
+        <h2 class="reveal" data-rev>Trois objets, <em>une obsession</em> : le son juste.</h2>
+        <p class="reveal" data-rev>Choisissez votre format. Chaque produit partage le même cœur acoustique conçu à Paris.</p>
+      </div>
+      <div class="product-grid">
+        <article class="product-card reveal" data-rev data-tilt>
+          <div class="pc-media"><span class="pc-glow"></span><img src="assets/earbuds.png" alt="Écouteurs NOVA One" /><span class="pc-badge">Best-seller</span></div>
+          <div class="pc-body">
+            <div class="pc-row"><h3>NOVA One</h3><div class="pc-price">199 €</div></div>
+            <p>Écouteurs true-wireless. ANC adaptatif, son spatial et 38 h d'autonomie.</p>
+            <div class="pc-tags"><span>True-wireless</span><span>IPX5</span><span>38 h</span></div>
+            <button class="btn btn-dark btn-block add-to-cart" data-id="one" data-name="NOVA One" data-price="199" data-img="assets/earbuds.png">Ajouter au panier</button>
+          </div>
+        </article>
+        <article class="product-card featured reveal" data-rev data-tilt>
+          <div class="pc-media"><span class="pc-glow"></span><img src="assets/headphones.png" alt="Casque NOVA Pro" /><span class="pc-badge accent">Édition Pro</span></div>
+          <div class="pc-body">
+            <div class="pc-row"><h3>NOVA Pro</h3><div class="pc-price">349 €</div></div>
+            <p>Casque circum-aural Hi-Res. Réduction de bruit de référence, confort sans fin.</p>
+            <div class="pc-tags"><span>Circum-aural</span><span>Hi-Res</span><span>60 h</span></div>
+            <button class="btn btn-dark btn-block add-to-cart" data-id="pro" data-name="NOVA Pro" data-price="349" data-img="assets/headphones.png">Ajouter au panier</button>
+          </div>
+        </article>
+        <article class="product-card reveal" data-rev data-tilt>
+          <div class="pc-media"><span class="pc-glow"></span><img src="assets/speaker.png" alt="Enceinte NOVA Beat" /><span class="pc-badge">Nomade</span></div>
+          <div class="pc-body">
+            <div class="pc-row"><h3>NOVA Beat</h3><div class="pc-price">149 €</div></div>
+            <p>Enceinte portable à 360°. Basses profondes, étanche, prête pour l'aventure.</p>
+            <div class="pc-tags"><span>360°</span><span>IP67</span><span>20 h</span></div>
+            <button class="btn btn-dark btn-block add-to-cart" data-id="beat" data-name="NOVA Beat" data-price="149" data-img="assets/speaker.png">Ajouter au panier</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- TECHNOLOGIE -->
+    <section class="section tech" id="tech">
+      <div class="section-head">
+        <span class="eyebrow reveal" data-rev>La technologie</span>
+        <h2 class="reveal" data-rev>Une ingénierie <em>invisible</em>, une écoute évidente.</h2>
+      </div>
+      <div class="feature-row reveal" data-rev>
+        <div class="feature-card glass">
+          <div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12c3-7 15-7 18 0-3 7-15 7-18 0Z"/><circle cx="12" cy="12" r="3"/></svg></div>
+          <h3>ANC adaptatif AuraQuiet™</h3>
+          <p>Mille fois par seconde, NOVA mesure le bruit autour de vous et le neutralise. Le silence devient un réglage.</p>
+        </div>
+        <div class="feature-visual glass">
+          <div class="eq" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="visual-label">Égalisation active en temps réel</div>
+        </div>
+      </div>
+      <div class="feature-row reverse reveal" data-rev>
+        <div class="feature-visual glass">
+          <div class="orbit-mini" aria-hidden="true"><span class="om-core"></span><span class="om-ring r1"></span><span class="om-ring r2"></span><span class="om-dot d1"></span><span class="om-dot d2"></span><span class="om-dot d3"></span></div>
+          <div class="visual-label">Audio spatial à suivi de tête</div>
+        </div>
+        <div class="feature-card glass">
+          <div class="fc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+          <h3>Son spatial SphereSound™</h3>
+          <p>La scène sonore vous entoure et reste fixe quand vous bougez la tête. Vous n'écoutez plus la musique, vous y êtes.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECOSYSTEME -->
+    <section class="section eco" id="ecosysteme">
+      <div class="section-head">
+        <span class="eyebrow reveal" data-rev>L'écosystème</span>
+        <h2 class="reveal" data-rev>Compatible avec <em>tout votre univers.</em></h2>
+        <p class="reveal" data-rev>Un appairage, partout. NOVA bascule entre vos appareils sans que vous y pensiez.</p>
+      </div>
+      <div class="orbital reveal" data-rev>
+        <div class="orbital-center"><span class="brand-mark big"></span><span>NOVA</span></div>
+        <div class="orbit-ring ring-a"></div>
+        <div class="orbit-ring ring-b"></div>
+        <div class="orbit-node n1"><span>Spotify</span></div>
+        <div class="orbit-node n2"><span>Apple Music</span></div>
+        <div class="orbit-node n3"><span>Dolby Atmos</span></div>
+        <div class="orbit-node n4"><span>Multipoint</span></div>
+        <div class="orbit-node n5"><span>Bluetooth 5.4</span></div>
+        <div class="orbit-node n6"><span>USB-C</span></div>
+      </div>
+    </section>
+
+    <!-- AVIS -->
+    <section class="section reviews" id="avis">
+      <div class="section-head">
+        <span class="eyebrow reveal" data-rev>Ils écoutent NOVA</span>
+        <h2 class="reveal" data-rev>Le genre de silence <em>qu'on recommande.</em></h2>
+      </div>
+      <div class="review-grid">
+        <figure class="review glass reveal" data-rev><div class="stars">★★★★★</div><blockquote>« J'ai redécouvert des albums que je croyais connaître par cœur. La spatialisation est bluffante. »</blockquote><figcaption><span class="av av1"></span> Camille R. — <em>NOVA Pro</em></figcaption></figure>
+        <figure class="review glass reveal" data-rev><div class="stars">★★★★★</div><blockquote>« Dans le métro, j'appuie une fois et le monde s'éteint. L'autonomie tient toute ma semaine. »</blockquote><figcaption><span class="av av2"></span> Yanis B. — <em>NOVA One</em></figcaption></figure>
+        <figure class="review glass reveal" data-rev><div class="stars">★★★★★</div><blockquote>« Le design est sublime, mais c'est le son qui m'a fait rester. Achat le plus malin de l'année. »</blockquote><figcaption><span class="av av3"></span> Léa M. — <em>NOVA Beat</em></figcaption></figure>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq" id="faq">
+      <div class="section-head">
+        <span class="eyebrow reveal" data-rev>On vous répond</span>
+        <h2 class="reveal" data-rev>Questions <em>fréquentes</em></h2>
+      </div>
+      <div class="faq-list reveal" data-rev>
+        <details class="faq-item"><summary>Quelle est la durée de la garantie ?<span class="chev"></span></summary><div class="faq-a"><p>Chaque produit NOVA est garanti 2 ans. L'inscription en ligne ajoute 12 mois offerts, soit 3 ans au total.</p></div></details>
+        <details class="faq-item"><summary>Les produits sont-ils compatibles iPhone et Android ?<span class="chev"></span></summary><div class="faq-a"><p>Oui. NOVA fonctionne en Bluetooth 5.4 multipoint avec iOS, Android, Windows et macOS, et bascule automatiquement entre deux appareils.</p></div></details>
+        <details class="faq-item"><summary>Quel est le délai de livraison ?<span class="chev"></span></summary><div class="faq-a"><p>Livraison offerte en 48 h en France métropolitaine. Suivi en temps réel envoyé par e-mail dès l'expédition.</p></div></details>
+        <details class="faq-item"><summary>Puis-je essayer puis renvoyer ?<span class="chev"></span></summary><div class="faq-a"><p>Vous disposez de 30 jours pour tester chez vous. Si le son ne vous transporte pas, le retour est gratuit, remboursement intégral.</p></div></details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-wrap">
+      <div class="cta-card reveal" data-rev>
+        <div class="cta-glow" aria-hidden="true"></div>
+        <span class="eyebrow light">Commencez à écouter</span>
+        <h2>Offrez à vos oreilles <em>le silence</em> qu'elles méritent.</h2>
+        <form class="cta-form" id="ctaForm">
+          <input type="email" placeholder="Votre adresse e-mail" required aria-label="E-mail" />
+          <button type="submit" class="btn btn-accent">−10 % sur ma 1ʳᵉ commande</button>
+        </form>
+        <p class="cta-fine" id="ctaMsg">Livraison offerte · 30 jours d'essai · Paiement en 3× sans frais</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#hero" class="brand"><span class="brand-mark"></span><span class="brand-name">NOVA</span></a>
+        <p>Audio d'exception, conçu à Paris. Le son, sublimé.</p>
+      </div>
+      <div class="footer-cols">
+        <div><h4>Produits</h4><a href="#produits">NOVA One</a><a href="#produits">NOVA Pro</a><a href="#produits">NOVA Beat</a></div>
+        <div><h4>À propos</h4><a href="#tech">Technologie</a><a href="#ecosysteme">Écosystème</a><a href="#avis">Avis</a></div>
+        <div><h4>Aide</h4><a href="#faq">FAQ</a><a href="#faq">Livraison</a><a href="#faq">Garantie</a></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NOVA Audio. Tous droits réservés.</span>
+      <div class="socials"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="YouTube">YT</a><a href="#" aria-label="X">X</a></div>
+    </div>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Panier">
+    <div class="cart-header"><h3>Votre panier</h3><button class="cart-close" id="cartClose" aria-label="Fermer">✕</button></div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty"><div class="ce-orb"></div><p>Votre panier est vide.</p><a href="#produits" class="btn btn-ghost" id="cartShop">Voir la collection</a></div>
+    </div>
+    <div class="cart-footer" id="cartFooter" hidden>
+      <div class="cart-total"><span>Total</span><strong id="cartTotal">0 €</strong></div>
+      <button class="btn btn-accent btn-block" id="checkout">Commander</button>
+      <p class="cart-note">Livraison offerte · Paiement en 3× sans frais</p>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
