@@ -150,6 +150,14 @@
 
             <div class="form-group">
               <label for="projet">Parlez-nous de votre projet <span class="req" aria-hidden="true">*</span></label>
+              <div class="textarea-chips" role="group" aria-label="Suggestions pour démarrer votre message" aria-describedby="tc-help">
+                <p class="tc-label" id="tc-help">Pas sûr de quoi écrire ? Cliquez pour démarrer (vous pourrez tout modifier) :</p>
+                <button type="button" class="ta-chip" aria-pressed="false" data-target="projet" data-fill="Je veux apparaître sur Google quand mes clients cherchent mon activité dans ma ville.">Être visible sur Google</button>
+                <button type="button" class="ta-chip" aria-pressed="false" data-target="projet" data-fill="Je n'ai pas encore de site, je pars de zéro et je veux une présence pro en ligne.">Partir de zéro</button>
+                <button type="button" class="ta-chip" aria-pressed="false" data-target="projet" data-fill="J'ai déjà un site mais il est vieux ou pas pro, je veux le refaire.">Refaire mon site actuel</button>
+                <button type="button" class="ta-chip" aria-pressed="false" data-target="projet" data-fill="Je veux un site qui me ramène des contacts et des demandes de devis.">Recevoir plus de demandes</button>
+                <button type="button" class="ta-chip" aria-pressed="false" data-target="projet" data-fill="Je veux pouvoir vendre ou prendre des réservations directement en ligne.">Vendre / réserver en ligne</button>
+              </div>
               <textarea id="projet" name="projet" placeholder="Ex : Je suis plombier à Nantes, je veux un site pour que mes clients me trouvent sur Google et demandent des devis facilement…" required></textarea>
             </div>
 

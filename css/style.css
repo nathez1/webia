@@ -1200,6 +1200,45 @@ h2.display { font-size: clamp(1.9rem, 3.6vw, 2.75rem); }
 
 .field-hint { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; }
 
+/* Puces de démarrage rapide sous le textarea projet (conversion) : un clic
+   pré-remplit une amorce éditable → combat la paralysie de la page blanche sur
+   le champ le plus exigeant du formulaire et qualifie mieux le lead. */
+.textarea-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.textarea-chips .tc-label {
+  width: 100%;
+  margin: 0 0 2px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.ta-chip {
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: border-color 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+.ta-chip:hover { border-color: var(--violet); color: var(--violet-deep); }
+.ta-chip:focus-visible {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(22, 224, 111, 0.3);
+}
+.ta-chip[aria-pressed="true"] {
+  background: var(--violet-pale);
+  border-color: var(--violet);
+  color: var(--violet-deep);
+}
+.ta-chip[aria-pressed="true"]::before { content: "\2713"; font-weight: 800; }
+@media (prefers-reduced-motion: reduce) { .ta-chip { transition: none; } }
+
 /* Validation inline accessible : message d'erreur clair sous le champ
    (réduit l'abandon du formulaire). Rouge fonctionnel --ko, hors charte de marque. */
 .field-error { display: none; margin: 7px 0 0; font-size: 0.82rem; font-weight: 600; color: var(--ko); }

@@ -10,6 +10,66 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-30 — [Conversion] Puces de **démarrage rapide** sous le textarea « projet » de `devis.html` (combat la page blanche sur le champ le plus exigeant, qualifie mieux le lead)
+
+**Axe : Conversion** (rotation : passages les plus récents par axe → **SEO local 2026-06-30** (fil d'Ariane
+visuel), **Design 2026-06-29** (aurora glows), **Performance 2026-06-29** (resource hints), **Conversion
+2026-06-29** (validation inline) → **Conversion = axe le plus ancien**).
+
+**Constat — le textarea libre est le principal point d'abandon du formulaire.** Le formulaire de devis est
+déjà très abouti (validation inline accessible, filet de sécurité WhatsApp/email, barre CTA collante mobile,
+tracking GA4). Le maillon le plus fragile restant : le champ obligatoire **« Parlez-nous de votre projet »**,
+seul champ ouvert à fort effort d'écriture, qui n'offrait qu'un placeholder. La « page blanche » sur ce champ
+est une cause classique d'abandon — le visiteur ne sait pas quoi écrire, hésite, repart.
+
+**Réalisé** (additif — **HTML** : 1 bloc de 5 puces dans le `.form-group` du textarea, **uniquement sur
+`devis.html`** ; **CSS** : bloc `.textarea-chips`/`.ta-chip` après `.field-hint` ; **JS** : 1 IIFE générique
+guardée) :
+- **5 puces cliquables** (`<button type="button" class="ta-chip" data-fill="…" data-target="projet">`) placées
+  **entre le label et le textarea**, sous l'intro « Pas sûr de quoi écrire ? Cliquez pour démarrer (vous
+  pourrez tout modifier) ». Libellés orientés besoin réel : **Être visible sur Google · Partir de zéro ·
+  Refaire mon site actuel · Recevoir plus de demandes · Vendre / réserver en ligne**. Chaque puce insère une
+  **amorce de phrase éditable** dans le textarea → le visiteur démarre en 1 clic et le **lead est mieux
+  qualifié** (Ethan reçoit un besoin déjà cadré). **Aucune donnée inventée** : ce sont des amorces génériques
+  que l'utilisateur choisit et modifie lui-même (pas de faux contenu/avis).
+- **Toggle réversible** (`aria-pressed`) : re-clic sur une puce **retire son amorce exacte** (nettoyage des
+  sauts de ligne), plusieurs puces s'**empilent** sur des lignes distinctes. Après chaque clic : `focus` +
+  curseur en fin de texte + dispatch d'un événement `input` → la **validation inline efface l'erreur** du
+  champ si elle était affichée.
+- **Accessibilité** : vrais `<button type="button">` (clavier natif, ne soumettent pas le form), `role="group"
+  aria-label` + `aria-describedby` vers l'intro, `aria-pressed` reflète l'état, `:focus-visible` à anneau
+  vert. **Respecte `prefers-reduced-motion`** (transitions coupées).
+- **Charte respectée** : pilules `border-radius:999px`, fond blanc → **état pressé en vert de charte**
+  (`--violet-pale` #E5FCEE + bordure `--violet` #16E06F + coche ✓), hover vert. **Aucun violet/jaune réel.**
+- **Périmètre** : `devis.html` uniquement (le seul formulaire avec ce textarea projet). `affiliation.html`
+  partage `id="devis-form"` mais n'a pas ce champ → **non impacté** (JS guardé sur `.ta-chip`).
+
+**Vérifié** (serveur de prévisualisation local port 8751, contrôle DOM/CSSOM live) :
+- **5 puces** présentes sur `devis.html`, **0 sur les autres pages**. Clic puce 0 → amorce insérée,
+  `aria-pressed="true"` ; clic puce 2 → **2ᵉ amorce empilée** sur nouvelle ligne ; re-clic puce 0 → **retire
+  uniquement** son amorce, laisse l'autre, `aria-pressed="false"`. Curseur/focus OK.
+- **Interaction validation** : textarea forcé en erreur (`aria-invalid="true"`, `.field-error.show`) → clic
+  puce → **erreur effacée** (`aria-invalid` retiré, message masqué). ✓
+- **État pressé (CSSOM, transition neutralisée)** : `background-color rgb(229,252,238)` (= `--violet-pale`),
+  `border-color rgb(22,224,111)` (= `--violet`), `border-radius 999px`. *(Lecture brute juste après clic =
+  blanc : artefact de transition 0.18s en headless ; valeur réelle confirmée après reflow.)*
+- **0 erreur console.** Invariants intacts : **GTM (GTM-KF6HJ4WF)**, **bouton WhatsApp flottant**, bandeau
+  d'offre, Calendly, FormSubmit, validation inline, barre CTA mobile — **non touchés**. **Accolades CSS
+  équilibrées 522/522.** *(Capture headless en timeout — limite connue notée en mémoire ; preuve par
+  DOM/CSSOM live + parsing.)*
+
+**Idées pour les prochains passages :**
+- **Perf** : `img/ethan.png` (701 Ko) **toujours** référencé dans le JSON-LD `image` d'`index.html` alors
+  qu'`og-webia.png` (115 Ko, 1200×630) conviendrait → corriger le JSON-LD ; ré-encoder/alléger le PNG
+  fallback du `<picture>`. **(TODO perf récurrent, jamais traité — fort candidat prochain passage Performance.)**
+- **Doc/charte** : en-tête de commentaire de `css/style.css` (lignes 1-5) **périmé** (« Violet #7C3AED ·
+  Jaune #FFD60A ») alors que les variables sont aliasées vert/bleu → corriger (cosmétique).
+- **SEO** : 5ᵉ page locale (Chelles 77 / Sénart) si les 4 actuelles performent — contenu unique, jamais dupliqué.
+- **Conversion (suite)** : compteur de caractères discret sur le textarea ; sauvegarde du brouillon en
+  `localStorage` (restauration au retour, anti-abandon).
+
+---
+
 ## 2026-06-30 — [SEO local] Fil d'Ariane **visuel** sur les 8 pages déjà porteuses du `BreadcrumbList` JSON-LD (miroir cliquable du balisage, navigation + maillage interne)
 
 **Axe : SEO local** (rotation : passages les plus récents par axe → **Design 2026-06-29** (aurora glows),

@@ -235,6 +235,39 @@ if (devisForm) {
   });
 }
 
+// ===== Puces de démarrage rapide du textarea projet (conversion) =====
+// Sur la page de devis, le champ libre « Parlez-nous de votre projet » est le
+// point de friction le plus fort (effort d'écriture sur une page blanche). Des
+// puces cliquables insèrent une amorce éditable dans le textarea : le visiteur
+// démarre en un clic, peut tout modifier, et le lead est mieux qualifié. Toggle
+// réversible (re-clic = retire l'amorce). 100% additif : sans JS, le textarea
+// reste un champ classique avec son placeholder. Le clic déclenche un événement
+// "input" → la validation inline efface l'erreur éventuelle du champ.
+(function () {
+  const chips = document.querySelectorAll(".ta-chip[data-fill]");
+  if (!chips.length) return;
+  chips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const ta = document.getElementById(chip.getAttribute("data-target"));
+      if (!ta) return;
+      const fill = chip.getAttribute("data-fill");
+      const has = ta.value.indexOf(fill) !== -1;
+      if (has) {
+        // Toggle off : retire l'amorce exacte, nettoie les sauts de ligne.
+        ta.value = ta.value.replace(fill, "").replace(/\n{3,}/g, "\n\n").trim();
+        chip.setAttribute("aria-pressed", "false");
+      } else {
+        ta.value = ta.value.trim() ? ta.value.replace(/\s+$/, "") + "\n" + fill : fill;
+        chip.setAttribute("aria-pressed", "true");
+      }
+      // Resynchronise la validation inline et place le curseur en fin de texte.
+      ta.dispatchEvent(new Event("input", { bubbles: true }));
+      ta.focus();
+      try { ta.setSelectionRange(ta.value.length, ta.value.length); } catch (e) {}
+    });
+  });
+})();
+
 // ===== Aperçus live (iframe d'un vrai site, mis à l'échelle) =====
 function webiaScaleLivePreviews() {
   document.querySelectorAll(".mockup-live iframe").forEach((iframe) => {
