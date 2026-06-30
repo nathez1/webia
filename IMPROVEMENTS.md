@@ -10,6 +10,52 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-30 — [Performance & Accessibilité] Balise `<meta name="theme-color">` (bleu de charte) sur les 13 pages — habillage du navigateur mobile aux couleurs Webia (notoriété de marque)
+
+**Axe : Performance & Accessibilité** (rotation : occurrences les plus récentes par axe → **Conversion 2026-06-30**
+(puces démarrage rapide), **SEO local 2026-06-30** (fil d'Ariane visuel), **Design 2026-06-29** (aurora glows),
+**Performance 2026-06-29** (resource hints) → **Performance/Accessibilité = axe le plus ancien**).
+
+**Constat — l'UI du navigateur mobile restait neutre (gris/blanc), sans signal de marque.** Le site est très mûr
+côté perf/a11y (polices auto-hébergées, WebP + `<picture>`, lazy-loading, `decoding=async`, resource hints,
+`:focus-visible` global, `prefers-reduced-motion`, skip-link, `aria-current`, landmarks). Un standard mobile
+manquait pourtant sur **toutes** les pages : aucune balise `theme-color`. Or la majorité du trafic de recherche
+locale (TPE/indépendants en 77/Paris) est mobile : sans cette balise, la barre d'adresse et le sélecteur d'onglets
+de Chrome/Android restent gris par défaut au lieu d'adopter la couleur de l'agence.
+
+**Réalisé** (additif, 1 ligne par page, insérée juste après `<meta name="viewport">`, **13/13 pages** : index,
+tarifs, realisations, affiliation, faq, devis, merci, confidentialite, mentions-legales + 4 pages locales melun/
+meaux/paris/fontainebleau) :
+- `  <meta name="theme-color" content="#1C2BEF">` — **bleu électrique de charte**. La chrome du navigateur mobile
+  (barre d'adresse, multitâche Android, PWA) se teinte désormais en bleu Webia → **cohérence de marque visible**
+  à chaque visite, renforce la **notoriété** (objectif business explicite) sans aucun coût de perf.
+- **Choix de couleur** : le bleu signature `#1C2BEF` (et non le vert d'accent), car c'est la couleur dominante des
+  heros/en-têtes — la transition page ↔ chrome navigateur est ainsi continue. **Aucun violet/jaune.**
+- **Zéro risque** : élément `<meta>` vide, standard, ignoré par les navigateurs qui ne le supportent pas. N'altère
+  ni le rendu des pages claires, ni les contrôles de formulaire, ni rien d'existant.
+
+**Vérifié** (relecture + parsing) :
+- **13/13 pages** portent exactement **une** balise `theme-color="#1C2BEF"`, placée immédiatement sous le viewport.
+- `git diff` propre : **uniquement** des lignes **ajoutées** (1 par page), **0 suppression**, aucun autre fichier
+  touché. Invariants intacts : GTM (GTM-KF6HJ4WF), bouton WhatsApp flottant, Calendly, FormSubmit, bandeau d'offre,
+  formulaires — **non touchés**.
+
+**⚠️ À l'attention du patron — modifications locales non commitées découvertes et mises de côté (pas poussées).**
+En arrivant, le dossier de travail contenait des **changements locaux non commités, hors charte**, que je n'ai pas
+créés : `css/style.css` (toute la palette repassée en **noir/blanc/gris monochrome** : bleu et vert de charte
+supprimés), `img/logo.svg` (logo passé en blanc/noir) et `merci.html` (couleurs Calendly en `#111111`). Ces
+changements **violent la charte graphique** (qui interdit de retirer le bleu/vert). Conformément aux consignes
+(ne rien casser, respecter la charte, ne jamais forcer), je **ne les ai pas poussés** et **ne les ai pas
+supprimés** : ils sont **préservés dans `git stash`** (`stash@{0}` : « WIP monochrome experiment »). Pour les
+récupérer : `git stash list` puis `git stash pop` ; pour les jeter définitivement : `git stash drop`.
+
+**Idées prochaines fois** : (a) `theme-color` adaptatif via `media="(prefers-color-scheme: dark)"` si une vraie
+variante sombre voit le jour ; (b) `web app manifest` minimal (nom, icônes, couleurs) pour l'« Ajouter à l'écran
+d'accueil » ; (c) `defer` explicite sur `js/main.js` (déjà en fin de `<body>`, gain marginal) ; (d) audit Lighthouse
+mobile complet (LCP/CLS/INP) une fois le sort de l'expérience monochrome tranché.
+
+---
+
 ## 2026-06-30 — [Conversion] Puces de **démarrage rapide** sous le textarea « projet » de `devis.html` (combat la page blanche sur le champ le plus exigeant, qualifie mieux le lead)
 
 **Axe : Conversion** (rotation : passages les plus récents par axe → **SEO local 2026-06-30** (fil d'Ariane
