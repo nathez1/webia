@@ -10,6 +10,65 @@ Une seule amélioration ciblée par passage, en faisant tourner les axes
 
 ---
 
+## 2026-06-30 — [SEO local] Fil d'Ariane **visuel** sur les 8 pages déjà porteuses du `BreadcrumbList` JSON-LD (miroir cliquable du balisage, navigation + maillage interne)
+
+**Axe : SEO local** (rotation : passages les plus récents par axe → **Design 2026-06-29** (aurora glows),
+**Performance 2026-06-29** (resource hints), **Conversion 2026-06-29** (validation inline), **SEO local
+2026-06-28** (BreadcrumbList JSON-LD) → **SEO local = axe le plus ancien**). C'est aussi le **TODO SEO
+le plus récurrent** des derniers passages, listé à chaque exécution depuis le 2026-06-28 et jamais traité :
+« fil d'Ariane **visuel** (`nav aria-label="Fil d'Ariane"`) en complément du balisage `BreadcrumbList` ».
+
+**Constat — le `BreadcrumbList` existait, mais sans contrepartie visible.** Depuis le 2026-06-28, **8 pages**
+(tarifs, realisations, faq, affiliation + les 4 pages locales Melun/Meaux/Fontainebleau/Paris) exposent un
+`BreadcrumbList` JSON-LD *Accueil → Page* (éligible au rich result « fil d'Ariane » dans les SERP). Mais
+**aucune de ces pages n'affichait de fil d'Ariane visible** pour le visiteur : pas de repère « où suis-je »,
+pas de lien retour direct vers l'accueil en haut de page, et une **incohérence** entre ce que Google lit
+(balisage) et ce que l'utilisateur voit (rien). Google recommande explicitement que le breadcrumb structuré
+**reflète un fil d'Ariane réellement présent sur la page**.
+
+**Réalisé** (purement **additif** — **HTML** : 1 `<nav>` par page sur 8 pages ; **CSS** : 1 bloc de règles
+scopées `.breadcrumb` → **0 JS**, **0 couleur de marque ajoutée**, structure existante intacte) :
+- **`<nav class="breadcrumb" aria-label="Fil d'Ariane">`** inséré comme **tout premier enfant** du conteneur
+  de contenu du hero (`.hero-inner` sur les 4 pages standard, `.hero-copy` sur les 4 pages locales), **avant
+  le `badge-pill`** → posé sur le hero sombre, au-dessus du H1, à l'emplacement standard d'un fil d'Ariane.
+- **Liste sémantique `<ol>` / `<li>`** *Accueil → Page courante* : 1er item = lien `index.html`, dernier item
+  = page courante marquée **`aria-current="page"`** (texte, non cliquable). **Libellés exacts** miroir du
+  JSON-LD : Tarifs · Réalisations · FAQ · Programme d'affiliation · Site internet à {Melun|Meaux|
+  Fontainebleau|Paris}. **Aucune donnée inventée** (juste la hiérarchie de navigation réelle).
+- **CSS scopé `.breadcrumb`** (ajouté en fin de `css/style.css`) : `ol` en **flex + flex-wrap** (jamais de
+  scroll horizontal sur mobile), séparateur `/` en `li + li::before` (rgba blanc 0.4), liens en blanc muté
+  (rgba 0.7) → **hover/focus en vert de charte `--yellow`** (= alias vert #2BF56F, **aucun jaune réel**),
+  item courant en **blanc plein, graisse 600**. `:focus-visible` géré (navigable au clavier).
+- **Pages volontairement non touchées** : `index.html` (racine, pas de parent → fil d'Ariane sans objet),
+  `devis.html`/`merci.html` (conversion `noindex`, sans `BreadcrumbList`), `mentions-legales`/`confidentialite`
+  (pas de `BreadcrumbList`). Périmètre = **exactement les 8 pages déjà porteuses du balisage** → cohérence
+  parfaite balisage↔visuel.
+
+**Vérifié** (serveur de prévisualisation local port 8742, contrôle DOM/CSSOM live) :
+- **8/8 pages** : `nav.breadcrumb[aria-label="Fil d'Ariane"]` présent, **à l'intérieur du `.hero`**, 1er enfant
+  du conteneur de hero, 1er `<li>` = lien `index.html`, dernier `<li>` = `aria-current="page"` au **libellé
+  correct** (miroir JSON-LD). `badge-pill` et `h1.display` **toujours présents** (rien écrasé).
+- **CSSOM (tarifs)** : `ol` **display flex**, `font-size 13.12px`, **séparateur `content:"/"`**, lien
+  `rgba(255,255,255,0.7)`, item courant **blanc `rgb(255,255,255)` graisse 600**, `margin-bottom 20px`.
+  `nav`/`ol` rendus en **pleine largeur 760px** (hero-inner) → pas d'effondrement de mise en page.
+- **0 erreur console.** Invariants intacts : **GTM (GTM-KF6HJ4WF)** sur les 8 pages, **bouton WhatsApp
+  flottant**, badge/H1/hero, bandeau d'offre, Calendly, formulaires — non touchés. **Accolades CSS
+  équilibrées 513/513.** *(Capture headless en timeout — limite connue notée en mémoire ; preuve par
+  DOM/CSSOM live + parsing.)*
+
+**Idées pour les prochains passages :**
+- **SEO (suite)** : 5ᵉ page locale (Chelles 77 / Sénart) si les 4 actuelles performent — vrai nouvel
+  point d'entrée organique (contenu unique, jamais dupliqué) ; à mailler dans le footer « Zones desservies »
+  + sitemap.xml + breadcrumb visuel/JSON-LD.
+- **Perf** : `img/ethan.png` (701 Ko) **encore référencé dans le JSON-LD `image` d'`index.html`** alors
+  qu'`og-webia.png` (115 Ko, 1200×630) ou `ethan.webp` (80 Ko) conviendrait → corriger le JSON-LD ;
+  ré-encoder/alléger le PNG fallback du `<picture>`.
+- **Doc/charte** : l'en-tête de commentaire de `css/style.css` (lignes 1-5) est **périmé** (« Violet #7C3AED ·
+  Jaune #FFD60A ») alors que les variables sont aliasées au vert/bleu de la charte → corriger (cosmétique).
+- **Conversion** : compteur de caractères sur le textarea `projet` ; variante A/B du libellé du CTA hero.
+
+---
+
 ## 2026-06-29 — [Design] Dérive « aurora » des glows décoratifs des heros et sections sombres (respiration lente GPU-friendly, reduced-motion-safe, site-wide)
 
 **Axe : Design** (rotation : passages les plus récents par axe → **Performance 2026-06-29**
